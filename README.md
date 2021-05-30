@@ -2,3 +2,4 @@
 
 Add names once you've been able to pull and commit!
 * Matt Burgess
+* Mitch Hayes
