@@ -1,1 +1,5 @@
-.idea
+# IntelliJ user files
+.idea/
+
+# Build directory
+out/

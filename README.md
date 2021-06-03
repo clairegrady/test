@@ -4,4 +4,4 @@ Add names once you've been able to pull and commit!
 * Matt Burgess
 * Mitch Hayes
 * Brendan Artufel
-* Tina Pham 123
+* Tina Pham
