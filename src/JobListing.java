@@ -3,7 +3,8 @@ public class JobListing extends JobInteraction {
     private int closeDate;
     private int publishDate;
 
-    public JobListing(int closeDate, int publishDate) {
+    public JobListing(String status, Job job, String id, int closeDate, int publishDate) {
+        super(status, job, id);
         this.closeDate = closeDate;
         this.publishDate = publishDate;
     }

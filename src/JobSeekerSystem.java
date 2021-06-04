@@ -2,10 +2,10 @@ public class JobSeekerSystem {
 
     private User loggedInUser;
     private UserInterface currentScreen;
-    private Datastore dataStore;
+    private DataStore dataStore;
 
 
-    public JobSeekerSystem(User loggedInUser, UserInterface currentScreen, Datastore dataStore) {
+    public JobSeekerSystem(User loggedInUser, UserInterface currentScreen, DataStore dataStore) {
         this.loggedInUser = loggedInUser;
         this.currentScreen = currentScreen;
         this.dataStore = dataStore;
@@ -19,7 +19,7 @@ public class JobSeekerSystem {
         return currentScreen;
     }
 
-    public Datastore getDataStore() {
+    public DataStore getDataStore() {
         return dataStore;
     }
 
@@ -31,7 +31,7 @@ public class JobSeekerSystem {
         this.currentScreen = currentScreen;
     }
 
-    public void setDataStore(Datastore dataStore) {
+    public void setDataStore(DataStore dataStore) {
         this.dataStore = dataStore;
     }
 }

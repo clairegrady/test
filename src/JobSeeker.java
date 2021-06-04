@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class JobSeeker extends User {
 
     private String personalSummary;
@@ -5,14 +7,11 @@ public class JobSeeker extends User {
     private String experience;
     private List<Keyword> seekerKeywords;
 
-    public JobSeeker() {
-        this.personalSummary = "";
-        this.qualifications = "";
-        this.experience = "";
-        this.seekerKeywords = new List<>;
-    }
 
-    public JobSeeker(String personalSummary, String qualifications, String experience, List<Keyword> seekerKeywords) {
+    public JobSeeker(String email, String password, String firstName, String lastName,
+            List<JobInteraction> jobInteractions, String personalSummary, String qualifications, String experience,
+            List<Keyword> seekerKeywords) {
+        super(email, password, firstName, lastName, jobInteractions);
         this.personalSummary = personalSummary;
         this.qualifications = qualifications;
         this.experience = experience;
@@ -31,7 +30,7 @@ public class JobSeeker extends User {
         return experience;
     }
 
-    public List<keywords> getSeekerKeywords() {
+    public List<Keyword> getSeekerKeywords() {
         return seekerKeywords;
     }
 
@@ -47,7 +46,7 @@ public class JobSeeker extends User {
         this.experience = experience;
     }
 
-    public void setSeekerKeywords(List<keywords> seekerKeywords) {
+    public void setSeekerKeywords(List<Keyword> seekerKeywords) {
         this.seekerKeywords = seekerKeywords;
     }
 }
