@@ -1,3 +1,5 @@
+package application;
+
 public class JobSeekerSystem {
 
     private User loggedInUser;

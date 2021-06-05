@@ -1,5 +1,6 @@
 # IntelliJ user files
 .idea/
+*.iml
 
 # Build directory
 out/

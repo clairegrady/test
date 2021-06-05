@@ -1,3 +1,5 @@
+package application;
+
 public class JobListing extends JobInteraction {
 
     private int closeDate;

@@ -1,3 +1,5 @@
+package application;
+
 public class JobInteraction {
 
     private String status;

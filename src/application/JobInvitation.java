@@ -1,3 +1,5 @@
+package application;
+
 public class JobInvitation {
 
     private String message;
