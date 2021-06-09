@@ -1,5 +1,7 @@
 package application;
 
+import data.DataStore;
+
 public class JobSeekerSystem {
 
     private User loggedInUser;

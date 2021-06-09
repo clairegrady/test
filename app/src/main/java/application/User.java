@@ -1,8 +1,10 @@
 package application;
 
+import data.Storable;
+
 import java.util.List;
 
-public class User {
+public class User implements Storable {
 
     private String email;
     private String password;
@@ -16,6 +18,11 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.jobInteractions = jobInteractions;
+    }
+
+    @Override
+    public String getUniqueId() {
+        return getEmail();
     }
 
     public String getEmail() {
@@ -57,4 +64,14 @@ public class User {
     public void setJobInteractions(List<JobInteraction> jobInteractions) {
         this.jobInteractions = jobInteractions;
     }
+
+    @Override
+    public String toString() {
+        return "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", jobInteractions=" + jobInteractions;
+    }
+
 }

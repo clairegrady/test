@@ -1,11 +1,15 @@
 package application;
 
+import data.Storable;
+import utility.UniqueId;
+
 import java.util.List;
 import java.util.HashMap;
 
-public class Job {
+public class Job implements Storable {
 
-    private List<Keyword> jobKeywords; 
+    private final String uniqueId = UniqueId.generate();
+    private List<Keyword> jobKeywords;
     private EmploymentType employmentType;
     private String description;
     private int payCeiling;
@@ -27,6 +31,11 @@ public class Job {
         this.dateCreated = dateCreated;
         this.advertised = advertised;
         this.matchingScore = matchingScore;
+    }
+
+    @Override
+    public String getUniqueId() {
+        return uniqueId;
     }
 
     public List<Keyword> getJobKeywords() {
@@ -108,4 +117,22 @@ public class Job {
     public void setMatchingScore(HashMap<String, String> matchingScore) {
         this.matchingScore = matchingScore;
     }
+
+    @Override
+    public String toString() {
+        return "Job{" +
+                "uniqueId='" + uniqueId + '\'' +
+                ", jobKeywords=" + jobKeywords +
+                ", employmentType=" + employmentType +
+                ", description='" + description + '\'' +
+                ", payCeiling=" + payCeiling +
+                ", payFloor=" + payFloor +
+                ", company='" + company + '\'' +
+                ", uid=" + uid +
+                ", dateCreated=" + dateCreated +
+                ", advertised=" + advertised +
+                ", matchingScore=" + matchingScore +
+                '}';
+    }
+
 }

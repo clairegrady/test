@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JobSeeker extends User {
@@ -9,6 +10,13 @@ public class JobSeeker extends User {
     private String experience;
     private List<Keyword> seekerKeywords;
 
+    public JobSeeker() {
+        super("Default", "Default", "Default", "Default", new ArrayList<>());
+        this.personalSummary = "Default";
+        this.qualifications = "Default";
+        this.experience = "Default";
+        this.seekerKeywords = new ArrayList<>();
+    }
 
     public JobSeeker(String email, String password, String firstName, String lastName,
             List<JobInteraction> jobInteractions, String personalSummary, String qualifications, String experience,
@@ -50,5 +58,16 @@ public class JobSeeker extends User {
 
     public void setSeekerKeywords(List<Keyword> seekerKeywords) {
         this.seekerKeywords = seekerKeywords;
+    }
+
+    @Override
+    public String toString() {
+        return "JobSeeker{" +
+                super.toString()  +
+                ", personalSummary='" + personalSummary + '\'' +
+                ", qualifications='" + qualifications + '\'' +
+                ", experience='" + experience + '\'' +
+                ", seekerKeywords=" + seekerKeywords +
+                '}';
     }
 }
