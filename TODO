@@ -1,0 +1,46 @@
+Create GUI Components:
+☐ MainFrame
+
+☐ LoginScreen
+
+☐ AccountTypeSelectorScreen
+
+☐ HeaderPane
+    ☐ LoggedOutPane extends HeaderPane
+    ☐ JobSeekerHeader extends HeaderPane
+    ☐ RecruiterHeader extends HeaderPane
+
+☐ BodyPane
+    ☐ TabbedPaneView extends BodyPane
+        ☐ ScrollPane -> Parent Class
+            ☐ SearchPane
+            ☐ FilterPane
+                ☐ SeekerFilterPane
+                ☐ RecruiterFilterPane -> Has Home Button
+            ☐ JobManagementPane
+        ☐ JobDetailsPane
+        ☐ PersonalProfilePane
+
+    ☐ ProgressBarPane
+        ☐ CreateJobForm
+        ☐ CreateSeekerAccount
+        ☐ CreateRecruiterAccount
+
+☐ CardObjectPanel // Cards to put in Scrolling Panes. 
+    ☐ DefaultCard
+        ☐ MatchingScoreCard
+        ☐ ApplicationCard
+        ☐ InterviewCard
+
+☐ JobDetailsFrame // Modal
+
+☐ SeekerProfileFrame  // Modal
+
+☐ InvitationFrame // Modal
+
+Create Action Listeners & Controller Interfaces:
+☐ Decide on Interfaces and how they are Implemented
+
+
+Create Model to View and Contoller to Model API:
+
