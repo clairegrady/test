@@ -1,7 +1,13 @@
 # IntelliJ user files
 .idea/
 *.iml
-.vscode/
+.vscode
+
+# Build directory
+out/
+
+# Personal todo lists
+TODO
 
 # Ignore Gradle project-specific cache directory
 .gradle

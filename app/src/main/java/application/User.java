@@ -12,6 +12,13 @@ public class User implements Storable {
     private String lastName;
     private List<JobInteraction> jobInteractions;
 
+    public User(String email, String password, String firstName, String lastName) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public User(String email, String password, String firstName, String lastName, List<JobInteraction> jobInteractions) {
         this.email = email;
         this.password = password;
