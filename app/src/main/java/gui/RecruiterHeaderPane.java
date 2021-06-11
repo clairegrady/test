@@ -4,15 +4,15 @@ import controller.HeaderViewController;
 
 import javax.swing.*;
 
-public class JobSeekerHeaderPane extends JPanel {
+public class RecruiterHeaderPane extends JPanel {
 
     private HeaderViewController hvc;
 
-    public JobSeekerHeaderPane(HeaderViewController hvc) {
+    public RecruiterHeaderPane(HeaderViewController hvc) {
 
         super();
         this.hvc = hvc;
-        JLabel Seeker = new JLabel("Job Seeker");
+        JLabel Seeker = new JLabel("Recruiter");
 //        Seeker.setHorizontalAlignment(JLabel.RIGHT);
         this.add(Seeker);
 

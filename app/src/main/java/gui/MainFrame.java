@@ -19,9 +19,9 @@ public class MainFrame extends JFrame {
         super("JobSeekerSystem");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.bvc = new BodyViewController(MainFrame.this);
-        this.hvc = new HeaderViewController();
+        this.hvc = new HeaderViewController(MainFrame.this);
         this.body = new BodyPane(bvc);
-        this.header = new gui.HeaderPane(hvc);
+        this.header = new HeaderPane(hvc);
 
 
         //Add content to the window.
@@ -39,12 +39,16 @@ public class MainFrame extends JFrame {
         this.body.setBody(body);
     }
 
+    public void setHeader(String header) {
+        this.header.setHeader(header);
+    }
+
     public BodyViewController getBVC() {
         return bvc;
     }
 
-    @Override
-    public void pack() {
-        super.pack();
+    public HeaderViewController getHVC() {
+        return hvc;
     }
+
 }

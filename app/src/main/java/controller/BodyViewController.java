@@ -12,14 +12,21 @@ public class BodyViewController {
     }
 
     public void loginComplete(Boolean loginComplete) {
+        /*     fetch user data?
+         *      do some validation?
+         *      for now we are just going straight into a generic user
+        */
         mainFrame.setBody("RECRUITER");
+        mainFrame.setHeader("RECRUITER");
+
     }
 
     public void logOut(Boolean logoutRequested) {
         mainFrame.setBody("LOGIN");
+        mainFrame.setHeader("LOGGEDOUT");
     }
 
-    public MainFrame getMF() {
+    public MainFrame getMainFrame() {
         return mainFrame;
     }
 

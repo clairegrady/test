@@ -4,23 +4,22 @@ package gui;
 import controller.HeaderViewController;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class LoggedOutHeaderPane extends HeaderPane {
+public class LoggedOutHeaderPane extends JPanel {
 
     private HeaderViewController hvc;
 
     public LoggedOutHeaderPane(HeaderViewController hvc) {
-        super(hvc);
+        super();
         this.hvc = hvc;
         JLabel loggedOut = new JLabel("Welcome");
-        loggedOut.setHorizontalAlignment(JLabel.CENTER);
+//        loggedOut.setHorizontalAlignment(JLabel.EAST);
         this.add(loggedOut);
     }
 
 
-    @Override
-    public Component add(Component comp) {
-        return super.add(comp);
-    }
+//    @Override
+//    public Component add(Component comp) {
+//        return super.add(comp);
+//    }
 }

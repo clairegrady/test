@@ -4,14 +4,15 @@ import gui.MainFrame;
 
 public class CardViewController {
 
-    MainFrame mf;
+    private MainFrame mainFrame;
 
-    public CardViewController(MainFrame mf){
-        this.mf = mf;
+    public CardViewController(MainFrame mainFrame){
+        this.mainFrame = mainFrame;
     }
 
     public void openJobManagement(){
-        mf.setBody("JOBMANAGER");
+        mainFrame.setBody("JOBMANAGER");
+        mainFrame.setHeader("JOBMANAGER");
     }
 
 
