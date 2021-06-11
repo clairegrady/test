@@ -1,15 +1,23 @@
 package application;
 
+import data.EmploymentType;
+import data.KeywordType;
 import data.Storable;
+import search.Searchable;
 import utility.UniqueId;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class Job implements Storable {
+public class Job implements Storable, Searchable {
 
     private final String uniqueId = UniqueId.generate();
-    private List<Keyword> jobKeywords;
+    private String title;
+    private Map<KeywordType, List<String>> jobKeywords;
     private EmploymentType employmentType;
     private String description;
     private int payCeiling;
@@ -18,16 +26,32 @@ public class Job implements Storable {
     private int uid;
     private int dateCreated;
     private int advertised;
-    private HashMap<String, String > matchingScore; // Had to make both K and V a string so my linter would stop yelling at me, not sure why?
+    private Map<String, Integer > matchingScore; // Had to make both K and V a string so my linter
+    // would stop yelling at me, not sure why?
 
-    public Job(List<Keyword> jobKeywords, EmploymentType employmentType, String description, int payCeiling, int payFloor, String company, int uid, int dateCreated, int advertised, HashMap<String, String> matchingScore) {
+    public Job() {
+        this.title = "title";
+        this.jobKeywords = new HashMap<>();
+        this.employmentType = EmploymentType.NULL;
+        this.description = "description";
+        this.payCeiling = -1;
+        this.payFloor = -1;
+        this.company = "company";
+        this.dateCreated = -1;
+        this.advertised = -1;
+        this.matchingScore = new HashMap<>();
+    }
+
+    public Job(String title, Map<KeywordType, List<String>> jobKeywords, EmploymentType employmentType,
+               String description, int payCeiling, int payFloor, String company, int dateCreated,
+               int advertised, Map<String, Integer> matchingScore) {
+        this.title = title;
         this.jobKeywords = jobKeywords;
         this.employmentType = employmentType;
         this.description = description;
         this.payCeiling = payCeiling;
         this.payFloor = payFloor;
         this.company = company;
-        this.uid = uid;
         this.dateCreated = dateCreated;
         this.advertised = advertised;
         this.matchingScore = matchingScore;
@@ -38,8 +62,26 @@ public class Job implements Storable {
         return uniqueId;
     }
 
-    public List<Keyword> getJobKeywords() {
+    public String getTitle() {
+        return title;
+    }
+
+    public Map<KeywordType, List<String>> getJobKeywords() {
         return jobKeywords;
+    }
+
+    @Override
+    public List<String> getAllKeywordsList() {
+        return this.jobKeywords.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getKeywordsListForType(KeywordType type) {
+        return this.jobKeywords.get(type);
+    }
+
+    public void addKeyword(KeywordType type, String val) {
+        this.jobKeywords.get(type).add(val);
     }
 
     public EmploymentType getEmploymentType() {
@@ -74,11 +116,15 @@ public class Job implements Storable {
         return advertised;
     }
 
-    public HashMap<String, String> getMatchingScore() {
+    public Map<String, Integer> getMatchingScore() {
         return matchingScore;
     }
 
-    public void setJobKeywords(List<Keyword> jobKeywords) {
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setJobKeywords(Map<KeywordType, List<String>> jobKeywords) {
         this.jobKeywords = jobKeywords;
     }
 
@@ -114,7 +160,7 @@ public class Job implements Storable {
         this.advertised = advertised;
     }
 
-    public void setMatchingScore(HashMap<String, String> matchingScore) {
+    public void setMatchingScore(Map<String, Integer> matchingScore) {
         this.matchingScore = matchingScore;
     }
 
@@ -122,6 +168,7 @@ public class Job implements Storable {
     public String toString() {
         return "Job{" +
                 "uniqueId='" + uniqueId + '\'' +
+                ", title='" + title + '\'' +
                 ", jobKeywords=" + jobKeywords +
                 ", employmentType=" + employmentType +
                 ", description='" + description + '\'' +
@@ -132,7 +179,6 @@ public class Job implements Storable {
                 ", dateCreated=" + dateCreated +
                 ", advertised=" + advertised +
                 ", matchingScore=" + matchingScore +
-                '}';
+                "}\n";
     }
-
 }

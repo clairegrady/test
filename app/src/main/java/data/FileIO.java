@@ -16,56 +16,34 @@ class FileIO<T extends Storable> {
         this.filePath = filePath;
     }
 
-    public void writeFile(List<T> data) {
+    public void writeFile(List<T> item){
+
         try (
-                FileOutputStream fout = new FileOutputStream(filePath, true);
-                ObjectOutputStream oos = new ObjectOutputStream(fout);
-        ){
-            oos.writeObject(data);
-            oos.writeObject(null);
-        }
-        catch (Exception e) {
+                OutputStream ops = new FileOutputStream(filePath, false);
+                ObjectOutputStream objOps = new ObjectOutputStream(ops);
+                ) {
+            objOps.writeObject(item);
+            objOps.flush();
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
-    public List<T> readFile() {
+    public List<T> readFile(){
 
-        List<T> destinationList = new ArrayList<>();
-        ObjectInputStream reader = null;
-//        TODO: write try block with resources style
-        try {
-            FileInputStream file = new FileInputStream(filePath);
-            reader = new ObjectInputStream(file);
+        List<T> list = new ArrayList<>();
 
-            while (true) {
-                try {
-                    Object obj = reader.readObject();
-                    if (obj == null) {
-                        break;
-                    }
-                    destinationList = (List<T>) obj;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    break;
-                }
-            }
-        }
-        catch (Exception e) {
+        try (
+                InputStream fileIs = new FileInputStream(filePath);
+                ObjectInputStream objIs = new ObjectInputStream(fileIs);
+                ){
+            list = (List<T>) objIs.readObject();
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }
 
-        return destinationList;
+        return list;
 
     }
 

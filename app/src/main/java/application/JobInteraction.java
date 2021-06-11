@@ -1,6 +1,8 @@
 package application;
 
-public class JobInteraction {
+import java.io.Serializable;
+
+public class JobInteraction implements Serializable {
 
     private String status;
     private Job job;

@@ -2,6 +2,7 @@ package application;
 
 import data.Storable;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class User implements Storable {

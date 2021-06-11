@@ -1,6 +1,10 @@
 package application;
 
-public class Keyword {
+import data.KeywordType;
+
+import java.io.Serializable;
+
+public class Keyword implements Serializable {
 
     private String value;
     private KeywordType type;
