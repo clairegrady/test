@@ -1,7 +1,10 @@
 package gui.header;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class HeaderButtonsPane extends JPanel {
 
@@ -15,30 +18,35 @@ public class HeaderButtonsPane extends JPanel {
 
         this.add(Box.createHorizontalGlue());
 
-        ImageIcon faceIcon = new ImageIcon("app/src/main/java/jss/faceButton.jpg");
-        Image face = faceIcon.getImage();
-        Image newFace = face.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
-        ImageIcon newFaceIcon = new ImageIcon(newFace);
-        JButton profileIcon = new JButton();
-        profileIcon.setIcon(newFaceIcon);
-        profileIcon.setContentAreaFilled(false);
-        profileIcon.setBorder(BorderFactory.createEmptyBorder());
-        profileIcon.setOpaque(false);
-        this.add(profileIcon,2);
+        JButton profileButton = new JButton();
+        try {
+            BufferedImage profileImage = ImageIO.read(getClass().getResource("/profile.png"));
+            Image scaledProfileImage = profileImage.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+            ImageIcon profileIcon = new ImageIcon(scaledProfileImage);
+            profileButton.setIcon(profileIcon);
+            profileButton.setContentAreaFilled(false);
+            profileButton.setBorder(BorderFactory.createEmptyBorder());
+            profileButton.setOpaque(false);
+        } catch (IOException ex){
+            System.out.println(ex);
+        }
+        this.add(profileButton,2);
 
         this.add(Box.createRigidArea(new Dimension(10,0)));
 
-        ImageIcon outIcon = new ImageIcon("app/src/main/java/jss/logoutButton.jpg");
-        Image out = outIcon.getImage();
-        Image newOut = out.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
-        ImageIcon newLogoutIcon = new ImageIcon(newOut);
-        JButton logoutIcon = new JButton();
-        logoutIcon.setIcon(newLogoutIcon);
-        logoutIcon.setContentAreaFilled(false);
-        logoutIcon.setBorder(BorderFactory.createEmptyBorder());
-        logoutIcon.setOpaque(false);
-        this.add(logoutIcon, 4);
-
+        JButton logoutButton = new JButton();
+        try {
+            BufferedImage logoutImage = ImageIO.read(getClass().getResource("/logout.png"));
+            Image scaledLogoutImage = logoutImage.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+            ImageIcon LogoutIcon = new ImageIcon(scaledLogoutImage);
+            logoutButton.setIcon(LogoutIcon);
+            logoutButton.setContentAreaFilled(false);
+            logoutButton.setBorder(BorderFactory.createEmptyBorder());
+            logoutButton.setOpaque(false);
+        } catch (IOException ex){
+            System.out.println(ex);
+        }
+        this.add(logoutButton,2);
     }
 
     @Override

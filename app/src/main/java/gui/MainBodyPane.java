@@ -17,7 +17,7 @@ public class MainBodyPane extends JPanel {
 
         super();
         this.setLayout(new CardLayout());
-        this.add(new LoginPane(bvc), "LOGIN");
+        this.add(new LoginPane(bvc, bvc.getMainFrame().getLC()), "LOGIN");
         this.add(new TabbedPaneView(bvc), "JOBMANAGER");
         this.add(new RecruiterView(bvc), "RECRUITER");
         this.add(new CreateAccountScreen(bvc), "CREATEACCOUNT");

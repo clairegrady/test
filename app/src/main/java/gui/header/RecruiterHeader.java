@@ -40,7 +40,7 @@ public class RecruiterHeader extends JPanel {
         /* Logout button */
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File(RecruiterHeader.class.getResource("logoutButton.jpg").getFile()));
+            img = ImageIO.read(new File(RecruiterHeader.class.getResource("app/src/main/resources/logout.png").getFile()));
         } catch (
                 IOException ignored) {
         }
@@ -64,7 +64,7 @@ public class RecruiterHeader extends JPanel {
         /* Face button */
         BufferedImage img2 = null;
         try {
-            img2 = ImageIO.read(new File(RecruiterHeader.class.getResource("faceButton.jpg").getFile()));
+            img2 = ImageIO.read(new File(RecruiterHeader.class.getResource("app/src/main/resources/profile.png").getFile()));
         } catch (IOException ignored) {
         }
         JButton profileButton = new JButton();

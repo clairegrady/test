@@ -25,7 +25,7 @@ public class MainHeaderPane extends JPanel {
         this.add(new JobSeekerHeaderPane(this.hvc), "JOBSEEKER");
         this.add(new LoggedOutHeaderPane(this.hvc), "LOGGEDOUT");
         this.add(new JobManagementPane(this.hvc), "JOBMANAGER");
-        this.setHeader("LOGGEDOUT");
+        this.setHeader("BUTTONS");
     }
 
     public void setHeader(String header) {

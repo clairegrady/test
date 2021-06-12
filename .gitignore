@@ -3,6 +3,7 @@
 *.iml
 .vscode
 
+
 # Build directory
 out/
 
@@ -14,3 +15,11 @@ TODO
 
 # Ignore Gradle build output directory
 build
+
+
+# Eclipse files
+.project
+bin/
+.settings/org.eclipse.buildship.core.prefs
+app/.classpath
+/app/bin/
