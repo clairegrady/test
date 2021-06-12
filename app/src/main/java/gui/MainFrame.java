@@ -3,6 +3,7 @@ package gui;
 
 import controller.BodyViewController;
 import controller.HeaderViewController;
+import controller.LoginController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ public class MainFrame extends JFrame {
     private MainBodyPane body;
     private BodyViewController bvc;
     private HeaderViewController hvc;
+    private LoginController lc;
     
     public MainFrame() {
         //Create and set up the window.
@@ -20,6 +22,7 @@ public class MainFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.bvc = new BodyViewController(MainFrame.this);
         this.hvc = new HeaderViewController(MainFrame.this);
+        this.lc = new LoginController(MainFrame.this);
         this.body = new MainBodyPane(bvc);
         this.header = new MainHeaderPane(hvc);
 
@@ -50,5 +53,7 @@ public class MainFrame extends JFrame {
     public HeaderViewController getHVC() {
         return hvc;
     }
+
+    public LoginController getLC() {return lc; }
 
 }

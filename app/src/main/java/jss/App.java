@@ -1,13 +1,16 @@
 package jss;
 
-import gui.MainFrame;
-
 public class App {
 
     public static void main(String[] args) {
 
         new GUILauncher();
-        MainFrame main = new MainFrame();
+
+//        new MitchTestMain();
+//
+//        new TinaTestMain();
+//
+//        new BrendanTestMain();
 
         /* Brendan's notes
 

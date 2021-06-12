@@ -2,14 +2,11 @@ package gui.card;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import jss.RecruiterBody;
+import controller.CardViewController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import controller.CardViewController;
 
 public class RecruiterCard extends JPanel {
 

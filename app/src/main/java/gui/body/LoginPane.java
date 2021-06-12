@@ -1,6 +1,7 @@
 package gui.body;
 
 import controller.BodyViewController;
+import controller.LoginController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,17 +12,23 @@ import java.awt.event.KeyEvent;
 public class LoginPane extends JPanel {
 
     private final BodyViewController bvc;
+    private final LoginController lc;
+    private JTextField emailField;
+    private JPasswordField passwordField;
+    private JButton loginButton;
+    private JButton registerButton;
 
-    public LoginPane(BodyViewController bvc) {
+    public LoginPane(BodyViewController bvc, LoginController lc) {
         super();
         this.setLayout(new BorderLayout());
         this.bvc = bvc;
+        this.lc = lc;
 
         JPanel featurePanel = new JPanel();
         featurePanel.setLayout(new GridBagLayout());
         featurePanel.setSize(new Dimension(600, 300));
-        JTextField emailField = new JTextField(20);
-        JPasswordField passwordField = new JPasswordField(20);
+        emailField = new JTextField(20);
+        passwordField = new JPasswordField(20);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -44,8 +51,8 @@ public class LoginPane extends JPanel {
 
 
         JPanel buttonPanel = new JPanel();
-        JButton loginButton = new JButton("Login");
-        JButton registerButton = new JButton("Register");
+        loginButton = new JButton("Login");
+        registerButton = new JButton("Register");
         buttonPanel.add(loginButton);
         buttonPanel.add(registerButton);
         loginButton.setEnabled(false);
@@ -68,30 +75,28 @@ public class LoginPane extends JPanel {
                 loginButton.setEnabled(emailField.getText().length() > 0 && String.valueOf(passwordField.getPassword()).length() > 0);
             }
         });
-        loginButton.addActionListener(e -> validateUser(emailField.getText(), String.valueOf(passwordField.getPassword())));
+        passwordField.addActionListener(e -> validateUser());
+
+        loginButton.addActionListener(e -> validateUser());
     }
 
-    public void validateUser(String email, String password) {
-        /*
-        DataStore check = new DataStore();
-        List<User> users = check.getAllUsers();
-        users.forEach(user -> {
-           if (user.getEmail().equals(email)){
-               if (user.getPassword().equals(password)){
-                   if (user instanceof Recruiter){
-                       RecruiterScreen.initiate(user);
-                       frame.dispose();
-                   }
-               }
-           }
-           else {
-               // FailScreen.initiate();
-               frame.dispose();
-               initiate();
-           }
-        });
-        */
-        // User recruiter = new Recruiter(email, password, password, "Smith", "MacroSoft");
-        bvc.loginComplete(true);
+    public void validateUser() {
+
+        if (lc.validateLogin(emailField.getText(), String.valueOf(passwordField.getPassword()))) {
+            passwordField.setText("");
+            emailField.setText("");
+            loginButton.setEnabled(false);
+            bvc.loginComplete(lc.getUserType());
+        }
+        else {
+            loginDetailsInvalid();
+        }
+    }
+
+    public void loginDetailsInvalid(){
+        System.out.println("invalid credentials");
+        passwordField.setText("");
+        emailField.selectAll();
+        loginButton.setEnabled(false);
     }
 }

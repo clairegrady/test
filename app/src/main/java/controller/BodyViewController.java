@@ -11,13 +11,13 @@ public class BodyViewController {
         this.mainFrame = mainFrame;
     }
 
-    public void loginComplete(Boolean loginComplete) {
+    public void loginComplete(String userType) {
         /*     fetch user data?
          *      do some validation?
          *      for now we are just going straight into a generic user
         */
-        mainFrame.setBody("RECRUITER");
-        mainFrame.setHeader("RECRUITER");
+        mainFrame.setBody(userType);
+        mainFrame.setHeader(userType);
 
     }
 
