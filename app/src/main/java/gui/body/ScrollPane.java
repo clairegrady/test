@@ -12,12 +12,10 @@ public class ScrollPane extends JPanel {
     BodyViewController bvc;
     CardViewController cvc;
 
-    public ScrollPane(String text, BodyViewController bvc) {
+    public ScrollPane(BodyViewController bvc, String getText, String getText2, String buttonDetails, int maxCards, String cardID, int rows) {
 
         super(new BorderLayout());
-        this.bvc = bvc;
-        cvc = new CardViewController(bvc.getMainFrame());
-        JScrollPane scrollPane = new JScrollPane(new CardObjectPanel(text, cvc));
+        JScrollPane scrollPane = new JScrollPane(new CardObjectPanel(getText, getText2, buttonDetails, maxCards, cardID, cvc, rows));
         SearchPane searchPane = new SearchPane(bvc);
         this.add(searchPane, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);

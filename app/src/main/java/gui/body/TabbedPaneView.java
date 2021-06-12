@@ -24,17 +24,17 @@ public class TabbedPaneView extends JPanel {
         tabbedPane.addTab("Job Details", null, panel1, "Details");
 
 
-        JComponent panel2 = new gui.body.ScrollPane("Seekers", bvc);
+        JComponent panel2 = new gui.body.ScrollPane(bvc, "Seekers Name", "Matching Score: 95%", "Profile", 14, "UID for User", 1);
         panel2.setPreferredSize(tabSize);
         tabbedPane.addTab("Seeker Search", null, panel2,
                 "Find Job Seekers");
 
-        JComponent panel3 = new gui.body.ScrollPane("Applicants", bvc);
+        JComponent panel3 = new gui.body.ScrollPane(bvc, "Applicants Name", "Matching Score: 95%", "Profile", 14, "UID for User", 1);
         panel3.setPreferredSize(tabSize);
         tabbedPane.addTab("Applicants", null, panel3,
                 "Review Applicants");
 
-        JComponent panel4 = new ScrollPane("Invitees", bvc);
+        JComponent panel4 = new ScrollPane(bvc, "Invitees Name", "Matching Score: 95%", "Profile", 14, "UID for User", 1);
         panel4.setPreferredSize(tabSize);
         tabbedPane.addTab("Invitations", null, panel4,
                 "Manage Invitations");
