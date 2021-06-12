@@ -3,6 +3,7 @@ package jss;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import gui.MainFrame;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -14,10 +15,9 @@ import java.util.Locale;
 
 public class LoginScreen {
     private final JPanel screen;
-    public static JFrame frame;
+    public static MainFrame frame;
 
     public LoginScreen() {
-        
         screen = new JPanel();
         screen.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
         screen.setBackground(new Color(-6578528));
@@ -156,7 +156,6 @@ public class LoginScreen {
     public JPanel getScreen() { return screen;}
 
     public static void initiate(){
-        frame = new JFrame("Job Seeker System");
         LoginScreen login = new LoginScreen();
         frame.setContentPane(login.getScreen());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

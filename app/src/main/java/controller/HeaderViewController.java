@@ -4,7 +4,7 @@ import gui.MainFrame;
 
 public class HeaderViewController {
 
-    MainFrame mainFrame;
+    private MainFrame mainFrame;
 
     public HeaderViewController (MainFrame mainFrame) {
         this.mainFrame = mainFrame;

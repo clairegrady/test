@@ -9,8 +9,8 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
 
-    private HeaderPane header;
-    private BodyPane body;
+    private MainHeaderPane header;
+    private MainBodyPane body;
     private BodyViewController bvc;
     private HeaderViewController hvc;
     
@@ -20,8 +20,8 @@ public class MainFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.bvc = new BodyViewController(MainFrame.this);
         this.hvc = new HeaderViewController(MainFrame.this);
-        this.body = new BodyPane(bvc);
-        this.header = new HeaderPane(hvc);
+        this.body = new MainBodyPane(bvc);
+        this.header = new MainHeaderPane(hvc);
 
 
         //Add content to the window.
