@@ -10,7 +10,6 @@ public class HeaderButtonsPane extends JPanel {
         this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
 
         JLabel pageTitle = new JLabel("Job Seeker System");
-        pageTitle.setFont(new Font("Tahoma", Font.PLAIN, 50));
         pageTitle.setHorizontalAlignment(JLabel.LEFT);
         this.add(pageTitle);
 

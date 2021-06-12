@@ -9,6 +9,7 @@ import java.awt.*;
 
 public class CreateAccountScreen extends JPanel {
     private JProgressBar progressBar;
+    private JProgressBar progressBar2;
     private JPanel mainPanel;
     private JLabel bodyTitle;
     private JLabel mandatory;
@@ -57,84 +58,86 @@ public class CreateAccountScreen extends JPanel {
         this.setPage("LOGIN");
 
         //Main Panel - Card 1
+
+
         //Body Title
         bodyTitle = new JLabel("Account Details");
-        setStyle(bodyTitle);
-        bodyTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        setPosition(c,0,0);
+        setTextPosition(bodyTitle);
+        //bodyTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        setPosition(c,0,1);
         mainPanel.add(bodyTitle, c);
 
         //Mandatory message
         mandatory = new JLabel("*Denotes mandatory field");
-        setStyle(mandatory);
-        mandatory.setFont(new Font("Tahoma", Font.ITALIC, 10));
-        setPosition(c,0,1);
+        setTextPosition(mandatory);
+        //mandatory.setFont(new Font("Tahoma", Font.ITALIC, 10));
+        setPosition(c,0,2);
         mainPanel.add(mandatory, c);
 
         //First Name
         fName = new JLabel("First Name*:");
-        setStyle(fName);
-        setPosition(c,0,2);
+        setTextPosition(fName);
+        setPosition(c,0,3);
         mainPanel.add(fName, c);
 
         //First Name Entry
         fNameEntry = new JTextField(20);
-        setPosition(c,1,2);
+        setPosition(c,1,3);
         mainPanel.add(fNameEntry, c);
 
         //Last Name
         lName = new JLabel("Last Name*:");
-        setStyle(lName);
-        setPosition(c,3,2);
+        setTextPosition(lName);
+        setPosition(c,3,3);
         mainPanel.add(lName, c);
 
         //Last Name Entry
         lNameEntry = new JTextField(20);
-        setPosition(c,4,2);
+        setPosition(c,4,3);
         mainPanel.add(lNameEntry, c);
 
         //Email
         email = new JLabel("Email Address*:");
-        setStyle(email);
-        setPosition(c,0,3);
+        setTextPosition(email);
+        setPosition(c,0,4);
         mainPanel.add(email, c);
 
         //Email Entry
         emailEntry = new JTextField(20);
-        setPosition(c,1,3);
+        setPosition(c,1,4);
         mainPanel.add(emailEntry, c);
 
         //Company
         company = new JLabel("Company:");
-        setStyle(company);
-        setPosition(c,3,3);
+        setTextPosition(company);
+        setPosition(c,3,4);
         mainPanel.add(company, c);
 
         //Company Entry
         companyEntry = new JTextField(20);
-        setPosition(c,4,3);
+        setPosition(c,4,4);
         mainPanel.add(companyEntry, c);
 
         //Password
         pw = new JLabel("Password*:");
-        setStyle(pw);
-        setPosition(c,0,4);
+        setTextPosition(pw);
+        setPosition(c,0,5);
         mainPanel.add(pw, c);
 
         //Password Entry
         pwEntry = new JPasswordField(20);
-        setPosition(c,1,4);
+        setPosition(c,1,5);
         mainPanel.add(pwEntry, c);
 
         //Password Confirm
         pwConfirm = new JLabel("Confirm Password*:");
-        setStyle(pwConfirm);
-        setPosition(c,3,4);
+        setTextPosition(pwConfirm);
+        setPosition(c,3,5);
         mainPanel.add(pwConfirm, c);
 
         //Password Entry
         pwConfirmEntry = new JPasswordField(20);
-        setPosition(c,4,4);
+        setPosition(c,4,5);
         mainPanel.add(pwConfirmEntry, c);
 
         //Back Button
@@ -153,29 +156,28 @@ public class CreateAccountScreen extends JPanel {
         c.anchor = GridBagConstraints.CENTER;
         mainPanel.add(proceedButton, c);
 
-        /* Creating the mid section between the tabs and the main display*/
-//        JPanel midPanel = new JPanel();
-//        midPanel.setLayout(new GridLayoutManager(2, 1, new Insets(5, 15, 5, 15), -1, -1));
-//        midPanel.setBackground(new Color(-6578528));
-//        midPanel.setForeground(new Color(-16777216));
-//        this.add(midPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-//        progressBar = new JProgressBar();
-//        progressBar.setStringPainted(true);
-//        progressBar.setValue(50);
-//        midPanel.add(progressBar, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        //Progress Panel
+        progressBar = new JProgressBar();
+        progressBar.setStringPainted(true);
+        progressBar.setValue(50);
+        //c.weightx = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = 5;
+        setPosition(c,0,0);
+        mainPanel.add(progressBar, c);
 
         // //Main Panel - Card 2
         //Body Title
         bodyTitle2 = new JLabel("Success");
-        setStyle(bodyTitle2);
-        bodyTitle2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        setPosition(c2,0,0);
+        setTextPosition(bodyTitle2);
+        //bodyTitle2.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        setPosition(c2,0,1);
         mainPanel2.add(bodyTitle2, c2);
 
         //Success message
         text2 = new JLabel("You have registered as a Recruiter in the Job Seeker System");
-        setStyle(text2);
-        text2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        setTextPosition(text2);
+        //text2.setFont(new Font("Tahoma", Font.PLAIN, 15));
         setPosition(c2,0,2);
         c2.anchor = GridBagConstraints.CENTER;
         mainPanel2.add(text2, c2);
@@ -183,10 +185,19 @@ public class CreateAccountScreen extends JPanel {
         //Go to Profile Button
         profileButton = new JButton("Go to Profile");
         profileButton.setFocusable(false);
-        setPosition(c2,2,3);
+        setPosition(c2,4,3);
         c2.insets = new Insets(50, 0, 0,0);
         c2.anchor = GridBagConstraints.LINE_END;
         mainPanel2.add(profileButton, c2);
+
+        //Progress Panel2
+        progressBar2 = new JProgressBar();
+        progressBar2.setStringPainted(true);
+        progressBar2.setValue(100);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = 5;
+        setPosition(c,0,0);
+        mainPanel2.add(progressBar2, c);
 
         //Creating the action listeners to change the tabs and refresh the main panel
         profileButton.addActionListener(e -> {
@@ -198,9 +209,7 @@ public class CreateAccountScreen extends JPanel {
             bvc.getMainFrame().setHeader("BUTTONS");
         });
 
-        proceedButton.addActionListener(e -> {
-            setPage("SUCCESS");
-        });
+        proceedButton.addActionListener(e -> setPage("SUCCESS"));
     }
 
     public void setPage(String page) {
@@ -217,10 +226,7 @@ public class CreateAccountScreen extends JPanel {
         String pwConfirmValue = String.valueOf(pwConfirmEntry.getPassword());
     }
 
-    public void setStyle(JLabel text){
-        text.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        text.setForeground(new Color(0, 0, 0)); //set text colour
-        text.setOpaque(false);
+    public void setTextPosition(JLabel text){
         text.setHorizontalAlignment(JLabel.LEFT); //set page title left
         text.setVerticalAlignment(JLabel.TOP); //set page title top
     }
