@@ -1,10 +1,12 @@
 package data;
 
+import application.JobSeeker;
 import application.User;
 import application.Job;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class DataStore {
 
@@ -28,6 +30,10 @@ public class DataStore {
 
     public List<User> getUsers() {
         return users.getAll();
+    }
+
+    public List<JobSeeker> getJobSeekers() {
+        return users.getAll().stream().filter(x -> x instanceof JobSeeker).map(JobSeeker.class::cast).collect(Collectors.toList());
     }
 
     public Optional<Job> getJobById(String uniqueId) {

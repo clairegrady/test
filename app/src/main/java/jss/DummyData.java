@@ -16,20 +16,11 @@ import java.util.Map;
 public class DummyData {
 
     public DummyData() {
+        initUsers();
+        initJobs();
+    }
 
-        Map<KeywordType, List<String>> kwMap = new HashMap<>();
-        for (KeywordType type : KeywordType.values()) {
-            kwMap.put(type, new ArrayList<>());
-        }
-
-        Map<String, Integer> matches1 = new HashMap<>();
-        matches1.put("milan", 50);
-        matches1.put("fernando", 84);
-        matches1.put("luis", 94);
-        matches1.put("mohammed", 99);
-        matches1.put("divock", 70);
-
-
+    public static void initJobs() {
         Job job1 = new Job(
                 "Senior Software Developer",
                 newKeywordMap(),
@@ -40,7 +31,7 @@ public class DummyData {
                 "MacroSoft",
                 1,
                 1,
-                matches1
+                new HashMap<>()
         );
         job1.addKeyword(KeywordType.SKILL, "Java");
         job1.addKeyword(KeywordType.SKILL, "Object Oriented Programming");
@@ -109,9 +100,10 @@ public class DummyData {
         DataStore.getDatastore().updateJob(job2);
         DataStore.getDatastore().updateJob(job3);
         DataStore.getDatastore().updateJob(job4);
+    }
 
-
-        User testJobSeeker = new JobSeeker(
+    public static void initUsers() {
+        JobSeeker testJobSeeker = new JobSeeker(
                 "jobseeker@email.com",
                 "password123",
                 "Test",
@@ -120,8 +112,14 @@ public class DummyData {
                 "Test user personal summary",
                 "",
                 "Post-Graduate",
-                new HashMap<>()
+                newKeywordMap()
         );
+        testJobSeeker.addKeyword(KeywordType.SKILL, "Python");
+        testJobSeeker.addKeyword(KeywordType.SKILL, "Java");
+        testJobSeeker.addKeyword(KeywordType.SKILL, "Javascript");
+        testJobSeeker.addKeyword(KeywordType.SKILL, "Go");
+        testJobSeeker.addKeyword(KeywordType.SKILL, "Ruby");
+        testJobSeeker.addKeyword(KeywordType.LOCATION, "Melbourne");
 
         User testRecruiter =  new Recruiter(
                 "recruiter@email.com",
@@ -134,8 +132,30 @@ public class DummyData {
 
         DataStore.getDatastore().updateUser(testJobSeeker);
         DataStore.getDatastore().updateUser(testRecruiter);
-
     }
+
+    public static JobSeeker addNewJobSeeker() {
+        JobSeeker testJobSeeker = new JobSeeker(
+                "jobseeker.two@email.com",
+                "password123",
+                "Test",
+                "User",
+                new ArrayList<>(),
+                "Test user personal summary",
+                "",
+                "Post-Graduate",
+                newKeywordMap()
+        );
+
+        testJobSeeker.addKeyword(KeywordType.SKILL, "Python");
+        testJobSeeker.addKeyword(KeywordType.SKILL, "Java");
+        testJobSeeker.addKeyword(KeywordType.LOCATION, "Canberra");
+
+        DataStore.getDatastore().updateUser(testJobSeeker);
+
+        return testJobSeeker;
+    }
+
 
     public static Map<KeywordType, List<String>> newKeywordMap() {
         Map<KeywordType, List<String>> kwMap = new HashMap<>();

@@ -18,18 +18,72 @@ public class SearchData {
 
     public SearchData() {
 
+        jobs();
+        users();
+
+    }
+
+    public static JobSeeker getUser() {
+        JobSeeker user1 = new JobSeeker(
+                "user.the.third@email.com",
+                "password123",
+                "Test",
+                "User",
+                new ArrayList<>(),
+                "Test user personal summary",
+                "",
+                "Post-Graduate",
+                newKeywordMap()
+        );
+        user1.addKeyword(KeywordType.SKILL, "Java");
+        user1.addKeyword(KeywordType.LOCATION, "Canberra");
+
+        return user1;
+    }
+
+    public static void users() {
+        JobSeeker user1 = new JobSeeker(
+                "test.email@email.com",
+                "password123",
+                "Test",
+                "User",
+                new ArrayList<>(),
+                "Test user personal summary",
+                "",
+                "Post-Graduate",
+                newKeywordMap()
+        );
+        user1.addKeyword(KeywordType.SKILL, "Java");
+        user1.addKeyword(KeywordType.SKILL, "Object Oriented Programming");
+        user1.addKeyword(KeywordType.SKILL, "MVC");
+        user1.addKeyword(KeywordType.SKILL, "Git");
+        user1.addKeyword(KeywordType.LOCATION, "Canberra");
+
+        JobSeeker user2 = new JobSeeker(
+                "second.user@email.com",
+                "password123",
+                "Test",
+                "User",
+                new ArrayList<>(),
+                "Test user personal summary",
+                "",
+                "Post-Graduate",
+                newKeywordMap()
+        );
+        user2.addKeyword(KeywordType.SKILL, "Splunk");
+        user2.addKeyword(KeywordType.SKILL, "Python");
+        user2.addKeyword(KeywordType.SKILL, "Docker");
+        user2.addKeyword(KeywordType.LOCATION, "Melbourne");
+
+        DataStore.getDatastore().updateUser(user1);
+        DataStore.getDatastore().updateUser(user2);
+    }
+
+    public static void jobs() {
         Map<KeywordType, List<String>> kwMap = new HashMap<>();
         for (KeywordType type : KeywordType.values()) {
             kwMap.put(type, new ArrayList<>());
         }
-
-        Map<String, Integer> matches1 = new HashMap<>();
-        matches1.put("milan", 50);
-        matches1.put("fernando", 84);
-        matches1.put("luis", 94);
-        matches1.put("mohammed", 99);
-        matches1.put("divock", 70);
-
 
         Job job1 = new Job(
                 "Senior Software Developer",
@@ -41,7 +95,7 @@ public class SearchData {
                 "MacroSoft",
                 1,
                 1,
-                matches1
+                new HashMap<>()
         );
         job1.addKeyword(KeywordType.SKILL, "Java");
         job1.addKeyword(KeywordType.SKILL, "Object Oriented Programming");
@@ -110,22 +164,6 @@ public class SearchData {
         DataStore.getDatastore().updateJob(job2);
         DataStore.getDatastore().updateJob(job3);
         DataStore.getDatastore().updateJob(job4);
-
-
-        User testUser = new JobSeeker(
-                "test.email@email.com",
-                "password123",
-                "Test",
-                "User",
-                new ArrayList<>(),
-                "Test user personal summary",
-                "",
-                "Post-Graduate",
-                new HashMap<>()
-        );
-
-        DataStore.getDatastore().updateUser(testUser);
-
     }
 
     public static Map<KeywordType, List<String>> newKeywordMap() {

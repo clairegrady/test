@@ -164,6 +164,10 @@ public class Job implements Storable, Searchable {
         this.matchingScore = matchingScore;
     }
 
+    public void updateMatchingScore(String jobSeekerId, int matchingScore) {
+        this.matchingScore.put(jobSeekerId, matchingScore);
+    }
+
     @Override
     public String toString() {
         return "Job{" +

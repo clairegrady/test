@@ -41,6 +41,11 @@ public class JobSeeker extends User implements Searchable {
         return this.seekerKeywords.get(type);
     }
 
+    public void addKeyword(KeywordType type, String val) {
+        this.seekerKeywords.get(type).add(val);
+    }
+
+
     public String getPersonalSummary() {
         return personalSummary;
     }
