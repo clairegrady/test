@@ -1,5 +1,6 @@
-package jss;
+package jss.retired;
 
+import application.User;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -13,7 +14,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
-import application.*;
 
 public class RecruiterScreen {
     private final JPanel screen;

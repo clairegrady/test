@@ -130,8 +130,34 @@ public class DummyData {
                 "Matt's stellar recruitment - we only hire stars"
         );
 
+        User testR =  new Recruiter(
+                "r",
+                "r",
+                "Test",
+                "User",
+                new ArrayList<>(),
+                "Matt's stellar recruitment - we only hire stars"
+        );
+
+
+        JobSeeker testJS = new JobSeeker(
+                "j",
+                "j",
+                "Test",
+                "User",
+                new ArrayList<>(),
+                "Test user personal summary",
+                "",
+                "Post-Graduate",
+                newKeywordMap()
+        );
+
         DataStore.getDatastore().updateUser(testJobSeeker);
         DataStore.getDatastore().updateUser(testRecruiter);
+
+        DataStore.getDatastore().updateUser(testJS);
+        DataStore.getDatastore().updateUser(testR);
+
     }
 
     public static JobSeeker addNewJobSeeker() {

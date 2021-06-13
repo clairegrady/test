@@ -78,6 +78,8 @@ public class LoginPane extends JPanel {
         passwordField.addActionListener(e -> validateUser());
 
         loginButton.addActionListener(e -> validateUser());
+
+        registerButton.addActionListener(e -> lc.createAccount());
     }
 
     public void validateUser() {

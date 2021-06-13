@@ -61,4 +61,8 @@ public class LoginController {
     public String getLoggedInUser() {
         return authenticatedUserID;
     }
+
+    public void createAccount() {
+        mainFrame.setBody("CREATEACCOUNT");
+    }
 }

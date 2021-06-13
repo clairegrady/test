@@ -3,7 +3,7 @@ package gui.header;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import jss.LoginScreen;
+import jss.retired.LoginScreen;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

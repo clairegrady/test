@@ -158,8 +158,10 @@ public class CreateAccountScreen extends JPanel {
 
         //Progress Panel
         progressBar = new JProgressBar();
-        progressBar.setStringPainted(true);
+        progressBar.setStringPainted(false);
         progressBar.setValue(50);
+        progressBar.putClientProperty("JProgressBar.square", true);
+        progressBar.putClientProperty("JProgressBar.largeHeight", false);
         //c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = 5;
@@ -190,26 +192,24 @@ public class CreateAccountScreen extends JPanel {
         c2.anchor = GridBagConstraints.LINE_END;
         mainPanel2.add(profileButton, c2);
 
-        //Progress Panel2
-        progressBar2 = new JProgressBar();
-        progressBar2.setStringPainted(true);
-        progressBar2.setValue(100);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 5;
-        setPosition(c,0,0);
-        mainPanel2.add(progressBar2, c);
+        mainPanel2.add(progressBar, c);
 
         //Creating the action listeners to change the tabs and refresh the main panel
         profileButton.addActionListener(e -> {
-//
+            bvc.getMainFrame().setBody("RECRUITER");
+            bvc.getMainFrame().setHeader("RECRUITER");
+            // need to implement logic based on account type
         });
 
         backButton.addActionListener(e-> {
             bvc.getMainFrame().setBody("LOGIN");
-            bvc.getMainFrame().setHeader("BUTTONS");
+            bvc.getMainFrame().setHeader("LOGIN");
         });
 
-        proceedButton.addActionListener(e -> setPage("SUCCESS"));
+        proceedButton.addActionListener(e -> {
+            this.setPage("SUCCESS");
+            progressBar.setValue(100);
+        });
     }
 
     public void setPage(String page) {
@@ -240,7 +240,6 @@ public class CreateAccountScreen extends JPanel {
 
     public void setFormat(JPanel p){
         p.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), 5, 5));
-        p.setBackground(new Color(0xFFFFFF));
     }
 
 }

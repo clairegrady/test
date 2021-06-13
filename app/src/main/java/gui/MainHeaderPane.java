@@ -23,7 +23,7 @@ public class MainHeaderPane extends JPanel {
 //        this.add(new RecruiterHeader(this.hvc.getMF(), "Brett"), "RECRUITER");
         this.add(new RecruiterHeaderPane(this.hvc), "RECRUITER");
         this.add(new JobSeekerHeaderPane(this.hvc), "JOBSEEKER");
-        this.add(new LoggedOutHeaderPane(this.hvc), "LOGGEDOUT");
+        this.add(new LoggedOutHeaderPane(this.hvc), "LOGIN");
         this.add(new JobManagementPane(this.hvc), "JOBMANAGER");
         this.setHeader("LOGIN");
     }
