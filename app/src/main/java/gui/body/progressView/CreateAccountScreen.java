@@ -189,10 +189,13 @@ public class CreateAccountScreen extends JPanel {
         });
 
         proceedButton.addActionListener(e -> {
-            this.setPage("SUCCESS");
-            progressBar.setValue(100);
-            mainPanel2.add(progressBar, c);
-        });
+                if (JOptionPane.showConfirmDialog(null, "Are you sure you want to create this account?", "Message",
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    this.setPage("SUCCESS");
+                    progressBar.setValue(100);
+                    mainPanel2.add(progressBar, c);
+                }
+            });
     }
 
     public void setPage(String page) {

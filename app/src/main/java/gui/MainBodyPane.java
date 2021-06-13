@@ -6,6 +6,7 @@ import gui.body.LoginPane;
 import gui.body.RecruiterView;
 import gui.body.TabbedPaneView;
 import gui.body.progressView.CreateAccountScreen;
+import gui.body.progressView.CreateJobForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +25,7 @@ public class MainBodyPane extends JPanel {
         this.add(new RecruiterView(bvc), "RECRUITER");
         this.add(new CreateAccountScreen(bvc), "CREATEACCOUNT");
         this.add(new JobSeekerView(bvc), "JOBSEEKER");
+        this.add(new CreateJobForm(bvc), "CREATEJOB"); // added
         this.setBody("LOGIN");
     }
 

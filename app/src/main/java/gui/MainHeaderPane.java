@@ -10,16 +10,16 @@ public class MainHeaderPane extends JPanel {
 
     private HeaderViewController hvc;
 
-    public MainHeaderPane(HeaderViewController hvc) {
+    public MainHeaderPane(HeaderViewController newHVC) {
         super();
-        this.hvc = hvc;
+        this.hvc = newHVC;
 
         this.setLayout(new CardLayout());
-        this.add(new HeaderPane(true, "Job Seeker System"), "JOBSEEKER");
-        this.add(new HeaderPane(true, "Job Seeker System - Recruiter"), "RECRUITER");
-        this.add(new HeaderPane(false, "Job Seeker System"), "LOGIN");
-        this.add(new HeaderPane(true, "NEED TO INSERT GETJOBNAME() METHOD AND STATUS"), "JOBMANAGER");
-        this.add(new HeaderPane(true, "Create / Edit Job Ad"), "EDITJOB");
+        this.add(new HeaderPane(hvc,true, "Job Seeker System"), "JOBSEEKER");
+        this.add(new HeaderPane(hvc,true, "Job Seeker System - Recruiter"), "RECRUITER");
+        this.add(new HeaderPane(hvc,false, "Job Seeker System"), "LOGIN");
+        this.add(new HeaderPane(hvc,true, "NEED TO INSERT GETJOBNAME() METHOD AND STATUS"), "JOBMANAGER");
+        this.add(new HeaderPane(hvc,true, "Create / Edit Job Ad"), "EDITJOB");
         this.setHeader("LOGIN");
     }
 

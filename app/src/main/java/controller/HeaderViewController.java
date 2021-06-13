@@ -13,4 +13,9 @@ public class HeaderViewController {
     public MainFrame getMainFrame() {
         return mainFrame;
     }
+
+    public void logOut(Boolean logoutRequested) {
+        mainFrame.setBody("LOGIN");
+        mainFrame.setHeader("LOGIN");
+    }
 }
