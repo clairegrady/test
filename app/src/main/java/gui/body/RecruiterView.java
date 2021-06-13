@@ -65,8 +65,6 @@ public class RecruiterView extends JPanel {
         tabbedPane.addTab("Closed", null, panel3,
                 "Closed Job ads");
 
-        //Add the tabbed pane to this panel.
-//        this.add(searchBar, BorderLayout.NORTH);
         this.add(tabbedPane, BorderLayout.CENTER);
     }
 }

@@ -11,17 +11,22 @@ public class HeaderButtonsPane extends JPanel {
     public HeaderButtonsPane() {
         super();
         this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
+        this.setPreferredSize(new Dimension(800,100));
 
         JLabel pageTitle = new JLabel("Job Seeker System");
         pageTitle.setHorizontalAlignment(JLabel.LEFT);
+
+        this.add(Box.createRigidArea(new Dimension(40,0)));
+
         this.add(pageTitle);
 
         this.add(Box.createHorizontalGlue());
 
+        
         JButton profileButton = new JButton();
         try {
-            BufferedImage profileImage = ImageIO.read(getClass().getResource("/profile.png"));
-            Image scaledProfileImage = profileImage.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+            BufferedImage profileImage = ImageIO.read(getClass().getResource("/user.png"));
+            Image scaledProfileImage = profileImage.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH);
             ImageIcon profileIcon = new ImageIcon(scaledProfileImage);
             profileButton.setIcon(profileIcon);
             profileButton.setContentAreaFilled(false);
@@ -30,14 +35,11 @@ public class HeaderButtonsPane extends JPanel {
         } catch (IOException ex){
             System.out.println(ex);
         }
-        this.add(profileButton,2);
-
-        this.add(Box.createRigidArea(new Dimension(10,0)));
 
         JButton logoutButton = new JButton();
         try {
-            BufferedImage logoutImage = ImageIO.read(getClass().getResource("/logout.png"));
-            Image scaledLogoutImage = logoutImage.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+            BufferedImage logoutImage = ImageIO.read(getClass().getResource("/exit.png"));
+            Image scaledLogoutImage = logoutImage.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH);
             ImageIcon LogoutIcon = new ImageIcon(scaledLogoutImage);
             logoutButton.setIcon(LogoutIcon);
             logoutButton.setContentAreaFilled(false);
@@ -46,12 +48,14 @@ public class HeaderButtonsPane extends JPanel {
         } catch (IOException ex){
             System.out.println(ex);
         }
-        this.add(logoutButton,2);
-    }
 
-    @Override
-    public Component add(Component comp) {
-        return super.add(comp);
-    }
+        this.add(profileButton);
+        
+        this.add(Box.createRigidArea(new Dimension(15,0)));
+        
+        this.add(logoutButton);
+        
+        this.add(Box.createRigidArea(new Dimension(15,0)));
 
+    }
 }

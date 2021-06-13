@@ -1,6 +1,7 @@
 package gui;
 
 import controller.BodyViewController;
+import gui.body.JobSeekerView;
 import gui.body.LoginPane;
 import gui.body.RecruiterView;
 import gui.body.TabbedPaneView;
@@ -16,11 +17,13 @@ public class MainBodyPane extends JPanel {
     public MainBodyPane(BodyViewController bvc) {
 
         super();
+        this.bvc = bvc;
         this.setLayout(new CardLayout());
         this.add(new LoginPane(bvc, bvc.getMainFrame().getLC()), "LOGIN");
         this.add(new TabbedPaneView(bvc), "JOBMANAGER");
         this.add(new RecruiterView(bvc), "RECRUITER");
         this.add(new CreateAccountScreen(bvc), "CREATEACCOUNT");
+        this.add(new JobSeekerView(bvc), "JOBSEEKER");
         this.setBody("LOGIN");
     }
 
