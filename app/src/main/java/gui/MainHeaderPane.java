@@ -1,11 +1,7 @@
 package gui;
 
 import controller.HeaderViewController;
-import gui.body.JobManagementPane;
-import gui.header.HeaderButtonsPane;
-import gui.header.JobSeekerHeaderPane;
-import gui.header.LoggedOutHeaderPane;
-import gui.header.RecruiterHeaderPane;
+import gui.header.HeaderPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,12 +15,11 @@ public class MainHeaderPane extends JPanel {
         this.hvc = hvc;
 
         this.setLayout(new CardLayout());
-        this.add(new HeaderButtonsPane(), "BUTTONS");
-//        this.add(new RecruiterHeader(this.hvc.getMF(), "Brett"), "RECRUITER");
-        this.add(new RecruiterHeaderPane(this.hvc), "RECRUITER");
-        this.add(new JobSeekerHeaderPane(this.hvc), "JOBSEEKER");
-        this.add(new LoggedOutHeaderPane(this.hvc), "LOGIN");
-        this.add(new JobManagementPane(this.hvc), "JOBMANAGER");
+        this.add(new HeaderPane(true, "Job Seeker System"), "JOBSEEKER");
+        this.add(new HeaderPane(true, "Job Seeker System - Recruiter"), "RECRUITER");
+        this.add(new HeaderPane(false, "Job Seeker System"), "LOGIN");
+        this.add(new HeaderPane(true, "NEED TO INSERT GETJOBNAME() METHOD AND STATUS"), "JOBMANAGER");
+        this.add(new HeaderPane(true, "Create / Edit Job Ad"), "EDITJOB");
         this.setHeader("LOGIN");
     }
 

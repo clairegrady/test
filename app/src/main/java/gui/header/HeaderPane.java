@@ -6,23 +6,46 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class HeaderButtonsPane extends JPanel {
+public class HeaderPane extends JPanel {
 
-    public HeaderButtonsPane() {
+    private JLabel pageTitle;
+
+    public HeaderPane(boolean showButtons, String title) {
         super();
         this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
         this.setPreferredSize(new Dimension(800,100));
 
-        JLabel pageTitle = new JLabel("Job Seeker System");
+        ImageIcon logo = new ImageIcon();
+
+        try {
+            BufferedImage profileImage = ImageIO.read(getClass().getResource("/user.png"));
+            Image scaledProfileImage = profileImage.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH);
+            logo = new ImageIcon(scaledProfileImage);
+        } catch (IOException ex){
+            System.out.println(ex);
+        }
+
+        pageTitle = new JLabel(title, logo, JLabel.LEFT);
         pageTitle.setHorizontalAlignment(JLabel.LEFT);
 
-        this.add(Box.createRigidArea(new Dimension(40,0)));
+        this.add(Box.createRigidArea(new Dimension(15,0)));
 
         this.add(pageTitle);
 
         this.add(Box.createHorizontalGlue());
 
-        
+        if (showButtons){this.add(getButtons());}
+    }
+
+    public void changeTitle(String newTitle){
+        pageTitle.setText(newTitle);
+    }
+
+    public JPanel getButtons(){
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.X_AXIS));
+        JLabel welcomeLabel = new JLabel();
+        welcomeLabel.setText("Welcome <NAME>"); // instead of <NAME> we need to call getFirstName() of current logged in user
         JButton profileButton = new JButton();
         try {
             BufferedImage profileImage = ImageIO.read(getClass().getResource("/user.png"));
@@ -48,14 +71,13 @@ public class HeaderButtonsPane extends JPanel {
         } catch (IOException ex){
             System.out.println(ex);
         }
+        buttonPanel.add(welcomeLabel);
+        buttonPanel.add(Box.createRigidArea(new Dimension(30,0)));
+        buttonPanel.add(profileButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(15,0)));
+        buttonPanel.add(logoutButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(15,0)));
 
-        this.add(profileButton);
-        
-        this.add(Box.createRigidArea(new Dimension(15,0)));
-        
-        this.add(logoutButton);
-        
-        this.add(Box.createRigidArea(new Dimension(15,0)));
-
+        return buttonPanel;
     }
 }

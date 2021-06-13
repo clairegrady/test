@@ -9,28 +9,12 @@ import java.awt.*;
 
 public class CreateAccountScreen extends JPanel {
     private JProgressBar progressBar;
-    private JProgressBar progressBar2;
-    private JPanel mainPanel;
-    private JLabel bodyTitle;
-    private JLabel mandatory;
-    private JLabel fName;
-    private JLabel lName;
-    private JLabel email;
-    private JLabel company;
-    private JLabel pw;
-    private JLabel pwConfirm;
     private JTextField fNameEntry;
     private JTextField lNameEntry;
     private JTextField emailEntry;
     private JTextField companyEntry;
     private JPasswordField pwEntry;
     private JPasswordField pwConfirmEntry;
-    private JLabel text2;
-    private JLabel bodyTitle2;
-    private JPanel mainPanel2;
-    private JButton backButton;
-    private JButton proceedButton;
-    private JButton profileButton;
     private BodyViewController bvc;
 
     public CreateAccountScreen(BodyViewController bvc) {
@@ -61,21 +45,21 @@ public class CreateAccountScreen extends JPanel {
 
 
         //Body Title
-        bodyTitle = new JLabel("Account Details");
+        JLabel bodyTitle = new JLabel("Account Details");
         setTextPosition(bodyTitle);
         //bodyTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
         setPosition(c,0,1);
         mainPanel.add(bodyTitle, c);
 
         //Mandatory message
-        mandatory = new JLabel("*Denotes mandatory field");
+        JLabel mandatory = new JLabel("*Denotes mandatory field");
         setTextPosition(mandatory);
         //mandatory.setFont(new Font("Tahoma", Font.ITALIC, 10));
         setPosition(c,0,2);
         mainPanel.add(mandatory, c);
 
         //First Name
-        fName = new JLabel("First Name*:");
+        JLabel fName = new JLabel("First Name*:");
         setTextPosition(fName);
         setPosition(c,0,3);
         mainPanel.add(fName, c);
@@ -86,7 +70,7 @@ public class CreateAccountScreen extends JPanel {
         mainPanel.add(fNameEntry, c);
 
         //Last Name
-        lName = new JLabel("Last Name*:");
+        JLabel lName = new JLabel("Last Name*:");
         setTextPosition(lName);
         setPosition(c,3,3);
         mainPanel.add(lName, c);
@@ -97,7 +81,7 @@ public class CreateAccountScreen extends JPanel {
         mainPanel.add(lNameEntry, c);
 
         //Email
-        email = new JLabel("Email Address*:");
+        JLabel email = new JLabel("Email Address*:");
         setTextPosition(email);
         setPosition(c,0,4);
         mainPanel.add(email, c);
@@ -108,7 +92,7 @@ public class CreateAccountScreen extends JPanel {
         mainPanel.add(emailEntry, c);
 
         //Company
-        company = new JLabel("Company:");
+        JLabel company = new JLabel("Company:");
         setTextPosition(company);
         setPosition(c,3,4);
         mainPanel.add(company, c);
@@ -119,7 +103,7 @@ public class CreateAccountScreen extends JPanel {
         mainPanel.add(companyEntry, c);
 
         //Password
-        pw = new JLabel("Password*:");
+        JLabel pw = new JLabel("Password*:");
         setTextPosition(pw);
         setPosition(c,0,5);
         mainPanel.add(pw, c);
@@ -130,7 +114,7 @@ public class CreateAccountScreen extends JPanel {
         mainPanel.add(pwEntry, c);
 
         //Password Confirm
-        pwConfirm = new JLabel("Confirm Password*:");
+        JLabel pwConfirm = new JLabel("Confirm Password*:");
         setTextPosition(pwConfirm);
         setPosition(c,3,5);
         mainPanel.add(pwConfirm, c);
@@ -141,7 +125,7 @@ public class CreateAccountScreen extends JPanel {
         mainPanel.add(pwConfirmEntry, c);
 
         //Back Button
-        backButton = new JButton("Back");
+        JButton backButton = new JButton("Back");
         backButton.setFocusable(false);
         setPosition(c,0,6);
         c.insets = new Insets(50, 0, 0,0);
@@ -149,7 +133,7 @@ public class CreateAccountScreen extends JPanel {
         mainPanel.add(backButton, c);
 
         //Proceed Button
-        proceedButton = new JButton("Create Account");
+        JButton proceedButton = new JButton("Create Account");
         proceedButton.setFocusable(false);
         setPosition(c,4,6);
         c.insets = new Insets(50, 0, 0,0);
@@ -170,14 +154,14 @@ public class CreateAccountScreen extends JPanel {
 
         // //Main Panel - Card 2
         //Body Title
-        bodyTitle2 = new JLabel("Success");
+        JLabel bodyTitle2 = new JLabel("Success");
         setTextPosition(bodyTitle2);
         //bodyTitle2.setFont(new Font("Tahoma", Font.PLAIN, 20));
         setPosition(c2,0,1);
         mainPanel2.add(bodyTitle2, c2);
 
         //Success message
-        text2 = new JLabel("You have registered as a Recruiter in the Job Seeker System");
+        JLabel text2 = new JLabel("You have registered as a Recruiter in the Job Seeker System");
         setTextPosition(text2);
         //text2.setFont(new Font("Tahoma", Font.PLAIN, 15));
         setPosition(c2,0,2);
@@ -185,14 +169,12 @@ public class CreateAccountScreen extends JPanel {
         mainPanel2.add(text2, c2);
 
         //Go to Profile Button
-        profileButton = new JButton("Go to Profile");
+        JButton profileButton = new JButton("Go to Profile");
         profileButton.setFocusable(false);
         setPosition(c2,4,3);
         c2.insets = new Insets(50, 0, 0,0);
         c2.anchor = GridBagConstraints.LINE_END;
         mainPanel2.add(profileButton, c2);
-
-        mainPanel2.add(progressBar, c);
 
         //Creating the action listeners to change the tabs and refresh the main panel
         profileButton.addActionListener(e -> {
@@ -209,6 +191,7 @@ public class CreateAccountScreen extends JPanel {
         proceedButton.addActionListener(e -> {
             this.setPage("SUCCESS");
             progressBar.setValue(100);
+            mainPanel2.add(progressBar, c);
         });
     }
 
