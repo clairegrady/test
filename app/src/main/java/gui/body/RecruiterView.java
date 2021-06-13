@@ -1,6 +1,7 @@
 package gui.body;
 
 import controller.BodyViewController;
+import gui.body.searchBar.RecruiterFilterPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,17 +51,20 @@ public class RecruiterView extends JPanel {
                 if (activeJobs.size() > 0) {RUN THE BELOW METHOD}, etc etc
 
         */
-        JComponent panel1 = new gui.body.ScrollPane(bvc, "Active Job Example", "Company", "View", 20, "getCardID", 1);
+        RecruiterFilterPane activePane = new RecruiterFilterPane(bvc, 20, "Active");
+        JComponent panel1 = new gui.body.ScrollPane(bvc, activePane,"Active Job Example", "Company", "View", 20, "getCardID", 1);
         panel1.setPreferredSize(tabSize);
         tabbedPane.addTab("Active", null, panel1,
                 "Active Job ads");
 
-        JComponent panel2 = new gui.body.ScrollPane(bvc, "Draft Job Example", "Company", "View", 3, "getCardID", 1);
+        RecruiterFilterPane draftPane = new RecruiterFilterPane(bvc, 3, "Draft");
+        JComponent panel2 = new gui.body.ScrollPane(bvc, draftPane,"Draft Job Example", "Company", "View", 3, "getCardID", 1);
         panel2.setPreferredSize(tabSize);
         tabbedPane.addTab("Draft", null, panel2,
                 "Draft Job ads");
 
-        JComponent panel3 = new ScrollPane(bvc, "Closed Job Example", "Company", "View", 1, "getCardID", 1);
+        RecruiterFilterPane closedPane = new RecruiterFilterPane(bvc, 1, "Closed");
+        JComponent panel3 = new ScrollPane(bvc, closedPane,"Closed Job Example", "Company", "View", 1, "getCardID", 1);
         panel3.setPreferredSize(tabSize);
         tabbedPane.addTab("Closed", null, panel3,
                 "Closed Job ads");

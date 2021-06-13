@@ -2,6 +2,8 @@ package controller;
 
 import gui.MainFrame;
 
+import javax.swing.*;
+
 
 public class BodyViewController {
 
@@ -24,6 +26,11 @@ public class BodyViewController {
     public void logOut(Boolean logoutRequested) {
         mainFrame.setBody("LOGIN");
         mainFrame.setHeader("LOGGEDOUT");
+    }
+
+    public void createJob(){
+        JFrame frame = new JFrame();
+        JOptionPane.showMessageDialog(frame, "Test of Create Job");
     }
 
     public MainFrame getMainFrame() {
