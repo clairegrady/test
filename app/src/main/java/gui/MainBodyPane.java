@@ -1,10 +1,7 @@
 package gui;
 
 import controller.BodyViewController;
-import gui.body.JobSeekerView;
-import gui.body.LoginPane;
-import gui.body.RecruiterView;
-import gui.body.TabbedPaneView;
+import gui.body.*;
 import gui.body.progressView.CreateAccountScreen;
 import gui.body.progressView.CreateJobForm;
 
@@ -26,6 +23,7 @@ public class MainBodyPane extends JPanel {
         this.add(new CreateAccountScreen(bvc), "CREATEACCOUNT");
         this.add(new JobSeekerView(bvc), "JOBSEEKER");
         this.add(new CreateJobForm(bvc), "CREATEJOB"); // added
+        this.add(new ChooseAccount(bvc), "CHOOSE");
         this.setBody("LOGIN");
     }
 

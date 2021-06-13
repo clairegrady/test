@@ -62,7 +62,7 @@ public class LoginController {
         return authenticatedUserID;
     }
 
-    public void createAccount() {
-        mainFrame.setBody("CREATEACCOUNT");
+    public void chooseAccount() {
+        mainFrame.setBody("CHOOSE");
     }
 }

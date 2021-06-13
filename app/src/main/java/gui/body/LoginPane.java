@@ -79,7 +79,7 @@ public class LoginPane extends JPanel {
 
         loginButton.addActionListener(e -> validateUser());
 
-        registerButton.addActionListener(e -> lc.createAccount());
+        registerButton.addActionListener(e -> lc.chooseAccount());
     }
 
     public void validateUser() {
