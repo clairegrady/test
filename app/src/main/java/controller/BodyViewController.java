@@ -20,6 +20,7 @@ public class BodyViewController {
          *      do some validation?
          *      for now we are just going straight into a generic user
         */
+        mainFrame.createPanes();
         mainFrame.setBody(userType);
         mainFrame.setHeader(userType);
 
@@ -43,6 +44,10 @@ public class BodyViewController {
     public void createRecruiter(String email, String password, String firstName, String lastName, String company) {
         Recruiter recruiter = new Recruiter(email, password, firstName, lastName, company);
         DataStore.getDatastore().updateUser(recruiter);
+    }
+
+    public String getLoggedInUser() {
+        return this.mainFrame.getLC().getLoggedInUser();
     }
 
 

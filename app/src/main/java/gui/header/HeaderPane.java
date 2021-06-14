@@ -57,17 +57,8 @@ public class HeaderPane extends JPanel {
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.X_AXIS));
         JLabel welcomeLabel = new JLabel();
 
-
-
-        String liu = hvc.getMainFrame().getBVC().getLoggedInUser();
-        System.out.println(liu);
-
         Optional<User> u = DataStore.getDatastore().getUserById(hvc.getMainFrame().getBVC().getLoggedInUser());
-
-        welcomeLabel.setText("Welcome " + (u.isPresent() ? u.get().getFirstName() : "User")); // instead of <NAME> we need to call getFirstName() of current logged in user
-
-
-
+        welcomeLabel.setText("Welcome " + (u.isPresent() ? u.get().getFirstName() : "User"));
 
         JButton profileButton = new JButton();
         try {

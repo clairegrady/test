@@ -18,13 +18,16 @@ public class MainBodyPane extends JPanel {
         this.bvc = bvc;
         this.setLayout(new CardLayout());
         this.add(new LoginPane(bvc, bvc.getMainFrame().getLC()), "LOGIN");
-        this.add(new TabbedPaneView(bvc), "JOBMANAGER");
-        this.add(new RecruiterView(bvc), "RECRUITER");
         this.add(new CreateAccountScreen(bvc), "CREATEACCOUNT");
-        this.add(new JobSeekerView(bvc), "JOBSEEKER");
         this.add(new CreateJobForm(bvc), "CREATEJOB"); // added
         this.add(new ChooseAccount(bvc), "CHOOSE");
         this.setBody("LOGIN");
+    }
+
+    public void createPanes() {
+        this.add(new TabbedPaneView(bvc), "JOBMANAGER");
+        this.add(new RecruiterView(bvc), "RECRUITER");
+        this.add(new JobSeekerView(bvc), "JOBSEEKER");
     }
 
     public void setBody(String body) {
