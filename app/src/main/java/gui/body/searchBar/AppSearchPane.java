@@ -11,12 +11,12 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.*;
 
-public class SeekerFilterPane extends JPanel {
+public class AppSearchPane extends JPanel {
 
     Dimension searchBarSize = new Dimension(800,40);
     BodyViewController bvc;
 
-    public SeekerFilterPane(BodyViewController bvc) {
+    public AppSearchPane(BodyViewController bvc) {
         super();
         this.bvc = bvc;
         this.setPreferredSize(searchBarSize);
@@ -24,37 +24,29 @@ public class SeekerFilterPane extends JPanel {
 
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new GridLayoutManager(1, 1, new Insets(5, 10, 5, 10), -1, -1));
+
         JTextField textField = new JTextField(20);
         GhostText ghostText = new GhostText(textField, "Search");
         searchPanel.add(textField, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        this.add(searchPanel, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 1, false));
+        this.add(searchPanel, new GridConstraints(0, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 1, false));
 
-        JPanel matchPanel = new JPanel();
-        matchPanel.setLayout(new GridLayoutManager(1, 1, new Insets(5, 10, 5, 10), -1, -1));
-        String matchScores[] = {"Match Score", "90% +", "80+ +", "70% +", "60% +", "Show all"};
-        JComboBox filterDropdown = new JComboBox(matchScores);
-        matchPanel.add(filterDropdown, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        this.add(matchPanel, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 1, false));
+        JPanel statusPanel = new JPanel();
+        statusPanel.setLayout(new GridLayoutManager(1, 1, new Insets(5, 10, 5, 10), -1, -1));
+        String statusKeywords[] = {"Job Status", "Active", "Draft", "Closed"};
+        JComboBox statusDropdown = new JComboBox(statusKeywords);
+        statusPanel.add(statusDropdown, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        this.add(statusPanel, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 1, false));
 
-        JPanel buttonPanel1 = new JPanel();
-        buttonPanel1.setLayout(new GridLayoutManager(1, 1, new Insets(5, 10, 5, 10), -1, -1));
-        JButton button1 = new JButton("Search");
-        button1.addActionListener(e -> {
-            JFrame frame1 = new JFrame();
-            JOptionPane.showMessageDialog(frame1, "Test of button: " + textField.getText());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayoutManager(1, 1, new Insets(5, 10, 5, 10), -1, -1));
+        JButton button = new JButton("Filter");
+        button.addActionListener(e -> {
+            JFrame frame = new JFrame();
+            JOptionPane.showMessageDialog(frame, "Test of button: " + textField.getText());
             // IF TEXTFIELD GREATER > 1, search by that, AND keywords, else just keywords
         });
-        buttonPanel1.add(button1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        this.add(buttonPanel1, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 1, false));
-
-        JPanel buttonPanel2 = new JPanel();
-        buttonPanel2.setLayout(new GridLayoutManager(1, 1, new Insets(5, 10, 5, 10), -1, -1));
-        JButton button2 = new JButton("Home");
-        button2.addActionListener(e2 -> {
-            bvc.loginComplete("RECRUITER");
-        });
-        buttonPanel2.add(button2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        this.add(buttonPanel2, new GridConstraints(0, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 1, false));
+        buttonPanel.add(button, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        this.add(buttonPanel, new GridConstraints(0, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 1, false));
     }
 
     public static class GhostText implements FocusListener, DocumentListener, PropertyChangeListener
