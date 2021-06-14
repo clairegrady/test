@@ -1,26 +1,50 @@
 package gui.body;
 
-import controller.BodyViewController;
-import controller.CardViewController;
-import gui.body.searchBar.SearchPane;
-import gui.body.searchBar.RecruiterFilterPane;
+import application.*;
+import data.DataStore;
+import gui.card.Card;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.util.List;
+import java.util.Optional;
 
-public class ScrollPane extends JPanel {
+public class ScrollPane<T extends CardDisplayable> extends JPanel implements CardPanelController<T> {
 
-    BodyViewController bvc;
-    CardViewController cvc;
+    ScrollPaneController spc;
+    JScrollPane scrollPane;
+    CardPanel cpo;
+    T type;
 
-    public ScrollPane(BodyViewController bvc, JPanel searchBar,String getText, String getText2, String buttonDetails, int maxCards, String cardID, int rows) {
+    public ScrollPane(ScrollPaneController spc, JPanel searchBar) {
 
         super(new BorderLayout());
-        this.bvc = bvc;
-        this.cvc = new CardViewController(bvc.getMainFrame());
-        JScrollPane scrollPane = new JScrollPane(new CardObjectPanel(getText, getText2, buttonDetails, maxCards, cardID, cvc, rows));
+        this.spc = spc;
+        this.cpo = new CardPanel(this);
+        this.scrollPane = new JScrollPane(cpo);
         this.add(searchBar, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
 
     }
+
+    public void display(String pane) {
+        getCardPanelObjects(pane);
+    }
+
+    public void getCardPanelObjects(String pane) {
+
+        cpo.removeAll();
+
+        List<? extends CardDisplayable> list = spc.getScrollPaneData(pane);
+
+        for (CardDisplayable cardDisplayable : list) {
+            cpo.addCard(
+                    cardDisplayable.getCardData(),
+                    list.size(),
+                    spc.getCardButton()
+            );
+        }
+
+    }
+
 }

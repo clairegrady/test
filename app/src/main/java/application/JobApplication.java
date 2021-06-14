@@ -1,10 +1,11 @@
 package application;
 
-public class JobApplication {
+public class JobApplication extends JobInteraction {
 
     private int dateApplied;
 
-    public JobApplication(int dateApplied) {
+    public JobApplication(JobStatus status, Job job, int dateApplied) {
+        super(status, job);
         this.dateApplied = dateApplied;
     }
 

@@ -4,9 +4,12 @@ package gui;
 import controller.BodyViewController;
 import controller.HeaderViewController;
 import controller.LoginController;
+import data.DataStore;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainFrame extends JFrame {
 
@@ -36,12 +39,20 @@ public class MainFrame extends JFrame {
         super.setLocationRelativeTo(null);
         super.setVisible(true);
 
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                DataStore.getDatastore().saveJobs();
+                DataStore.getDatastore().saveUsers();
+            }
+        });
+
     }
 
     public void createPanes() {
         this.body.createPanes();
         this.header.createPanes();
     }
+
 
     public void setBody(String body) {
         this.body.setBody(body);

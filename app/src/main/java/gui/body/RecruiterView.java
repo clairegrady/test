@@ -1,12 +1,19 @@
 package gui.body;
 
+import application.*;
 import controller.BodyViewController;
+import data.DataStore;
 import gui.body.searchBar.RecruiterFilterPane;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class RecruiterView extends JPanel {
+public class RecruiterView extends JPanel implements ScrollPaneController {
 
     private BodyViewController bvc;
 
@@ -22,53 +29,53 @@ public class RecruiterView extends JPanel {
 
         bvc = this.bvc;
 
+        for (JobStatus jobStatus : JobStatus.values()) {
+            if (jobStatus != JobStatus.NULL) {
+                RecruiterFilterPane filterPane = new RecruiterFilterPane(bvc, 1, jobStatus.toString());
+                ScrollPane<JobInteraction> scrollPane = new ScrollPane<>(this, filterPane);
+                tabbedPane.addTab(jobStatus.toString(), null, scrollPane);
+                scrollPane.display(jobStatus.toString());
+            }
+        }
 
-        /* getText*/
-        /*
-            ArrayList<String[]> activeJobs = new ArrayList<ArrayList<String[]>;
-            ArrayList<String[]> draftJobs = new ArrayList<String[]>;
-            ArrayList<String[]> closedJobs = new ArrayList<String[]>;
-
-            recruiter.getJobInteractions().forEach((job) -> {   //find how to obtain recruiter object from MainPanel
-                if (job.getStatus() == "Active") {
-                    activeJobs.add(new String[] {job.getName(), job.getCompany(), job.getUID()});
-                    activeCount += 1
-                    }
-                else if (job.getStatus() == "Draft") {
-                    draftJobs.add(new String[] {job.getName(), job.getCompany(), job.getUID()});
-                    }
-                else if (job.getStatus() == "Closed") {
-                    closedJobs.add(new String[] {job.getName(), job.getCompany(), job.getUID()});
-                    }
-                });
-
-                getText, getCompany, getCardUID should all be dealt with by one putting in the ArrayList of
-                jobs instead of the three String parameters. This Array will get split out in CardObjectPanel.
-                buttonDetails always "View"
-                maxCards = activeJobs.size();
-                rows always 1
-
-                if (activeJobs.size() > 0) {RUN THE BELOW METHOD}, etc etc
-
-        */
-        RecruiterFilterPane activePane = new RecruiterFilterPane(bvc, 20, "Active");
-        JComponent panel1 = new gui.body.ScrollPane(bvc, activePane,"Active Job Example", "Company", "View", 20, "getCardID", 1);
-        panel1.setPreferredSize(tabSize);
-        tabbedPane.addTab("Active", null, panel1,
-                "Active Job ads");
-
-        RecruiterFilterPane draftPane = new RecruiterFilterPane(bvc, 3, "Draft");
-        JComponent panel2 = new gui.body.ScrollPane(bvc, draftPane,"Draft Job Example", "Company", "View", 3, "getCardID", 1);
-        panel2.setPreferredSize(tabSize);
-        tabbedPane.addTab("Draft", null, panel2,
-                "Draft Job ads");
-
-        RecruiterFilterPane closedPane = new RecruiterFilterPane(bvc, 1, "Closed");
-        JComponent panel3 = new ScrollPane(bvc, closedPane,"Closed Job Example", "Company", "View", 1, "getCardID", 1);
-        panel3.setPreferredSize(tabSize);
-        tabbedPane.addTab("Closed", null, panel3,
-                "Closed Job ads");
+        tabbedPane.addChangeListener(e -> {
+            int selectedIndex = tabbedPane.getSelectedIndex();
+            ScrollPane j =
+                    (ScrollPane) tabbedPane.getComponentAt(selectedIndex);
+            j.display(tabbedPane.getTitleAt(selectedIndex));
+        });
 
         this.add(tabbedPane, BorderLayout.CENTER);
+
     }
+
+    public List<? extends CardDisplayable> getScrollPaneData(String pane){
+
+        String userId = bvc.getLoggedInUser();
+        // TODO: make the datastore.getinstance invisible to this class
+        Optional<User> loggedInUser = DataStore.getDatastore().getUserById(userId);
+
+        List<? extends CardDisplayable> jiList = new ArrayList<JobInteraction>();
+
+        if (loggedInUser.isPresent()) {
+            jiList = loggedInUser.get().getJobInteractions()
+                    .stream()
+                    .filter(ji -> ji.getStatus().toString().equals(pane))
+                    .collect(Collectors.toList());
+        }
+
+        return jiList;
+    }
+
+    public Button getCardButton(){
+        Button button = new Button("View", bvc);
+        button.setProperty("blah");
+        button.setText("View");
+        button.addActionListener(ae -> {
+            button.getBvc().setBody("JOBMANAGER");
+        });
+
+        return button;
+    }
+
 }

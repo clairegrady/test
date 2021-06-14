@@ -15,7 +15,6 @@ public class CardViewController {
         mainFrame.setHeader("JOBMANAGER");
     }
 
-
 }
 
 

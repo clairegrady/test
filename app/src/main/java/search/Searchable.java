@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface Searchable {
 
-    public List<String> getAllKeywordsList();
-    public List<String> getKeywordsListForType(KeywordType type);
+    List<String> getAllKeywordsList();
+    List<String> getKeywordsListForType(KeywordType type);
 
 }

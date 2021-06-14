@@ -5,8 +5,8 @@ public class JobListing extends JobInteraction {
     private int closeDate;
     private int publishDate;
 
-    public JobListing(String status, Job job, String id, int closeDate, int publishDate) {
-        super(status, job, id);
+    public JobListing(JobStatus status, Job job, int closeDate, int publishDate) {
+        super(status, job);
         this.closeDate = closeDate;
         this.publishDate = publishDate;
     }
@@ -25,6 +25,15 @@ public class JobListing extends JobInteraction {
 
     public void setPublishDate(int publishDate) {
         this.publishDate = publishDate;
+    }
+
+    @Override
+    public String toString() {
+        return "JobListing{" +
+                super.toString() +
+                "closeDate=" + closeDate +
+                ", publishDate=" + publishDate +
+                '}';
     }
 }
 

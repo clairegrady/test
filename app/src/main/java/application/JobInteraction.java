@@ -1,20 +1,26 @@
 package application;
 
+import utility.UniqueId;
+
 import java.io.Serializable;
 
-public class JobInteraction implements Serializable {
+public class JobInteraction implements Serializable, CardDisplayable {
 
-    private String status;
+    private final String uniqueId = UniqueId.generate();
+    private JobStatus status;
     private Job job;
-    private String id;
 
-    public JobInteraction(String status, Job job, String id) {
-        this.status = status;
-        this.job = job;
-        this.id = id;
+    public JobInteraction() {
+        this.status = JobStatus.NULL;
+        this.job = new Job();
     }
 
-    public String getStatus() {
+    public JobInteraction(JobStatus status, Job job) {
+        this.status = status;
+        this.job = job;
+    }
+
+    public JobStatus getStatus() {
         return status;
     }
 
@@ -22,11 +28,11 @@ public class JobInteraction implements Serializable {
         return job;
     }
 
-    public String getId() {
-        return id;
+    public String getUniqueIdId() {
+        return uniqueId;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(JobStatus status) {
         this.status = status;
     }
 
@@ -34,7 +40,15 @@ public class JobInteraction implements Serializable {
         this.job = job;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    @Override
+    public CardData getCardData() {
+        return new CardData(this.job.getTitle(), this.job.getCompany());
+    }
+
+    @Override
+    public String toString() {
+        return "uniqueId='" + uniqueId + '\'' +
+                ", status=" + status +
+                ", job=" + job;
     }
 }

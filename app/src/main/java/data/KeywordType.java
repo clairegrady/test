@@ -5,7 +5,7 @@ public enum KeywordType {
     LOCATION(5),
     EDUCATION(5);
 
-    private int matchWeighting;
+    private final int matchWeighting;
 
     KeywordType(int matchWeighting) {
         this.matchWeighting = matchWeighting;
@@ -14,4 +14,5 @@ public enum KeywordType {
     public int getMatchWeighting() {
         return matchWeighting;
     }
+
 }

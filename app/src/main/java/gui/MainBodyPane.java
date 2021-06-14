@@ -28,6 +28,8 @@ public class MainBodyPane extends JPanel {
         this.add(new JobManagementBody(bvc), "JOBMANAGER");
         this.add(new RecruiterView(bvc), "RECRUITER");
         this.add(new JobSeekerView(bvc), "JOBSEEKER");
+
+        this.setBody("LOGIN");
     }
 
     public void setBody(String body) {

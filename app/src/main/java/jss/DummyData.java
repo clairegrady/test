@@ -1,17 +1,11 @@
 package jss;
 
-import application.Job;
-import application.JobSeeker;
-import application.Recruiter;
-import application.User;
+import application.*;
 import data.DataStore;
 import data.EmploymentType;
 import data.KeywordType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DummyData {
 
@@ -100,6 +94,23 @@ public class DummyData {
         DataStore.getDatastore().updateJob(job2);
         DataStore.getDatastore().updateJob(job3);
         DataStore.getDatastore().updateJob(job4);
+
+        List<JobInteraction> jobListings = new ArrayList<>();
+        jobListings.add(new JobListing(JobStatus.ACTIVE, job1, -1, -1));
+        jobListings.add(new JobListing(JobStatus.ACTIVE, job2, -1, -1));
+        jobListings.add(new JobListing(JobStatus.DRAFT, job3, -1, -1));
+        jobListings.add(new JobListing(JobStatus.CLOSED, job4, -1, -1));
+
+        Optional<User> recruiter = DataStore.getDatastore().getUserById("r");
+        recruiter.ifPresent(user -> user.setJobInteractions(jobListings));
+
+        List<JobInteraction> jobApplications = new ArrayList<>();
+        jobApplications.add(new JobApplication(JobStatus.ACTIVE, job1, -1));
+        jobApplications.add(new JobApplication(JobStatus.ACTIVE, job2, -1));
+
+        Optional<User> js = DataStore.getDatastore().getUserById("j");
+        js.ifPresent(user -> user.setJobInteractions(jobApplications));
+
     }
 
     public static void initUsers() {
@@ -122,8 +133,8 @@ public class DummyData {
         testJobSeeker.addKeyword(KeywordType.LOCATION, "Melbourne");
 
         User testRecruiter =  new Recruiter(
-                "recruiter@email.com",
-                "password123",
+                "r",
+                "r",
                 "Test",
                 "User",
                 new ArrayList<>(),

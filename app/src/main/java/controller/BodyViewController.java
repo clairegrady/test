@@ -47,6 +47,10 @@ public class BodyViewController {
         return this.mainFrame.getLC().getLoggedInUser();
     }
 
+    public void setBody(String body) {
+        mainFrame.setBody(body);
+    }
+
 
 
 
