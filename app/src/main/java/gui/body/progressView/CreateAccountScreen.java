@@ -121,13 +121,17 @@ public class CreateAccountScreen extends JPanel {
         //Back Button
         JButton backButton = new JButton("Back");
         backButton.setFocusable(false);
-        setButtonPosition(c,0,6);
+        setPosition(c,0,6);
+        c.insets = new Insets(50, 0, 0,0);
+        c.anchor = GridBagConstraints.CENTER;
         createPanel.add(backButton, c);
 
         //Proceed Button
         JButton proceedButton = new JButton("Create Account");
         proceedButton.setFocusable(false);
-        setButtonPosition(c,4,6);
+        setPosition(c,4,6);
+        c.insets = new Insets(50, 0, 0,0);
+        c.anchor = GridBagConstraints.CENTER;
         createPanel.add(proceedButton, c);
 
         //Progress Panel

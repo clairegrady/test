@@ -20,9 +20,9 @@ public class HeaderPane extends JPanel {
         ImageIcon logo = new ImageIcon();
 
         try {
-            BufferedImage profileImage = ImageIO.read(getClass().getResource("/user.png")); // ADD ICON
-            Image scaledProfileImage = profileImage.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH);
-            logo = new ImageIcon(scaledProfileImage);
+            BufferedImage logoImage = ImageIO.read(getClass().getResource("/logo.png")); // ADD ICON
+            Image scaledLogoImage = logoImage.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH);
+            logo = new ImageIcon(scaledLogoImage);
         } catch (IOException ex){
             System.out.println(ex);
         }
