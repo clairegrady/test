@@ -25,7 +25,7 @@ public class MainBodyPane extends JPanel {
     }
 
     public void createPanes() {
-        this.add(new TabbedPaneView(bvc), "JOBMANAGER");
+        this.add(new JobManagementBody(bvc), "JOBMANAGER");
         this.add(new RecruiterView(bvc), "RECRUITER");
         this.add(new JobSeekerView(bvc), "JOBSEEKER");
     }

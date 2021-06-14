@@ -18,7 +18,7 @@ public class SearchPane extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         JButton logoutButton = new JButton("logout");
-        logoutButton.addActionListener(e -> bvc.logOut(true));
+        logoutButton.addActionListener(e -> bvc.logOut());
         this.add(logoutButton, gbc);
     }
 

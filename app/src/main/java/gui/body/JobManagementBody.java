@@ -6,11 +6,11 @@ import gui.body.searchBar.SearchPane;
 import javax.swing.*;
 import java.awt.*;
 
-public class TabbedPaneView extends JPanel {
+public class JobManagementBody extends JPanel {
 
     BodyViewController bvc;
 
-    public TabbedPaneView(BodyViewController bvc) {
+    public JobManagementBody(BodyViewController bvc) {
 
         super();
         this.bvc = bvc;

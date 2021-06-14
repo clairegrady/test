@@ -72,6 +72,7 @@ public class LoginPane extends JPanel {
 
         passwordField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e2) { //watch for key strokes
+                passwordField.putClientProperty("JComponent.outline", Color.blue);
                 loginButton.setEnabled(emailField.getText().length() > 0 && String.valueOf(passwordField.getPassword()).length() > 0);
             }
         });
@@ -97,6 +98,7 @@ public class LoginPane extends JPanel {
 
     public void loginDetailsInvalid(){
         System.out.println("invalid credentials");
+        passwordField.putClientProperty("JComponent.outline", "error");
         passwordField.setText("");
         emailField.selectAll();
         loginButton.setEnabled(false);

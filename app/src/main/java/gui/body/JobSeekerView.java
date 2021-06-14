@@ -1,7 +1,7 @@
 package gui.body;
 
 import controller.BodyViewController;
-import gui.body.searchBar.RecruiterFilterPane;
+import gui.body.searchBar.JobSearchPane;
 import gui.body.searchBar.SearchPane;
 
 import javax.swing.*;
@@ -22,7 +22,7 @@ public class JobSeekerView extends JPanel {
 
         SearchPane searchBar = new SearchPane(bvc);
 
-        JComponent panel1 = new ScrollPane(bvc, searchBar,"Job Name", "Matching Score: 95%", "Profile", 14, "UID for User", 1);
+        JComponent panel1 = new ScrollPane(bvc, new JobSearchPane(this.bvc),"Job Name", "Matching Score: 95%", "Profile", 14, "UID for User", 1);
         panel1.setPreferredSize(tabSize);
         tabbedPane.addTab("Search", null, panel1,
                 "Find Jobs");

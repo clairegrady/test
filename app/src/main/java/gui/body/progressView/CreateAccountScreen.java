@@ -171,7 +171,10 @@ public class CreateAccountScreen extends JPanel {
         profileButton.addActionListener(e -> {
             bvc.getMainFrame().setBody("RECRUITER");
             bvc.getMainFrame().setHeader("RECRUITER");
+            this.setPage("CREATE");
+            clearUserDetails();
             // need to implement logic based on account type
+
         });
 
         backButton.addActionListener(e-> {

@@ -71,7 +71,7 @@ public class CreateJobForm extends JPanel {
         this.add(skillsPanel, "SKILLS");
         this.add(descriptionPanel, "DESCRIPTION");
         this.add(publishPanel, "PUBLISH");
-        this.setPage("LOGIN");
+        this.setPage("CREATEJOB");
 
         //Job Details panel - Card 1
         //Progress Panel
@@ -426,6 +426,7 @@ public class CreateJobForm extends JPanel {
         //Creating the action listeners to change the tabs and refresh the main panel
 //        profileButton.addActionListener(e -> {
 //
+//            this.setPage("CREATEJOB");
 //        });
 
         backButton.addActionListener(e-> {
@@ -451,6 +452,7 @@ public class CreateJobForm extends JPanel {
 
         proceedButton3.addActionListener(e -> {
             setPage("PUBLISH");
+
         });
 
         backButton4.addActionListener(e-> {

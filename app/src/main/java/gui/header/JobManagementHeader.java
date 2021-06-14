@@ -1,14 +1,14 @@
-package gui.body;
+package gui.header;
 
 import controller.HeaderViewController;
 
 import javax.swing.*;
 
-public class JobManagementPane extends JPanel{
+public class JobManagementHeader extends JPanel{
 
     private HeaderViewController hvc;
 
-    public JobManagementPane(HeaderViewController hvc) {
+    public JobManagementHeader(HeaderViewController hvc) {
 
         super();
         this.hvc = hvc;

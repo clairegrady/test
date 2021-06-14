@@ -4,8 +4,6 @@ import application.Recruiter;
 import data.DataStore;
 import gui.MainFrame;
 
-import javax.swing.*;
-
 
 public class BodyViewController {
 
@@ -26,14 +24,13 @@ public class BodyViewController {
 
     }
 
-    public void logOut(Boolean logoutRequested) {
+    public void logOut() {
         mainFrame.setBody("LOGIN");
-        mainFrame.setHeader("LOGGEDOUT");
+        mainFrame.setHeader("LOGIN");
     }
 
     public void createJob(){
-        JFrame frame = new JFrame();
-        JOptionPane.showMessageDialog(frame, "Test of Create Job");
+        mainFrame.setBody("CREATEJOB");
     }
 
     public MainFrame getMainFrame() {
