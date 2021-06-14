@@ -38,6 +38,11 @@ public class MainFrame extends JFrame {
 
     }
 
+    public void createPanes() {
+        this.body.createPanes();
+        this.header.createPanes();
+    }
+
     public void setBody(String body) {
         this.body.setBody(body);
     }

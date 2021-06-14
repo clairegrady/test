@@ -1,19 +1,24 @@
 package gui.header;
 
+import application.User;
 import controller.HeaderViewController;
+import data.DataStore;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Optional;
 
 public class HeaderPane extends JPanel {
 
     private JLabel pageTitle;
+    private HeaderViewController hvc;
 
     public HeaderPane(HeaderViewController hvc, boolean showButtons, String title) {
         super();
+        this.hvc = hvc;
         this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
         this.setPreferredSize(new Dimension(800,100));
 
@@ -36,18 +41,34 @@ public class HeaderPane extends JPanel {
 
         this.add(Box.createHorizontalGlue());
 
-        if (showButtons){this.add(getButtons(hvc));}
+        if (showButtons){
+//            this.add(getButtons(this.hvc));
+            this.add(getButtons());
+        }
     }
 
     public void changeTitle(String newTitle){
         pageTitle.setText(newTitle);
     }
 
-    public JPanel getButtons(HeaderViewController hvc){
+//    public JPanel getButtons(HeaderViewController hvc){
+    public JPanel getButtons(){
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.X_AXIS));
         JLabel welcomeLabel = new JLabel();
-        welcomeLabel.setText("Welcome <NAME>"); // instead of <NAME> we need to call getFirstName() of current logged in user
+
+
+
+        String liu = hvc.getMainFrame().getBVC().getLoggedInUser();
+        System.out.println(liu);
+
+        Optional<User> u = DataStore.getDatastore().getUserById(hvc.getMainFrame().getBVC().getLoggedInUser());
+
+        welcomeLabel.setText("Welcome " + (u.isPresent() ? u.get().getFirstName() : "User")); // instead of <NAME> we need to call getFirstName() of current logged in user
+
+
+
+
         JButton profileButton = new JButton();
         try {
             BufferedImage profileImage = ImageIO.read(getClass().getResource("/user.png"));
