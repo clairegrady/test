@@ -12,6 +12,11 @@ public class Recruiter extends User {
         this.company = "Default";
     }
 
+    public Recruiter(String email, String password, String firstName, String lastName, String company) {
+        super(email, password, firstName, lastName, new ArrayList<>());
+        this.company = company;
+    }
+
     public Recruiter(String email, String password, String firstName, String lastName,
             List<JobInteraction> jobInteractions, String company) {
         super(email, password, firstName, lastName, jobInteractions);

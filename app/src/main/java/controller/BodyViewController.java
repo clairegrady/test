@@ -1,5 +1,7 @@
 package controller;
 
+import application.Recruiter;
+import data.DataStore;
 import gui.MainFrame;
 
 import javax.swing.*;
@@ -35,6 +37,12 @@ public class BodyViewController {
 
     public MainFrame getMainFrame() {
         return mainFrame;
+    }
+
+    // TODO: determine where this method lives and move it?
+    public void createRecruiter(String email, String password, String firstName, String lastName, String company) {
+        Recruiter recruiter = new Recruiter(email, password, firstName, lastName, company);
+        DataStore.getDatastore().updateUser(recruiter);
     }
 
 

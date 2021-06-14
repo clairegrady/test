@@ -186,6 +186,13 @@ public class CreateAccountScreen extends JPanel {
                     this.setPage("SUCCESS");
                     progressBar.setValue(100);
                     successPanel.add(progressBar, c);
+                    bvc.createRecruiter(
+                            emailEntry.getText(),
+                            String.valueOf(pwEntry.getPassword()),
+                            fNameEntry.getText(),
+                            lNameEntry.getText(),
+                            companyEntry.getText()
+                    );
                 }
             });
     }
