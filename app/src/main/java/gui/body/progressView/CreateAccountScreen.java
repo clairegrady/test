@@ -5,6 +5,8 @@ import controller.BodyViewController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CreateAccountScreen extends JPanel {
     private JProgressBar progressBar;
@@ -15,6 +17,7 @@ public class CreateAccountScreen extends JPanel {
     private JPasswordField pwEntry;
     private JPasswordField pwConfirmEntry;
     private BodyViewController bvc;
+    private JButton proceedButton;
 
     public CreateAccountScreen(BodyViewController bvc) {
 
@@ -127,12 +130,20 @@ public class CreateAccountScreen extends JPanel {
         createPanel.add(backButton, c);
 
         //Proceed Button
-        JButton proceedButton = new JButton("Create Account");
+        proceedButton = new JButton("Create Account");
         proceedButton.setFocusable(false);
+        proceedButton.setEnabled(false);
         setPosition(c,4,6);
         c.insets = new Insets(50, 0, 0,0);
         c.anchor = GridBagConstraints.CENTER;
         createPanel.add(proceedButton, c);
+
+        //Mandatory fields
+        addMandatory(fNameEntry);
+        addMandatory(lNameEntry);
+        addMandatory(pwEntry);
+        addMandatory(pwConfirmEntry);
+        addMandatory(emailEntry);
 
         //Progress Panel
         progressBar = new JProgressBar();
@@ -200,18 +211,12 @@ public class CreateAccountScreen extends JPanel {
             });
     }
 
-    public void setPage(String page) {
-        CardLayout createAccount = (CardLayout) (this.getLayout());
-        createAccount.show(this, page);
-    }
-
-    public void getUserDetails(){
-        String fNameValue = fNameEntry.getText();
-        String lNameValue = lNameEntry.getText();
-        String emailValue = emailEntry.getText();
-        String companyValue = companyEntry.getText();
-        String pwValue = String.valueOf(pwEntry.getPassword());
-        String pwConfirmValue = String.valueOf(pwConfirmEntry.getPassword());
+    public void addMandatory(JTextField field){
+        field.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e2) { //watch for key strokes
+                proceedButton.setEnabled((fNameEntry.getText().length() > 0 && String.valueOf(pwEntry.getPassword()).length() > 0) && (String.valueOf(pwConfirmEntry.getPassword()).length() > 0 && lNameEntry.getText().length() > 0) && emailEntry.getText().length() > 0);
+            }
+        });
     }
 
     public void clearUserDetails(){
@@ -223,16 +228,13 @@ public class CreateAccountScreen extends JPanel {
         pwConfirmEntry.setText("");
     }
 
-    public void setTextPosition(JLabel text){
-        text.setHorizontalAlignment(JLabel.LEFT); //set page title left
-        text.setVerticalAlignment(JLabel.TOP); //set page title top
-    }
-
-    public void setPosition(GridBagConstraints c, int x, int y){
-        c.gridx = x;
-        c.gridy = y;
-        c.insets = new Insets(10, 10, 10, 10);
-        c.anchor = GridBagConstraints.LINE_START;
+    public void getUserDetails(){
+        String fNameValue = fNameEntry.getText();
+        String lNameValue = lNameEntry.getText();
+        String emailValue = emailEntry.getText();
+        String companyValue = companyEntry.getText();
+        String pwValue = String.valueOf(pwEntry.getPassword());
+        String pwConfirmValue = String.valueOf(pwConfirmEntry.getPassword());
     }
 
     public void setButtonPosition(GridBagConstraints c, int x, int y){
@@ -242,4 +244,20 @@ public class CreateAccountScreen extends JPanel {
         c.anchor = GridBagConstraints.CENTER;
     }
 
+    public void setPage(String page) {
+        CardLayout createAccount = (CardLayout) (this.getLayout());
+        createAccount.show(this, page);
+    }
+
+    public void setPosition(GridBagConstraints c, int x, int y){
+        c.gridx = x;
+        c.gridy = y;
+        c.insets = new Insets(10, 10, 10, 10);
+        c.anchor = GridBagConstraints.LINE_START;
+    }
+
+    public void setTextPosition(JLabel text){
+        text.setHorizontalAlignment(JLabel.LEFT); //set page title left
+        text.setVerticalAlignment(JLabel.TOP); //set page title top
+    }
 }
