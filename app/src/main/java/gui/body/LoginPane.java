@@ -25,42 +25,49 @@ public class LoginPane extends JPanel {
         this.lc = lc;
 
         JPanel featurePanel = new JPanel();
-        featurePanel.setLayout(new GridBagLayout());
         featurePanel.setSize(new Dimension(600, 300));
-        emailField = new JTextField(20);
-        passwordField = new JPasswordField(20);
-
+        featurePanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.insets = new Insets(2, 2, 2, 2);
-        gbc.anchor = GridBagConstraints.EAST;
-        featurePanel.add(new JLabel("Username: "), gbc);
-        gbc.gridy++;
-        featurePanel.add(new JLabel("Password: "), gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        JLabel username = new JLabel("Username: ");
+        setPosition(gbc, 0, 1, 1,0,0,0,0);
+        featurePanel.add(username, gbc);
+
+        emailField = new JTextField(20);
+        setPosition(gbc, 0, 2, 3,0,0,0,0);
         featurePanel.add(emailField, gbc);
-        gbc.gridy++;
+
+        JLabel password = new JLabel("Password: ");
+        setPosition(gbc, 0, 3, 1, 10,0,0,0);
+        featurePanel.add(password, gbc);
+
+        passwordField = new JPasswordField(20);
+        setPosition(gbc, 0, 4, 3,0,0,0,0);
         featurePanel.add(passwordField, gbc);
 
-        this.add(featurePanel, BorderLayout.NORTH);
-
+        JButton forgotButton = new JButton("Forgot your password?");
+        setButtonPosition(gbc, 0, 5, 3, 10, 0, 50, 0);
+        forgotButton.setContentAreaFilled(false);
+        forgotButton.setBorder(BorderFactory.createEmptyBorder());
+        forgotButton.setOpaque(false);
+        featurePanel.add(forgotButton, gbc);
 
         JPanel buttonPanel = new JPanel();
-        loginButton = new JButton("Login");
-        registerButton = new JButton("Register");
-        buttonPanel.add(loginButton);
-        buttonPanel.add(registerButton);
-        loginButton.setEnabled(false);
-        this.add(buttonPanel,BorderLayout.CENTER);
+        setPosition(gbc, 0, 6, 3,0,0,0,0);
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        featurePanel.add(buttonPanel, gbc);
 
-        JPanel forgotLoginPanel = new JPanel();
-        forgotLoginPanel.add(new JLabel("Forgot your password?"));
-        this.add(forgotLoginPanel, BorderLayout.SOUTH);
+        loginButton = new JButton("Login");
+        buttonPanel.add(loginButton);
+        loginButton.setEnabled(false);
+
+        buttonPanel.add(Box.createHorizontalGlue());
+
+        registerButton = new JButton("Register");
+        buttonPanel.add(registerButton);
+
+        this.add(featurePanel, BorderLayout.CENTER);
+
 
         //TODO fix the layout management on the Login Page -> Probably needs a box
 
@@ -77,6 +84,11 @@ public class LoginPane extends JPanel {
             }
         });
         passwordField.addActionListener(e -> validateUser());
+
+        forgotButton.addActionListener(e -> {
+            forgotButton.setForeground(Color.BLUE);
+            JOptionPane.showMessageDialog(null,"Please contact Job Seeker System administrator.");
+        });
 
         loginButton.addActionListener(e -> validateUser());
 
@@ -102,5 +114,22 @@ public class LoginPane extends JPanel {
         passwordField.setText("");
         emailField.selectAll();
         loginButton.setEnabled(false);
+    }
+
+    public void setPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r){
+        c.gridwidth = w;
+        c.gridx = x;
+        c.gridy = y;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.LINE_START;
+        c.insets = new Insets(t,l,b,r);
+    }
+
+    public void setButtonPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r){
+        c.gridwidth = w;
+        c.gridx = x;
+        c.gridy = y;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(t,l,b,r);
     }
 }

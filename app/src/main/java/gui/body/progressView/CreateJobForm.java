@@ -8,9 +8,6 @@ import java.awt.*;
 
 public class CreateJobForm extends JPanel {
     private JProgressBar progressBar;
-    private JProgressBar progressBar2;
-    private JProgressBar progressBar3;
-    private JProgressBar progressBar4;
     private JComboBox categoryEntry;
     private JComboBox payTypeEntry;
     private JComboBox employmentTypeEntry;
@@ -31,7 +28,7 @@ public class CreateJobForm extends JPanel {
     private JComboBox educationEntry;
     private JTextField qualificationsEntry;
     private JList skillsEntry;
-    private JTextArea description;
+    private JTextArea descriptionEntry;
     private JTextField jobTitleEntry;
     private JTextField locationEntry;
     private JTextField companyEntry;
@@ -76,21 +73,23 @@ public class CreateJobForm extends JPanel {
         //Job Details panel - Card 1
         //Progress Panel
         progressBar = new JProgressBar();
-        progressBar.setStringPainted(true);
+        progressBar.setStringPainted(false);
         progressBar.setValue(25);
-        setPosition(c,0,0,6);
+        progressBar.putClientProperty("JProgressBar.square", true);
+        progressBar.putClientProperty("JProgressBar.largeHeight", false);
+        setPosition(c,0,0,6,0,0,0,0);
         jobDetailsPanel.add(progressBar, c);
 
         //Body Title
         JLabel bodyTitle = new JLabel("Job Details");
         setTextPosition(bodyTitle);
-        setPosition(c,0,1, 1);
+        setPosition(c,0,1, 1,10,10,0,0);
         jobDetailsPanel.add(bodyTitle, c);
 
         //Mandatory message
         JLabel mandatory = new JLabel("*Denotes mandatory field");
         setTextPosition(mandatory);
-        setPosition(c,2,1,3);
+        setPosition(c,2,1,3,10,0,0,0);
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.LINE_END;
         jobDetailsPanel.add(mandatory, c);
@@ -98,94 +97,94 @@ public class CreateJobForm extends JPanel {
         //Job Title
         JLabel jobTitle = new JLabel("Job Title*:");
         setTextPosition(jobTitle);
-        setPosition(c,0,2,2);
+        setPosition(c,0,2,2,10,10,0,10);
         jobDetailsPanel.add(jobTitle, c);
 
         //Company
         JLabel company = new JLabel("Company*:");
         setTextPosition(company);
-        setPosition(c,0,4, 2);
+        setPosition(c,0,4, 2,10,10,0,10);
         jobDetailsPanel.add(company, c);
 
         //Location
         JLabel location = new JLabel("Location*:");
         setTextPosition(location);
-        setPosition(c,0,6, 1);
+        setPosition(c,0,6, 1,10,10,0,10);
         jobDetailsPanel.add(location, c);
 
         //Category
         JLabel category = new JLabel("Category*:");
         setTextPosition(category);
-        setPosition(c,1,6, 1);
+        setPosition(c,1,6, 1,10,10,0,10);
         jobDetailsPanel.add(category, c);
 
         //Pay type
         JLabel payType = new JLabel("Pay Type:");
         setTextPosition(payType);
-        setPosition(c,2,2,3);
+        setPosition(c,2,2,3,10,10,0,10);
         jobDetailsPanel.add(payType, c);
 
         //Pay Range
         JLabel payRange = new JLabel("Pay Range ($AUD:");
         setTextPosition(payRange);
-        setPosition(c,2,4, 3);
+        setPosition(c,2,4, 3,10,10,0,10);
         jobDetailsPanel.add(payRange, c);
 
         //Pay Range
         JLabel to = new JLabel("to");
         setTextPosition(to);
-        setPosition(c,3,5,1);
+        setPosition(c,3,5,1,10,10,0,10);
         jobDetailsPanel.add(to, c);
 
         //Employment Type
         JLabel employmentType = new JLabel("Employment Type*");
         setTextPosition(employmentType);
-        setPosition(c,2,6, 3);
+        setPosition(c,2,6, 3,10,10,0,10);
         jobDetailsPanel.add(employmentType, c);
 
         //Job Title Entry
         jobTitleEntry = new JTextField(10);
-        setPosition(c,0,3, 2);
+        setPosition(c,0,3, 2,0,10,0,10);
         jobDetailsPanel.add(jobTitleEntry, c);
 
         //Company Entry
         companyEntry = new JTextField(10);
-        setPosition(c,0,5, 2);
+        setPosition(c,0,5, 2,0,10,0,10);
         jobDetailsPanel.add(companyEntry, c);
 
         //Location Entry
         locationEntry = new JTextField(10);
-        setPosition(c,0,7,1);
+        setPosition(c,0,7,1,0,10,0,10);
         jobDetailsPanel.add(locationEntry, c);
 
         //Category Entry
         categoryEntry = new JComboBox();
-        setPosition(c,1,7,1);
+        setPosition(c,1,7,1,0,10,0,10);
         jobDetailsPanel.add(categoryEntry, c);
 
         //Pay Type Entry
         payTypeEntry = new JComboBox();
-        setPosition(c,2,3,3);
+        setPosition(c,2,3,3,0,10,0,10);
         jobDetailsPanel.add(payTypeEntry, c);
 
         //Pay Range Entry min
         payRangeMinEntry = new JTextField(5);
-        setPosition(c,2,5,1);
+        setPosition(c,2,5,1,0,10,0,10);
         jobDetailsPanel.add(payRangeMinEntry, c);
 
         //Pay Range Entry max
         payRangeMaxEntry = new JTextField(5);
-        setPosition(c,4,5,1);
+        setPosition(c,4,5,1,0,10,0,10);
         jobDetailsPanel.add(payRangeMaxEntry, c);
 
         //Employment Type
         employmentTypeEntry = new JComboBox();
-        setPosition(c,2,7,3);
+        setPosition(c,2,7,3,0,10,0,10);
         jobDetailsPanel.add(employmentTypeEntry, c);
 
         //Button Panel
         JPanel buttonsPanel = new JPanel();
-        setButtonPosition(c,0,10,6);
+        setButtonPosition(c,0,10,6,50,0,0,0);
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
         jobDetailsPanel.add(buttonsPanel, c);
 
@@ -210,23 +209,16 @@ public class CreateJobForm extends JPanel {
 
         // Skills Panel - Card 2
 
-        //Progress Panel
-        progressBar2 = new JProgressBar();
-        progressBar2.setStringPainted(true);
-        progressBar2.setValue(50);
-        setPosition(c2,0,0, 4);
-        skillsPanel.add(progressBar2, c2);
-
         //Body Title
         JLabel bodyTitle2 = new JLabel("Desired Skills and Qualifications");
         setTextPosition(bodyTitle2);
-        setPosition(c2,0,1,2);
+        setPosition(c2,0,1,2,0,10,0,0);
         skillsPanel.add(bodyTitle2, c2);
 
         //Mandatory message
         JLabel mandatory2 = new JLabel("*Denotes mandatory field");
         setTextPosition(mandatory2);
-        setPosition(c2,2,1,2);
+        setPosition(c2,2,1,2,0,0,0,0);
         c2.fill = GridBagConstraints.NONE;
         c2.anchor = GridBagConstraints.LINE_END;
         skillsPanel.add(mandatory2, c2);
@@ -234,19 +226,19 @@ public class CreateJobForm extends JPanel {
         //Skills Title
         JLabel skills = new JLabel("Skill*:");
         setTextPosition(skills);
-        setPosition(c2,0,2,2);
+        setPosition(c2,0,2,2,10,10,0,10);
         skillsPanel.add(skills, c2);
 
         //Education
         JLabel education = new JLabel("Education*:");
         setTextPosition(education);
-        setPosition(c2,2,2,2 );
+        setPosition(c2,2,2,2 ,10,10,0,10);
         skillsPanel.add(education, c2);
 
         //Qualifications
         JLabel qualifications = new JLabel("Qualifications*:");
         setTextPosition(qualifications);
-        setPosition(c2,2,4,2);
+        setPosition(c2,2,4,2,10,10,0,10);
         skillsPanel.add(qualifications, c2);
 
         //Skills Entry
@@ -281,17 +273,17 @@ public class CreateJobForm extends JPanel {
         //Education Entry
         String[] educationString = { "-Select highest level of education","Not applicable", "Secondary", "Undergraduate", "Post-Graduate", "Masters", "Doctorate" };
         educationEntry = new JComboBox(educationString);
-        setPosition(c2,2,3,2);
+        setPosition(c2,2,3,2,10,10,0,10);
         skillsPanel.add(educationEntry, c2);
 
         //Qualifications Entry
         qualificationsEntry = new JTextField(10);
-        setPosition(c2,2,5,2);
+        setPosition(c2,2,5,2,10,10,0,10);
         skillsPanel.add(qualificationsEntry, c2);
 
         //Button Panel 2
         JPanel buttonsPanel2 = new JPanel();
-        setButtonPosition(c2,0,10,4);
+        setButtonPosition(c2,0,10,4,50,0,0,0);
         buttonsPanel2.setLayout(new BoxLayout(buttonsPanel2, BoxLayout.X_AXIS));
         skillsPanel.add(buttonsPanel2, c2);
 
@@ -316,40 +308,33 @@ public class CreateJobForm extends JPanel {
 
         // Job Description Panel - Card 3
 
-        //Progress Panel
-        progressBar3 = new JProgressBar();
-        progressBar3.setStringPainted(true);
-        progressBar3.setValue(75);
-        setPosition(c3,0,0, 4);
-        descriptionPanel.add(progressBar3, c3);
-
         //Body Title
         JLabel bodyTitle3 = new JLabel("Job Description*");
         setTextPosition(bodyTitle3);
-        setPosition(c3,0,1,1);
+        setPosition(c3,0,1,1,0,10,0,0);
         descriptionPanel.add(bodyTitle3, c3);
 
         //Mandatory message
         JLabel mandatory3 = new JLabel("*Denotes mandatory field");
         setTextPosition(mandatory3);
-        setPosition(c3, 2,1,2);
+        setPosition(c3, 2,1,2,0,0,0,0);
         c3.fill = GridBagConstraints.NONE;
         c3.anchor = GridBagConstraints.LINE_END;
         descriptionPanel.add(mandatory3, c3);
 
         //Description entry
-        description = new JTextArea();
-        description.setLineWrap(true);
-        description.setWrapStyleWord(true);
-        JScrollPane descScroll = new JScrollPane(description);
+        descriptionEntry = new JTextArea();
+        descriptionEntry.setLineWrap(true);
+        descriptionEntry.setWrapStyleWord(true);
+        JScrollPane descScroll = new JScrollPane(descriptionEntry);
         descScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        descScroll.setPreferredSize((new Dimension(500,200)));
-        setPosition(c3,0,2,4);
+        descScroll.setPreferredSize((new Dimension(500,100)));
+        setPosition(c3,0,2,4,10,10,0,10);
         descriptionPanel.add(descScroll, c3);
 
         //Button Panel 3
         JPanel buttonsPanel3 = new JPanel();
-        setButtonPosition(c3,0,10,6);
+        setButtonPosition(c3,0,10,6,50,0,0,0);
         buttonsPanel3.setLayout(new BoxLayout(buttonsPanel3, BoxLayout.X_AXIS));
         descriptionPanel.add(buttonsPanel3, c3);
 
@@ -374,17 +359,10 @@ public class CreateJobForm extends JPanel {
 
         // Publish Panel - Card 4
 
-        //Progress Panel
-        progressBar4 = new JProgressBar();
-        progressBar4.setStringPainted(true);
-        progressBar4.setValue(100);
-        setPosition(c4,0,0, 4);
-        publishPanel.add(progressBar4, c4);
-
         //Body Title
         JLabel bodyTitle4 = new JLabel("What would you like to do next?");
         setTextPosition(bodyTitle4);
-        setPosition(c4,0,1,4);
+        setPosition(c4,0,1,5,0,0,0,0);
         c4.anchor = GridBagConstraints.CENTER;
         c4.fill = GridBagConstraints.NONE;
         publishPanel.add(bodyTitle4, c4);
@@ -392,35 +370,35 @@ public class CreateJobForm extends JPanel {
         //Save Button
         saveButton4 = new JButton("Save");
         saveButton4.setFocusable(false);
-        setButtonPosition(c4,1,3,1);
-        c4.insets = new Insets(10, 10, 10,10);
+        setButtonPosition(c4,1,3,1,20,10,10,10);
         publishPanel.add(saveButton4, c4);
 
         //Preview Button
         previewButton4 = new JButton("Preview");
         previewButton4.setFocusable(false);
-        setButtonPosition(c4,2,3,1);
-        c4.insets = new Insets(10, 10, 10,10);
+        setButtonPosition(c4,2,3,1,20,10,10,10);
+        c4.anchor = GridBagConstraints.LINE_START;
+        c4.fill = GridBagConstraints.NONE;
         publishPanel.add(previewButton4, c4);
 
         //Proceed Button
         proceedButton4 = new JButton("Publish");
         proceedButton4.setFocusable(false);
-        setButtonPosition(c4,1,4,2);
-        c4.insets = new Insets(10, 10, 10,10);
+        setButtonPosition(c4,1,4,2,10,10,10,10);
         c.fill = GridBagConstraints.NONE;
         publishPanel.add(proceedButton4, c4);
 
         //Button Panel 4
         JPanel buttonsPanel4 = new JPanel();
-        setButtonPosition(c4,0,6,4);
+        setButtonPosition(c4,0,5,5,50,0,0,0);
+        c4.fill = GridBagConstraints.NONE;
+        c4.anchor = GridBagConstraints.LINE_START;
         buttonsPanel4.setLayout(new BoxLayout(buttonsPanel4, BoxLayout.X_AXIS));
         publishPanel.add(buttonsPanel4, c4);
 
         //Back Button
         backButton4 = new JButton("Back");
         backButton4.setFocusable(false);
-        backButton4.setAlignmentX(Component.LEFT_ALIGNMENT);
         buttonsPanel4.add(backButton4);
 
         //Creating the action listeners to change the tabs and refresh the main panel
@@ -430,33 +408,53 @@ public class CreateJobForm extends JPanel {
 //        });
 
         backButton.addActionListener(e-> {
-            bvc.getMainFrame().setBody("LOGIN");
-            bvc.getMainFrame().setHeader("BUTTONS");
+            if (JOptionPane.showConfirmDialog(null, "Are you sure you want to leave without saving?", "Warning",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                bvc.getMainFrame().setBody("RECRUITER");
+                bvc.getMainFrame().setHeader("BUTTONS");
+                clearJobDetails();
+            }
         });
 
         proceedButton.addActionListener(e -> {
             setPage("SKILLS");
+            progressBar.setValue(50);
+            setPosition(c2,0,0,4,0,0,0,0);
+            skillsPanel.add(progressBar, c2);
         });
 
         backButton2.addActionListener(e-> {
             setPage("CREATEJOB");
+            progressBar.setValue(25);
+            setPosition(c,0,0,6,0,0,0,0);
+            jobDetailsPanel.add(progressBar, c);
         });
 
         proceedButton2.addActionListener(e -> {
             setPage("DESCRIPTION");
+            progressBar.setValue(75);
+            setPosition(c3,0,0,6,0,0,0,0);
+            descriptionPanel.add(progressBar, c3);
         });
 
         backButton3.addActionListener(e-> {
             setPage("SKILLS");
+            progressBar.setValue(50);
+            setPosition(c2,0,0,4,0,0,0,0);
+            skillsPanel.add(progressBar, c2);
         });
 
         proceedButton3.addActionListener(e -> {
             setPage("PUBLISH");
-
+            progressBar.setValue(100);
+            setPosition(c4,0,0,4,0,0,0,0);
+            publishPanel.add(progressBar, c4);
         });
 
         backButton4.addActionListener(e-> {
             setPage("DESCRIPTION");
+            setPosition(c3,0,0,6,0,0,0,0);
+            descriptionPanel.add(progressBar, c3);
         });
 
 /*      proceedButton3.addActionListener(e -> {
@@ -495,21 +493,36 @@ public class CreateJobForm extends JPanel {
         text.setVerticalAlignment(JLabel.TOP); //set page title top
     }
 
-    public void setPosition(GridBagConstraints c, int x, int y, int w){
+    public void setPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r){
         c.gridwidth = w;
         c.gridx = x;
         c.gridy = y;
-        c.insets = new Insets(10, 10, 10, 10);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.LINE_START;
+        c.insets = new Insets(t,l,b,r);
     }
 
-    public void setButtonPosition(GridBagConstraints c, int x, int y, int w){
+    public void setButtonPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r){
         c.gridwidth = w;
         c.gridx = x;
         c.gridy = y;
-        c.insets = new Insets(50, 10, 10,10);
         c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(t,l,b,r);
+    }
+
+    public void clearJobDetails(){
+            jobTitleEntry.setText("");
+            companyEntry.setText("");
+            locationEntry.setText("");
+            categoryEntry.setSelectedIndex(0);
+            payTypeEntry.setSelectedIndex(0);
+            payRangeMinEntry.setText("");
+            payRangeMaxEntry.setText("");
+            employmentTypeEntry.setSelectedIndex(0);
+            //skillsEntry.setText("");
+            educationEntry.setSelectedIndex(0);
+            qualificationsEntry.setText("");
+            descriptionEntry.setText("");
     }
 
 }
