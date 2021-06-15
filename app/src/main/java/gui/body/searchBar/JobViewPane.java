@@ -12,15 +12,15 @@ public class JobViewPane extends JPanel {
     Dimension searchBarSize = new Dimension(800,40);
     BodyViewController bvc;
 
-    public JobViewPane(BodyViewController bvc, int createdDate) {
+    public JobViewPane(BodyViewController bvc) {
         super();
         this.bvc = bvc;
         this.setPreferredSize(searchBarSize);
         this.setLayout(new GridLayoutManager(1, 2, new Insets(5, 15, 5, 15), -1, -1));
-
+        String createdDate = "";
         JPanel leftPanel = new JPanel();
         JLabel textLabel = new JLabel();
-        textLabel.setText("Job created on: " + dateToString(createdDate));
+        textLabel.setText("Job created on: " + createdDate);
         leftPanel.setLayout(new GridLayoutManager(1, 1, new Insets(5, 15, 5, 15), -1, -1));
         leftPanel.add(textLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 

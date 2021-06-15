@@ -3,13 +3,13 @@ package gui.body;
 import application.*;
 import controller.BodyViewController;
 import data.DataStore;
+import gui.body.searchBar.AppSearchPane;
 import gui.body.searchBar.JobSearchPane;
-import gui.body.searchBar.SearchPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class JobSeekerView extends JPanel implements ScrollPaneController {
@@ -25,32 +25,22 @@ public class JobSeekerView extends JPanel implements ScrollPaneController {
         paneCardMapping = new HashMap<>();
 
         JTabbedPane tabbedPane = new JTabbedPane();
-        Dimension tabSize = new Dimension(800, 500);
         tabbedPane.putClientProperty("JTabbedPane.tabAreaAlignment","center");
 
-        SearchPane searchBar = new SearchPane(bvc);
-
-        JComponent panel1 = new ScrollPane<JobInteraction>(this, new JobSearchPane(this.bvc));
-        panel1.setPreferredSize(tabSize);
-        tabbedPane.addTab("Search", null, panel1,
-                "Find Jobs");
+        JComponent searchTab = new ScrollPane<JobInteraction>(this, new JobSearchPane(this.bvc));
+        tabbedPane.addTab("Search", null, searchTab, "Find Jobs");
         paneCardMapping.put("Search", JobListing.class);
 
-        JComponent panel2 = new PersonalProfilePane("Profile", bvc);
-        panel2.setPreferredSize(tabSize);
-        tabbedPane.addTab("Profile", null, panel2, "Profile");
+        JComponent profileTab = new PersonalProfilePane(bvc);
+        tabbedPane.addTab("Profile", null, profileTab, "Profile");
         paneCardMapping.put("Profile", null);
 
-        JComponent panel3 = new ScrollPane<JobInteraction>(this, searchBar);
-        panel3.setPreferredSize(tabSize);
-        tabbedPane.addTab("Applications", null, panel3,
-                "Review Applications");
+        JComponent applicationsTab = new ScrollPane<JobInteraction>(this, new AppSearchPane(this.bvc));
+        tabbedPane.addTab("Applications", null, applicationsTab, "Review Applications");
         paneCardMapping.put("Applications", JobApplication.class);
 
-        JComponent panel4 = new ScrollPane<JobInteraction>(this, searchBar);
-        panel4.setPreferredSize(tabSize);
-        tabbedPane.addTab("Invitations", null, panel4,
-                "Manage Invitations");
+        JComponent invitationsTab = new ScrollPane<JobInteraction>(this, new AppSearchPane(this.bvc));
+        tabbedPane.addTab("Invitations", null, invitationsTab, "Manage Invitations");
         paneCardMapping.put("Invitations", JobInvitation.class);
 
         tabbedPane.addChangeListener(e -> {

@@ -12,7 +12,7 @@ public class DetailsEditPane extends JPanel {
     Dimension searchBarSize = new Dimension(800,40);
     BodyViewController bvc;
 
-    public DetailsEditPane(BodyViewController bvc, String seekerFirstName, String seekerLastName) {
+    public DetailsEditPane(BodyViewController bvc) {//}, String seekerFirstName, String seekerLastName) {
         super();
         this.bvc = bvc;
         this.setPreferredSize(searchBarSize);
@@ -20,7 +20,7 @@ public class DetailsEditPane extends JPanel {
 
         JPanel leftPanel = new JPanel();
         JLabel textLabel = new JLabel();
-        textLabel.setText(seekerFirstName + " " + seekerLastName);
+        textLabel.setText("Seeker Name");//seekerFirstName + " " + seekerLastName);
         leftPanel.setLayout(new GridLayoutManager(1, 1, new Insets(5, 15, 5, 15), -1, -1));
         leftPanel.add(textLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 

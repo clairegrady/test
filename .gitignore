@@ -6,6 +6,7 @@
 
 # Build directory
 out/
+*.dat
 
 # Personal todo lists
 TODO

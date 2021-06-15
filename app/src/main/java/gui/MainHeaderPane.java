@@ -13,9 +13,8 @@ public class MainHeaderPane extends JPanel {
     public MainHeaderPane(HeaderViewController newHVC) {
         super();
         this.hvc = newHVC;
-
+        this.setMinimumSize(new Dimension(800,100));
         this.setLayout(new CardLayout());
-
         this.add(new HeaderPane(hvc,false, "Job Seeker System"), "LOGIN");
         this.setHeader("LOGIN");
     }

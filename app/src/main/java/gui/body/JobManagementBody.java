@@ -2,16 +2,14 @@ package gui.body;
 
 import application.CardDisplayable;
 import application.JobInteraction;
-import application.User;
 import controller.BodyViewController;
-import data.DataStore;
 import gui.body.searchBar.SearchPane;
+import gui.body.searchBar.SeekerFilterPane;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class JobManagementBody extends JPanel implements ScrollPaneController {
 
@@ -24,30 +22,21 @@ public class JobManagementBody extends JPanel implements ScrollPaneController {
         this.setLayout(new BorderLayout());
 
         JTabbedPane tabbedPane = new JTabbedPane();
-        Dimension tabSize = new Dimension(800, 500);
         tabbedPane.putClientProperty("JTabbedPane.tabAreaAlignment","center");
 
-        JComponent panel1 = new JobDetailsPane("JobDetails", bvc);
-        panel1.setPreferredSize(tabSize);
-        tabbedPane.addTab("Job Details", null, panel1, "Details");
+        JComponent jobDetailsTab = new JobDetailsPane(this.bvc);
+        tabbedPane.addTab("Job Details", null, jobDetailsTab, "Details");
 
-        SearchPane searchBar = new SearchPane(bvc);
+        SearchPane searchBar = new SearchPane(this.bvc);
 
-        JComponent panel2 = new ScrollPane(this, searchBar);
-        panel2.setPreferredSize(tabSize);
-        tabbedPane.addTab("Seeker Search", null, panel2,
-                "Find Job Seekers");
+        JComponent searchTab = new ScrollPane(this, new SeekerFilterPane(this.bvc));
+        tabbedPane.addTab("Seeker Search", null, searchTab, "Find Job Seekers");
 
-        JComponent panel3 = new ScrollPane(this, searchBar);
-        panel3.setPreferredSize(tabSize);
-        tabbedPane.addTab("Applicants", null, panel3,
-                "Review Applicants");
+        JComponent applicantsTab = new ScrollPane(this, new SeekerFilterPane(this.bvc));
+        tabbedPane.addTab("Applicants", null, applicantsTab, "Review Applicants");
 
-        JComponent panel4 = new ScrollPane(this, searchBar);
-        panel4.setPreferredSize(tabSize);
-        tabbedPane.addTab("Invitations", null, panel4,
-                "Manage Invitations");
-
+        JComponent invitationsTab = new ScrollPane(this, new SeekerFilterPane(this.bvc));
+        tabbedPane.addTab("Invitations", null, invitationsTab, "Manage Invitations");
 
         this.add(tabbedPane, BorderLayout.CENTER);
     }

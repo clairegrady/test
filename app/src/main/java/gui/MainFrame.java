@@ -23,6 +23,7 @@ public class MainFrame extends JFrame {
         //Create and set up the window.
         super("JobSeekerSystem");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setMinimumSize(new Dimension(1200,900));
         this.bvc = new BodyViewController(MainFrame.this);
         this.hvc = new HeaderViewController(MainFrame.this);
         this.lc = new LoginController(MainFrame.this);
