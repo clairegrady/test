@@ -1,14 +1,11 @@
 package search;
 
 import application.JobSeeker;
-import application.User;
 import data.DataStore;
 import data.EmploymentType;
 import application.Job;
-import application.Keyword;
 import data.KeywordType;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

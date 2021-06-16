@@ -1,5 +1,8 @@
 package gui.body.searchBar;
 
+import application.JobType;
+import data.Location;
+import data.Salary;
 import controller.BodyViewController;
 
 import javax.swing.*;
@@ -28,9 +31,9 @@ public class JobSearchPane extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder(7,0,5,0));
         this.searchField = new JTextField(20);
         this.searchField.putClientProperty("JTextField.placeholderText", "Search");
-        this.jobKeywords = new String[]{"Job Type", "IT", "Engineering", "Finance", "Business"};
-        this.payKeywords = new String[]{"Salary", "50 - 80K", "80 - 100K", "100K+"};
-        this.locationKeywords = new String[]{"Location", "Melbourne", "Canberra", "Sydney"};
+        this.jobKeywords = JobType.getArray();
+        this.payKeywords = Salary.getArray();
+        this.locationKeywords = Location.getArray();
         this.filterDropdown = new JComboBox(jobKeywords);
         this.payDropdown = new JComboBox(payKeywords);
         this.locationDropdown = new JComboBox(locationKeywords);
