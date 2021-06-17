@@ -1,4 +1,4 @@
-package application;
+package gui.card;
 
 public class CardData {
 

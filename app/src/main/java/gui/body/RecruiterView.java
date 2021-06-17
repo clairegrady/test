@@ -2,18 +2,12 @@ package gui.body;
 
 import application.*;
 import controller.BodyViewController;
-import data.DataStore;
-import gui.body.searchBar.RecruiterFilterPane;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-public class RecruiterView extends JPanel implements ScrollPaneController {
+public class RecruiterView extends JPanel implements TabController {
 
     private BodyViewController bvc;
 
@@ -27,55 +21,30 @@ public class RecruiterView extends JPanel implements ScrollPaneController {
         Dimension tabSize = new Dimension(800, 500);
         tabbedPane.putClientProperty("JTabbedPane.tabAreaAlignment","center");
 
-        bvc = this.bvc;
+        Tab activeTab = new RecruiterListingTab(bvc, JobStatus.ACTIVE);
+        tabbedPane.addTab("Active", null, activeTab, "View Active Jobs");
 
-        for (JobStatus jobStatus : JobStatus.values()) {
-            if (jobStatus != JobStatus.NULL) {
-                RecruiterFilterPane filterPane = new RecruiterFilterPane(bvc, 1, jobStatus.toString());
-                ScrollPane<JobInteraction> scrollPane = new ScrollPane<>(this, filterPane);
-                tabbedPane.addTab(jobStatus.toString(), null, scrollPane);
-                scrollPane.display(jobStatus.toString());
-            }
-        }
+        Tab draftTab = new RecruiterListingTab(bvc, JobStatus.DRAFT);
+        tabbedPane.addTab("Draft", null, draftTab, "View Active Jobs");
+
+        Tab closedTab = new RecruiterListingTab(bvc, JobStatus.CLOSED);
+        tabbedPane.addTab("Closed", null, closedTab, "View Active Jobs");
 
         tabbedPane.addChangeListener(e -> {
             int selectedIndex = tabbedPane.getSelectedIndex();
-            ScrollPane j =
-                    (ScrollPane) tabbedPane.getComponentAt(selectedIndex);
-            j.display(tabbedPane.getTitleAt(selectedIndex));
+
+            Tab tab = (Tab) tabbedPane.getComponentAt(selectedIndex);
+
+            tab.display();
+
         });
 
         this.add(tabbedPane, BorderLayout.CENTER);
 
     }
 
-    public List<? extends CardDisplayable> getScrollPaneData(String pane){
-
-        String userId = bvc.getLoggedInUser();
-        // TODO: make the datastore.getinstance invisible to this class
-        Optional<User> loggedInUser = DataStore.getDatastore().getUserById(userId);
-
-        List<? extends CardDisplayable> jiList = new ArrayList<JobInteraction>();
-
-        if (loggedInUser.isPresent()) {
-            jiList = loggedInUser.get().getJobInteractions()
-                    .stream()
-                    .filter(ji -> ji.getStatus().toString().equals(pane))
-                    .collect(Collectors.toList());
-        }
-
-        return jiList;
-    }
-
-    public Button getCardButton(){
-        Button button = new Button("View", bvc);
-        button.setProperty("blah");
-        button.setText("View");
-        button.addActionListener(ae -> {
-            button.getBvc().setBody("JOBMANAGER");
-        });
-
-        return button;
+    public String  getTabSubjectId() {
+        return bvc.getLoggedInUser();
     }
 
 }

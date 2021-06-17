@@ -1,6 +1,6 @@
 package gui.body.searchBar;
 
-import controller.BodyViewController;
+import application.JobStatus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,20 +8,22 @@ import java.awt.*;
 public class AppSearchPane extends JPanel {
 
     private Dimension searchBarSize = new Dimension(800,45);
-    private BodyViewController bvc;
+    private AppSearchPaneController appSearchPaneController;
     private JTextField searchField;
     private String[] statusKeywords;
     private JComboBox statusDropdown;
     private JButton filterButton;
 
-    public AppSearchPane(BodyViewController bvc) {
+    private static final String DROPDOWN_DEFAULT = "Job Status";
+
+    public AppSearchPane(AppSearchPaneController appSearchPaneController) {
         super();
-        this.bvc = bvc;
+        this.appSearchPaneController = appSearchPaneController;
         this.setPreferredSize(searchBarSize);
         this.setBorder(BorderFactory.createEmptyBorder(7,0,5,0));
         this.searchField = new JTextField(40);
         this.searchField.putClientProperty("JTextField.placeholderText", "Search");
-        this.statusKeywords =new String[]{"Job Status", "Active", "Draft", "Closed"};
+        this.statusKeywords =new String[]{DROPDOWN_DEFAULT, "Active", "Closed"};
         this.statusDropdown = new JComboBox(statusKeywords);
         this.filterButton = new JButton("Filter");
         this.add(searchField);
@@ -29,9 +31,17 @@ public class AppSearchPane extends JPanel {
         this.add(filterButton);
 
         this.filterButton.addActionListener(e -> {
-            JFrame frame = new JFrame();
-            JOptionPane.showMessageDialog(frame, "Test of button: " + searchField.getText());
+            filterEvents(searchField.getText());
         });
+    }
+
+    public void filterEvents(String searchText) {
+        String j = this.statusDropdown.getSelectedItem().toString();
+        JobStatus js = j.equals(DROPDOWN_DEFAULT) ?
+            JobStatus.NULL : JobStatus.valueOf(j.toUpperCase());
+
+        this.appSearchPaneController.filterEvents(searchText, js);
+
     }
 }
 

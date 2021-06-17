@@ -6,10 +6,6 @@ import gui.body.searchBar.JobViewPane;
 import javax.swing.*;
 import java.awt.*;
 
-// import javax.swing.JButton;
-// import javax.swing.UIManager;
-
-
 public class JobDetailsPane extends JPanel {
 
     JobDetailsPane(BodyViewController bvc){

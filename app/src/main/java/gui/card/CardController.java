@@ -1,6 +1,5 @@
 package gui.card;
 
-import application.CardData;
 import gui.body.Button;
 
 public interface CardController {

@@ -27,7 +27,7 @@ public class MainBodyPane extends JPanel {
     }
 
     public void createPanes() {
-        this.add(new JobManagementBody(bvc), "JOBMANAGER");
+//        this.add(new JobManagementBody(bvc), "JOBMANAGER");
         this.add(new RecruiterView(bvc), "RECRUITER");
         this.add(new JobSeekerView(bvc), "JOBSEEKER");
 
@@ -38,4 +38,13 @@ public class MainBodyPane extends JPanel {
         CardLayout bp = (CardLayout) (this.getLayout());
         bp.show(this, body);
     }
+
+    public void setBody(String body, String id) {
+        if (body.equalsIgnoreCase("JOBMANAGER")) {
+            this.add(new JobManagementView(bvc, id), "JOBMANAGER");
+        }
+        CardLayout bp = (CardLayout) (this.getLayout());
+        bp.show(this, body);
+    }
+
 }

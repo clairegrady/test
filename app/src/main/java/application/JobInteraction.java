@@ -1,5 +1,7 @@
 package application;
 
+import gui.card.CardData;
+import gui.card.CardDisplayable;
 import utility.UniqueId;
 
 import java.io.Serializable;
@@ -18,6 +20,10 @@ public class JobInteraction implements Serializable, CardDisplayable {
     public JobInteraction(JobStatus status, Job job) {
         this.status = status;
         this.job = job;
+    }
+
+    public String getCardDisplayUniqueId() {
+        return job.getUniqueId();
     }
 
     public JobStatus getStatus() {

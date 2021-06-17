@@ -1,5 +1,6 @@
 package data;
 
+import application.JobInteraction;
 import application.JobSeeker;
 import application.User;
 import application.Job;

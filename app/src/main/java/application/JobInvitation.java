@@ -1,13 +1,19 @@
 package application;
 
-public class JobInvitation {
+public class JobInvitation extends JobInteraction {
 
     private String message;
     private int dateInvited;
 
     public JobInvitation() {
-        message = "";
-        dateInvited = 0;
+        message = "Default";
+        dateInvited = -1;
+    }
+
+    public JobInvitation(JobStatus jobStatus, Job job, String message) {
+        super(jobStatus, job);
+        this.message = message;
+        this.dateInvited = -1;
     }
 
     public int getDateInvited() {

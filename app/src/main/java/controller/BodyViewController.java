@@ -51,7 +51,8 @@ public class BodyViewController {
         mainFrame.setBody(body);
     }
 
-
-
+    public void setBody(String body, String id) {
+        mainFrame.setBody(body, id);
+    }
 
 }

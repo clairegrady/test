@@ -1,12 +1,14 @@
 package application;
 
 import data.KeywordType;
+import gui.card.CardData;
+import gui.card.CardDisplayable;
 import search.Searchable;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class JobSeeker extends User implements Searchable {
+public class JobSeeker extends User implements Searchable, CardDisplayable {
 
     private String personalSummary;
     private String qualifications;
@@ -76,6 +78,16 @@ public class JobSeeker extends User implements Searchable {
 
     public void setSeekerKeywords(Map<KeywordType, List<String>> seekerKeywords) {
         this.seekerKeywords = seekerKeywords;
+    }
+
+    @Override
+    public CardData getCardData() {
+        return new CardData(getFirstName(), getLastName());
+    }
+
+    @Override
+    public String getCardDisplayUniqueId() {
+        return getEmail();
     }
 
     @Override

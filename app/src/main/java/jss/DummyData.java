@@ -104,12 +104,16 @@ public class DummyData {
         Optional<User> recruiter = DataStore.getDatastore().getUserById("r");
         recruiter.ifPresent(user -> user.setJobInteractions(jobListings));
 
-        List<JobInteraction> jobApplications = new ArrayList<>();
-        jobApplications.add(new JobApplication(JobStatus.ACTIVE, job1, -1));
-        jobApplications.add(new JobApplication(JobStatus.ACTIVE, job2, -1));
+        List<JobInteraction> jobInteractions = new ArrayList<>();
+        jobInteractions.add(new JobApplication(JobStatus.ACTIVE, job1, -1));
+        jobInteractions.add(new JobApplication(JobStatus.ACTIVE, job2, -1));
+        jobInteractions.add(new JobApplication(JobStatus.ACTIVE, job3, -1));
+
+        jobInteractions.add(new JobInvitation(JobStatus.ACTIVE, job1, "Please come and interview for this awesome job"));
+
 
         Optional<User> js = DataStore.getDatastore().getUserById("j");
-        js.ifPresent(user -> user.setJobInteractions(jobApplications));
+        js.ifPresent(user -> user.setJobInteractions(jobInteractions));
 
     }
 

@@ -66,11 +66,6 @@ public class Match extends Thread {
         return normaliseMatches(getMaxScore(jobKw), calculateMatchScores(jobKw));
     }
 
-//    public Map<String, Integer> matchSingleUser(Map<KeywordType, List<String>> jobKw,
-//                                                Map<KeywordType, List<String>> userKw) {
-//        return normaliseMatches(getMaxScore(jobKw), calculateMatchScores(jobKw));
-//    }
-
     public Map<String, Integer> normaliseMatches(int maxScore, Map<String, Integer> matches) {
         for (Map.Entry<String, Integer> entry : matches.entrySet()) {
             entry.setValue(

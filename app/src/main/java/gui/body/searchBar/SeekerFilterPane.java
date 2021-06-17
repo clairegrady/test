@@ -1,7 +1,5 @@
 package gui.body.searchBar;
 
-import controller.BodyViewController;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,16 +7,16 @@ public class SeekerFilterPane extends JPanel {
 
 
         private Dimension searchBarSize = new Dimension(800,45);
-        private BodyViewController bvc;
+        private SeekerFilterPaneController seekerFilterPaneController;
         private final JTextField searchField;
         private String[] matchScoreBuckets;
         private JComboBox matchScoreDropdown;
         private JButton searchButton;
         private JButton homeButton;
 
-        public SeekerFilterPane(BodyViewController bvc) {
+        public SeekerFilterPane(SeekerFilterPaneController seekerFilterPaneController) {
                 super();
-                this.bvc = bvc;
+                this.seekerFilterPaneController = seekerFilterPaneController;
                 this.setPreferredSize(searchBarSize);
                 this.setBorder(BorderFactory.createEmptyBorder(7,0,5,0));
                 this.searchField = new JTextField(40);
@@ -31,7 +29,7 @@ public class SeekerFilterPane extends JPanel {
                 this.add(matchScoreDropdown);
                 this.add(searchButton);
                 this.add(homeButton);
-                this.homeButton.addActionListener(e -> {bvc.setBody("RECRUITER");});
+//                this.homeButton.addActionListener(e -> {bvc.setBody("RECRUITER");});
                 this.searchButton.addActionListener(e -> {
                         JFrame frame = new JFrame();
                         JOptionPane.showMessageDialog(frame, "Test of button: " + searchField.getText());

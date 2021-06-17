@@ -3,17 +3,28 @@ package application;
 import data.EmploymentType;
 import data.KeywordType;
 import data.Storable;
+import gui.card.CardData;
+import gui.card.CardDisplayable;
 import search.Searchable;
 import utility.UniqueId;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Job implements Storable, Searchable {
+public class Job implements Storable, Searchable, CardDisplayable {
+
+    @Override
+    public CardData getCardData() {
+        return new CardData(this.getTitle(), this.getCompany());
+    }
+
+    @Override
+    public String getCardDisplayUniqueId() {
+        return uniqueId;
+    }
 
     private final String uniqueId = UniqueId.generate();
     private String title;

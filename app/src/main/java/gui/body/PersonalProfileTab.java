@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PersonalProfilePane extends JPanel {
+public class PersonalProfileTab extends Tab {
 
     BodyViewController bvc;
     private String email;
@@ -20,15 +20,19 @@ public class PersonalProfilePane extends JPanel {
     private String experience;
     private HashMap seekerKeywords;
 
-    PersonalProfilePane(BodyViewController bvc) {
-        super(new BorderLayout());
+    public PersonalProfileTab(BodyViewController bvc) {
+//        super(new BorderLayout());
         this.bvc = bvc;
         this.add(new DetailsEditPane(bvc), BorderLayout.NORTH);
+        this.seekerKeywords = new HashMap<>();
+    }
+
+    public void display() {
         fetchUserDetails();
-        this.seekerKeywords = new HashMap();
         JLabel filler = new JLabel("personal details" + email + password + firstName + lastName + personalSummary + qualifications + experience);
         filler.setHorizontalAlignment(JLabel.CENTER);
         this.add(filler, BorderLayout.CENTER);
+
     }
 
     private void fetchUserDetails() {
