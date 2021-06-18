@@ -1,7 +1,10 @@
 package controller;
 
+import data.DataStore;
 import gui.MainFrame;
+import gui.modal.SeekerProfileFrame;
 
+import javax.swing.*;
 import java.io.Serializable;
 
 public class NavigationController implements Serializable {
@@ -34,6 +37,13 @@ public class NavigationController implements Serializable {
     public void logout() {
         mainFrame.setBody("LOGIN");
         mainFrame.setHeader("LOGIN");
+    }
+
+    public void displayProfileModal(String id) {
+        System.out.println(DataStore.getDatastore().getUserById(id));
+        SeekerProfileFrame spf = new SeekerProfileFrame(this);
+        spf.displayProfile(new JPanel());
+        setBody("SEEKPROFILE");
     }
 
 }

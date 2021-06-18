@@ -123,26 +123,7 @@ public class PersonalProfileTab extends Tab {
     }
 
     public void display() {
-        fetchUserDetails();
-        JLabel filler = new JLabel("personal details" + email + password + firstName + lastName + personalSummary + qualifications + experience);
-        filler.setHorizontalAlignment(JLabel.CENTER);
-        this.add(filler, BorderLayout.CENTER);
 
-    }
-
-    private void fetchUserDetails() {
-        try {
-            ArrayList<String> details = userController.getLoggedInUserDetails();
-            this.email = details.get(0);
-            this.password = details.get(1);
-            this.firstName = details.get(2);
-            this.lastName = details.get(3);
-            this.personalSummary = details.get(4);
-            this.qualifications = details.get(5);
-            this.experience = details.get(6);
-        } catch (Exception e) {
-            System.out.println("Arraylist Error");
-        }
     }
 
     public void displayProfile() {

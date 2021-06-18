@@ -1,6 +1,7 @@
 package gui.body;
 
 import application.Job;
+import controller.JobController;
 import controller.NavigationController;
 import data.DataStore;
 
@@ -9,29 +10,19 @@ import java.awt.*;
 
 public class JobManagementView extends JPanel implements TabController {
 
-    NavigationController navigationController;
-    private String jobId;
+    private NavigationController navigationController;
+    private JobController jobController;
     private Job job;
 
-    public JobManagementView(NavigationController navigationController) {
-
+    public JobManagementView(NavigationController navigationController, JobController jobController) {
         super();
         this.navigationController = navigationController;
+        this.jobController = jobController;
         this.setLayout(new BorderLayout());
-        this.jobId = "Default";
-        addTabs();
 
-    }
-
-    public JobManagementView(NavigationController navigationController, String jobId) {
-        super();
-        this.navigationController = navigationController;
-        this.setLayout(new BorderLayout());
-        this.jobId = jobId;
-        this.job = DataStore.getDatastore().getJobById(jobId).get();
+        this.job = this.jobController.getCurrentJob();
 
         addTabs();
-        System.out.println(this.getClass() + " - jobId: " + jobId);
     }
 
     public void addTabs() {
@@ -69,12 +60,9 @@ public class JobManagementView extends JPanel implements TabController {
         System.out.println(job);
     }
 
-    public void setJobId(String jobId) {
-        this.jobId = jobId;
-    }
 
     public String getTabSubjectId() {
-        return this.jobId;
+        return this.job.getUniqueId();
     }
 
 }

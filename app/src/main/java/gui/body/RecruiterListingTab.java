@@ -5,6 +5,7 @@ import application.JobInteraction;
 import application.JobListing;
 import application.JobStatus;
 import application.User;
+import controller.JobController;
 import controller.NavigationController;
 import controller.UserController;
 import data.DataStore;
@@ -25,6 +26,7 @@ public class RecruiterListingTab extends Tab implements CardPanelController, Rec
     private TabController tc;
     private NavigationController navigationController;
     private UserController userController;
+    private JobController jobController;
     private CardPanel cpo;
     private JobStatus jobStatus;
     private RecruiterListingFilterPane rfp;
@@ -36,10 +38,11 @@ public class RecruiterListingTab extends Tab implements CardPanelController, Rec
         super();
     }
 
-    public RecruiterListingTab(NavigationController navigationController, UserController userController, JobStatus jobStatus) {
+    public RecruiterListingTab(NavigationController navigationController, UserController userController, JobController jobController, JobStatus jobStatus) {
         super();
         this.navigationController = navigationController;
         this.userController = userController;
+        this.jobController= jobController;
         this.jobStatus = jobStatus;
 
         this.rfp = new RecruiterListingFilterPane(this, 1, jobStatus);
@@ -74,14 +77,11 @@ public class RecruiterListingTab extends Tab implements CardPanelController, Rec
     }
 
     public Button getCardButton(String id) {
-//        Button button = new Button("View", navigationController);
-//        button.setProperty("blah");
-//        button.setText("View");
-//        button.addActionListener(ae -> {
-//            button.getNavigationController().setBody("JOBMANAGER", id);
-//        });
-//        return button;
-        return new Button();
+        Button button = new Button("View", jobController);
+        button.addActionListener(ae -> {
+            button.jobController.setBody("JOBMANAGER", id);
+        });
+        return button;
     }
 
     @Override

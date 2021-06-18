@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
         this.setMinimumSize(new Dimension(1080, 920));
         this.navigationController = new NavigationController(this);
         this.userController = new UserController(navigationController);
-        this.jobController = new JobController();
+        this.jobController = new JobController(navigationController);
 //        this.lc = new UserController( this);
         this.body = new MainBodyPane(navigationController, userController, jobController);
         this.header = new MainHeaderPane(navigationController, userController);
@@ -57,10 +57,6 @@ public class MainFrame extends JFrame {
 
     public void setBody(String body) {
         this.body.setBody(body);
-    }
-
-    public void setBody(String body, String id) {
-        this.body.setBody(body, id);
     }
 
     public void setHeader(String header) {

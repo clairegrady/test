@@ -9,10 +9,11 @@ import java.util.Map;
 
 public class JobController {
 
+    private NavigationController navigationController;
     private Job currentJob;
 
-    public JobController() {
-
+    public JobController(NavigationController navigationController) {
+        this.navigationController = navigationController;
     }
 
     public void createNewJob(String jobTitle, Map<KeywordType, List> keywordMap, String employmentType, String description, int salaryCeiling, int salaryFloor, String companyName, String status) {
@@ -22,9 +23,11 @@ public class JobController {
     // TODO: lives in job controller most likely
     public void setBody(String body, String id) {
 
+        System.out.println(id);
+
         DataStore.getDatastore().getJobById(id).ifPresent(this::setCurrentJob);
 
-//        mainFrame.setBody(body, id);
+        navigationController.setBody(body);
 
     }
 
