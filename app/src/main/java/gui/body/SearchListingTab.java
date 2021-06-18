@@ -1,8 +1,12 @@
 package gui.body;
 
 
-import application.*;
-import controller.BodyViewController;
+import application.JobListing;
+import application.JobStatus;
+import application.User;
+import controller.JobController;
+import controller.NavigationController;
+import controller.UserController;
 import data.DataStore;
 import gui.body.searchBar.JobSearchPane;
 import gui.card.CardDisplayable;
@@ -18,7 +22,9 @@ import java.util.stream.Collectors;
 public class SearchListingTab extends Tab implements CardPanelController, JobSearchPaneController {
 
     private TabController tc;
-    private BodyViewController bvc;
+    private NavigationController navigationController;
+    private JobController jobController;
+    private UserController userController;
     private CardPanel cpo;
     private JobStatus jobStatus;
     private JobSearchPane jsp;
@@ -28,22 +34,11 @@ public class SearchListingTab extends Tab implements CardPanelController, JobSea
         super();
     }
 
-    public SearchListingTab(BodyViewController bvc, JobStatus jobStatus, JPanel searchBar) {
+    public SearchListingTab(NavigationController navigationController, JobController jobController, UserController userController, JobStatus jobStatus) {
         super();
-        this.bvc = bvc;
-        this.jobStatus = jobStatus;
-        this.results = new ArrayList<>();
-
-        this.cpo = new CardPanel(this);
-        JScrollPane scrollPane = new JScrollPane(cpo);
-        this.add(searchBar, BorderLayout.NORTH);
-        this.add(scrollPane, BorderLayout.CENTER);
-
-    }
-
-    public SearchListingTab(BodyViewController bvc, JobStatus jobStatus) {
-        super();
-        this.bvc = bvc;
+        this.navigationController = navigationController;
+        this.jobController = jobController;
+        this.userController = userController;
         this.jobStatus = jobStatus;
 
         this.jsp = new JobSearchPane(this);
@@ -59,7 +54,7 @@ public class SearchListingTab extends Tab implements CardPanelController, JobSea
 
     public List<CardDisplayable> getCardPanelData() {
 
-        String userId = bvc.getLoggedInUser();
+        String userId = userController.getLoggedInUser();
 
         Optional<User> loggedInUser = DataStore.getDatastore().getUserById(userId);
         List<CardDisplayable> jiList = new ArrayList<>();
@@ -67,7 +62,7 @@ public class SearchListingTab extends Tab implements CardPanelController, JobSea
         if (loggedInUser.isPresent()) {
             jiList = loggedInUser.get().getJobInteractions()
                     .stream()
-                    .filter(ji -> ji instanceof JobListing && ji.getStatus()== this.jobStatus)
+                    .filter(ji -> ji instanceof JobListing && ji.getStatus() == this.jobStatus)
                     .collect(Collectors.toList());
         }
 
@@ -76,13 +71,14 @@ public class SearchListingTab extends Tab implements CardPanelController, JobSea
     }
 
     public Button getCardButton(String id) {
-        Button button = new Button("View", bvc);
-        button.setProperty("blah");
-        button.setText("View");
-        button.addActionListener(ae -> {
-            button.getBvc().setBody("JOBMANAGER", id);
-        });
-        return button;
+//        Button button = new Button("View", jobController);
+//        button.setProperty("blah");
+//        button.setText("View");
+        //TODO: set the button controller
+//        button.addActionListener(ae -> {
+//            button.getNavigationController().setBody("JOBMANAGER", id);
+//        });
+        return new Button();
     }
 
     public void searchData(String text) {

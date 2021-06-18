@@ -16,24 +16,10 @@ import java.io.IOException;
 import java.util.Locale;
 
 public class RecruiterScreen {
+    public static JFrame frame;
     private final JPanel screen;
     private final JPanel mainDisplayPanel;
     private final JLabel totalJobsLabel;
-    public static JFrame frame;
-
-    public static class JReferencingButton extends JButton{
-        private int value;
-
-        public int getJobNumber()
-        {
-            return this.value;
-        }
-
-        public void setJobNumber(int value)
-        {
-            this.value = value;
-        }
-    }
 
     RecruiterScreen(String firstName) {
         screen = new JPanel();
@@ -205,18 +191,48 @@ public class RecruiterScreen {
         createJobPanel.add(createJobButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
-    public static void blackOnGray(JPanel panel, JButton button){
+    public static void blackOnGray(JPanel panel, JButton button) {
         panel.setBackground(new Color(-9868178));
         button.setForeground(new Color(-16777216));
         button.setOpaque(false);
         button.setContentAreaFilled(false);
     }
 
-    public static void blackOnWhite(JPanel panel, JButton button){
+    public static void blackOnWhite(JPanel panel, JButton button) {
         panel.setBackground(new Color(-1181441));
         button.setForeground(new Color(-16777216));
         button.setOpaque(false);
         button.setContentAreaFilled(false);
+    }
+
+    public static Font getFont(int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName = currentFont.getName();
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
+    }
+
+    public static void initiate(User recruiter) {
+        frame = new JFrame("Job Seeker System (Recruiter)");
+        RecruiterScreen rScreen = new RecruiterScreen(recruiter.getFirstName());
+        rScreen.fetchJobs(1);
+        frame.setContentPane(rScreen.getScreen());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public static void openJobDetails(int job) {
+        JFrame detailFrame = new JFrame("Job Details " + job);
+        LoginScreen lScreen = new LoginScreen();
+        detailFrame.setContentPane(lScreen.getScreen());
+        detailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        detailFrame.setSize(new Dimension(600, 400));
+        detailFrame.setLocationRelativeTo(null);
+        detailFrame.setVisible(true);
     }
 
     public void createJobCard(String name, int num) { //need to add Job job here for the button purpose
@@ -224,15 +240,15 @@ public class RecruiterScreen {
         JLabel[] labels = new JLabel[num];
         JReferencingButton[] buttons = new JReferencingButton[num];
 
-        for (int i=0;i<num;i++){
+        for (int i = 0; i < num; i++) {
             cards[i] = new JPanel();
             labels[i] = new JLabel();
             buttons[i] = new JReferencingButton();
 
             buttons[i].setText("Details");
             buttons[i].setJobNumber(i);
-            buttons[i].addActionListener( ae -> {
-                int job = ((JReferencingButton)ae.getSource()).getJobNumber();
+            buttons[i].addActionListener(ae -> {
+                int job = ((JReferencingButton) ae.getSource()).getJobNumber();
                 openJobDetails(job);
             });
 
@@ -259,11 +275,9 @@ changes text in label saying "You have such and such active jobs" */
         String tempStatus = "";
         if (number == 1) {
             tempStatus = "active";
-        }
-        else if (number == 2) {
+        } else if (number == 2) {
             tempStatus = "draft";
-        }
-        else if (number == 3) {
+        } else if (number == 3) {
             tempStatus = "closed";
         }
         int jobCount;
@@ -275,11 +289,9 @@ changes text in label saying "You have such and such active jobs" */
         /* TEMP CODE FOR DUMMY DATA */
         if (number == 1) {
             jobCount = 4;
-        }
-        else if (number == 2) {
+        } else if (number == 2) {
             jobCount = 0;
-        }
-        else {
+        } else {
             jobCount = 1;
         }
 
@@ -298,15 +310,6 @@ changes text in label saying "You have such and such active jobs" */
         getTotalJobsLabel().setText("You have " + jobCount + " " + tempStatus + " Job Ads");
     }
 
-    public static Font getFont(int style, int size, Font currentFont) {
-        if (currentFont == null) return null;
-        String resultName = currentFont.getName();
-        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
-        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
-        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
-        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
-    }
-
     public JPanel getMainDisplayPanel() {
         return mainDisplayPanel;
     }
@@ -319,24 +322,15 @@ changes text in label saying "You have such and such active jobs" */
         return totalJobsLabel;
     }
 
-    public static void initiate(User recruiter){
-        frame = new JFrame("Job Seeker System (Recruiter)");
-        RecruiterScreen rScreen = new RecruiterScreen(recruiter.getFirstName());
-        rScreen.fetchJobs(1);
-        frame.setContentPane(rScreen.getScreen());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
+    public static class JReferencingButton extends JButton {
+        private int value;
 
-    public static void openJobDetails(int job) {
-        JFrame detailFrame = new JFrame("Job Details " + job);
-        LoginScreen lScreen = new LoginScreen();
-        detailFrame.setContentPane(lScreen.getScreen());
-        detailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        detailFrame.setSize(new Dimension(600,400));
-        detailFrame.setLocationRelativeTo(null);
-        detailFrame.setVisible(true);
+        public int getJobNumber() {
+            return this.value;
+        }
+
+        public void setJobNumber(int value) {
+            this.value = value;
+        }
     }
 }

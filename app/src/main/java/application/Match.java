@@ -4,7 +4,6 @@ import data.DataStore;
 import data.KeywordType;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -80,7 +79,7 @@ public class Match extends Thread {
     }
 
     public void updateAllMatches() {
-        for (Job job: DataStore.getDatastore().getJobs()) {
+        for (Job job : DataStore.getDatastore().getJobs()) {
             updateJobMatches(job);
         }
     }

@@ -3,7 +3,7 @@ package data;
 
 import java.util.*;
 
-public class ItemStore<T extends Storable>{
+public class ItemStore<T extends Storable> {
 
     private final String filePath;
     private final Map<String, T> items;

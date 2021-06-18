@@ -20,9 +20,9 @@ class FileIO<T extends Storable> {
         try {
             File myFile = new File(filePath);
 
-            if (myFile.createNewFile()){
+            if (myFile.createNewFile()) {
                 System.out.println("File is created!");
-            }else{
+            } else {
                 System.out.println("File already exists.");
             }
         } catch (IOException e) {
@@ -30,14 +30,14 @@ class FileIO<T extends Storable> {
         }
     }
 
-    public void writeFile(List<T> item){
+    public void writeFile(List<T> item) {
 
         checkFileExists();
 
         try (
                 OutputStream ops = new FileOutputStream(filePath, false);
                 ObjectOutputStream objOps = new ObjectOutputStream(ops);
-                ) {
+        ) {
             objOps.writeObject(item);
             objOps.flush();
         } catch (IOException e) {
@@ -47,7 +47,7 @@ class FileIO<T extends Storable> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<T> readFile(){
+    public List<T> readFile() {
 
         checkFileExists();
 
@@ -66,7 +66,7 @@ class FileIO<T extends Storable> {
         try (
                 InputStream fileIs = new FileInputStream(filePath);
                 ObjectInputStream objIs = new ObjectInputStream(fileIs);
-                ){
+        ) {
             list = (List<T>) objIs.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

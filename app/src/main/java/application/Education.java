@@ -6,14 +6,14 @@ public enum Education {
 
     private String edType;
 
-    Education(String edType){
+    Education(String edType) {
         this.edType = edType;
     }
 
     //Static method to return an array of values
     public static String[] getCreateArray() {
         Education[] constants = Education.values();
-        String[] list = new String[constants.length+1];
+        String[] list = new String[constants.length + 1];
         list[0] = "-Select highest level of education";
         int i = 1;
         for (Education d : constants) {

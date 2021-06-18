@@ -1,9 +1,8 @@
 package data;
 
-import application.JobInteraction;
+import application.Job;
 import application.JobSeeker;
 import application.User;
-import application.Job;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +20,12 @@ public class DataStore {
         this.jobs = new ItemStore<>(DataType.JOB.getFilePath());
     }
 
-    public List<Job> getJobs() {
-        return this.jobs.getAll();
-    }
-
     public static DataStore getDatastore() {
         return datastore;
+    }
+
+    public List<Job> getJobs() {
+        return this.jobs.getAll();
     }
 
     public List<User> getUsers() {

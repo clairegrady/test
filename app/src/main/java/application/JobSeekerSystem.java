@@ -19,20 +19,20 @@ public class JobSeekerSystem {
         return loggedInUser;
     }
 
-    public UserInterface getCurrentScreen() {
-        return currentScreen;
-    }
-
-    public DataStore getDataStore() {
-        return dataStore;
-    }
-
     public void setLoggedInUser(User loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
+    public UserInterface getCurrentScreen() {
+        return currentScreen;
+    }
+
     public void setCurrentScreen(UserInterface currentScreen) {
         this.currentScreen = currentScreen;
+    }
+
+    public DataStore getDataStore() {
+        return dataStore;
     }
 
     public void setDataStore(DataStore dataStore) {

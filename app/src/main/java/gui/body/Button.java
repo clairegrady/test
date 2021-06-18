@@ -1,23 +1,23 @@
 package gui.body;
 
-import controller.BodyViewController;
+import controller.NavigationController;
 
 import javax.swing.*;
 
 public class Button extends JButton {
 
+    public NavigationController navigationController;
     private String property;
-    public BodyViewController bvc;
 
     public Button() {
-        this.bvc = null;
+        this.navigationController = null;
         this.property = "Default";
         this.setText("Default");
     }
 
-    public Button(String text, BodyViewController bvc) {
+    public Button(String text, NavigationController navigationController) {
         this.property = "Default";
-        this.bvc = bvc;
+        this.navigationController = navigationController;
         this.setText(text);
     }
 
@@ -29,11 +29,11 @@ public class Button extends JButton {
         this.property = property;
     }
 
-    public BodyViewController getBvc() {
-        return bvc;
+    public NavigationController getNavigationController() {
+        return navigationController;
     }
 
-    public void setBvc(BodyViewController bvc) {
-        this.bvc = bvc;
+    public void setNavigationController(NavigationController navigationController) {
+        this.navigationController = navigationController;
     }
 }

@@ -19,12 +19,12 @@ public class CardData {
         return labelOne;
     }
 
-    public String getLabelTwo() {
-        return labelTwo;
-    }
-
     public void setLabelOne(String labelOne) {
         this.labelOne = labelOne;
+    }
+
+    public String getLabelTwo() {
+        return labelTwo;
     }
 
     public void setLabelTwo(String labelTwo) {

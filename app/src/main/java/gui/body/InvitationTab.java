@@ -1,11 +1,15 @@
 package gui.body;
 
 
-import application.*;
-import controller.BodyViewController;
+import application.JobInteraction;
+import application.JobInvitation;
+import application.JobStatus;
+import application.User;
+import controller.NavigationController;
+import controller.UserController;
 import data.DataStore;
-import gui.body.searchBar.AppSearchPaneController;
 import gui.body.searchBar.AppSearchPane;
+import gui.body.searchBar.AppSearchPaneController;
 import gui.card.CardDisplayable;
 
 import javax.swing.*;
@@ -18,7 +22,8 @@ import java.util.stream.Collectors;
 
 public class InvitationTab extends Tab implements CardPanelController, AppSearchPaneController {
 
-    private BodyViewController bvc;
+    private NavigationController navigationController;
+    private UserController userController;
     private CardPanel cpo;
     private AppSearchPane asp;
     private List<CardDisplayable> cardPanelData;
@@ -29,9 +34,10 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
         super();
     }
 
-    public InvitationTab(BodyViewController bvc) {
+    public InvitationTab(NavigationController navigationController, UserController userController) {
         super();
-        this.bvc = bvc;
+        this.navigationController = navigationController;
+        this.userController = userController;
         this.stringFilter = ji -> true;
         this.statusFilter = ji -> true;
 
@@ -49,7 +55,7 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
 
     public List<CardDisplayable> getCardPanelData() {
 
-        String userId = bvc.getLoggedInUser();
+        String userId = userController.getLoggedInUser();
 
         Optional<User> loggedInUser = DataStore.getDatastore().getUserById(userId);
         List<CardDisplayable> jiList = new ArrayList<>();
@@ -87,7 +93,7 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
         if (status == JobStatus.NULL) {
             this.statusFilter = ji -> true;
         } else {
-            this.statusFilter =  ji -> ji.getStatus().equals(status);
+            this.statusFilter = ji -> ji.getStatus().equals(status);
         }
 
         displayWithFilter();

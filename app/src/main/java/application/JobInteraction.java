@@ -30,20 +30,20 @@ public class JobInteraction implements Serializable, CardDisplayable {
         return status;
     }
 
-    public Job getJob() {
-        return job;
-    }
-
-    public String getUniqueIdId() {
-        return uniqueId;
-    }
-
     public void setStatus(JobStatus status) {
         this.status = status;
     }
 
+    public Job getJob() {
+        return job;
+    }
+
     public void setJob(Job job) {
         this.job = job;
+    }
+
+    public String getUniqueIdId() {
+        return uniqueId;
     }
 
     @Override

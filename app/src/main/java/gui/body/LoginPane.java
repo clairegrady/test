@@ -1,7 +1,7 @@
 package gui.body;
 
-import controller.BodyViewController;
-import controller.LoginController;
+import controller.NavigationController;
+import controller.UserController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,17 +11,17 @@ import java.awt.event.KeyEvent;
 
 public class LoginPane extends JPanel {
 
-    private final BodyViewController bvc;
-    private final LoginController lc;
+    private final NavigationController navigationController;
+    private final UserController lc;
     private JTextField emailField;
     private JPasswordField passwordField;
     private JButton loginButton;
     private JButton registerButton;
 
-    public LoginPane(BodyViewController bvc, LoginController lc) {
+    public LoginPane(NavigationController navigationController, UserController lc) {
         super();
         this.setLayout(new BorderLayout());
-        this.bvc = bvc;
+        this.navigationController = navigationController;
         this.lc = lc;
 
         JPanel featurePanel = new JPanel();
@@ -30,19 +30,19 @@ public class LoginPane extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
 
         JLabel username = new JLabel("Username: ");
-        setPosition(gbc, 0, 1, 1,0,0,0,0);
+        setPosition(gbc, 0, 1, 1, 0, 0, 0, 0);
         featurePanel.add(username, gbc);
 
         emailField = new JTextField(20);
-        setPosition(gbc, 0, 2, 3,0,0,0,0);
+        setPosition(gbc, 0, 2, 3, 0, 0, 0, 0);
         featurePanel.add(emailField, gbc);
 
         JLabel password = new JLabel("Password: ");
-        setPosition(gbc, 0, 3, 1, 10,0,0,0);
+        setPosition(gbc, 0, 3, 1, 10, 0, 0, 0);
         featurePanel.add(password, gbc);
 
         passwordField = new JPasswordField(20);
-        setPosition(gbc, 0, 4, 3,0,0,0,0);
+        setPosition(gbc, 0, 4, 3, 0, 0, 0, 0);
         featurePanel.add(passwordField, gbc);
 
         JButton forgotButton = new JButton("Forgot your password?");
@@ -53,7 +53,7 @@ public class LoginPane extends JPanel {
         featurePanel.add(forgotButton, gbc);
 
         JPanel buttonPanel = new JPanel();
-        setPosition(gbc, 0, 6, 3,0,0,0,0);
+        setPosition(gbc, 0, 6, 3, 0, 0, 0, 0);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         featurePanel.add(buttonPanel, gbc);
 
@@ -87,12 +87,12 @@ public class LoginPane extends JPanel {
 
         forgotButton.addActionListener(e -> {
             forgotButton.setForeground(Color.BLUE);
-            JOptionPane.showMessageDialog(null,"Please contact Job Seeker System administrator.");
+            JOptionPane.showMessageDialog(null, "Please contact Job Seeker System administrator.");
         });
 
         loginButton.addActionListener(e -> validateUser());
 
-        registerButton.addActionListener(e -> lc.chooseAccount());
+        registerButton.addActionListener(e -> navigationController.setBody("CHOOSE"));
     }
 
     public void validateUser() {
@@ -101,14 +101,13 @@ public class LoginPane extends JPanel {
             passwordField.setText("");
             emailField.setText("");
             loginButton.setEnabled(false);
-            bvc.loginComplete(lc.getUserType());
-        }
-        else {
+            navigationController.loginComplete(lc.getUserType());
+        } else {
             loginDetailsInvalid();
         }
     }
 
-    public void loginDetailsInvalid(){
+    public void loginDetailsInvalid() {
         System.out.println("invalid credentials");
         passwordField.putClientProperty("JComponent.outline", "error");
         passwordField.setText("");
@@ -116,20 +115,20 @@ public class LoginPane extends JPanel {
         loginButton.setEnabled(false);
     }
 
-    public void setPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r){
+    public void setPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r) {
         c.gridwidth = w;
         c.gridx = x;
         c.gridy = y;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.LINE_START;
-        c.insets = new Insets(t,l,b,r);
+        c.insets = new Insets(t, l, b, r);
     }
 
-    public void setButtonPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r){
+    public void setButtonPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r) {
         c.gridwidth = w;
         c.gridx = x;
         c.gridy = y;
         c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(t,l,b,r);
+        c.insets = new Insets(t, l, b, r);
     }
 }

@@ -1,21 +1,24 @@
 package gui.body;
 
 
-import application.*;
-import controller.BodyViewController;
+import application.Job;
+import application.JobInteraction;
+import controller.NavigationController;
 import data.DataStore;
-import gui.body.searchBar.*;
+import gui.body.searchBar.SeekerFilterPane;
+import gui.body.searchBar.SeekerFilterPaneController;
 import gui.card.CardDisplayable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class UserTab extends Tab implements CardPanelController, SeekerFilterPaneController {
 
-    private BodyViewController bvc;
+    private NavigationController navigationController;
     private CardPanel cpo;
     private SeekerFilterPane sfp;
     private List<CardDisplayable> cardPanelData;
@@ -28,10 +31,10 @@ public class UserTab extends Tab implements CardPanelController, SeekerFilterPan
         super();
     }
 
-    public UserTab(BodyViewController bvc, Job job) {
+    public UserTab(NavigationController navigationController, Job job) {
         super();
         this.job = job;
-        this.bvc = bvc;
+        this.navigationController = navigationController;
         this.stringFilter = ji -> true;
         this.statusFilter = ji -> true;
 
@@ -42,6 +45,7 @@ public class UserTab extends Tab implements CardPanelController, SeekerFilterPan
         this.add(scrollPane, BorderLayout.CENTER);
 
     }
+
     public void display() {
         cpo.displayCards();
     }

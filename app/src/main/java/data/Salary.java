@@ -10,7 +10,7 @@ public enum Salary {
 
     private final String amount;
 
-    Salary(String amount){
+    Salary(String amount) {
         this.amount = amount;
     }
 

@@ -14,14 +14,14 @@ public enum JobType {
 
     private String field;
 
-    JobType(String field){
+    JobType(String field) {
         this.field = field;
     }
 
     //Static method to return an array of values
     public static String[] getArray() {
         JobType[] constants = JobType.values();
-        String[] list = new String[constants.length+1];
+        String[] list = new String[constants.length + 1];
         list[0] = "All Job Types";
         int i = 1;
         for (JobType d : constants) {
@@ -34,7 +34,7 @@ public enum JobType {
     //Static method to return an array of values
     public static String[] getCreateArray() {
         JobType[] constants = JobType.values();
-        String[] list = new String[constants.length+1];
+        String[] list = new String[constants.length + 1];
         list[0] = "-Select job type";
         int i = 1;
         for (JobType d : constants) {

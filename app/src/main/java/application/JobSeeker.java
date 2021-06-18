@@ -24,7 +24,7 @@ public class JobSeeker extends User implements Searchable, CardDisplayable {
     }
 
     public JobSeeker(String email, String password, String firstName, String lastName,
-            List<JobInteraction> jobInteractions, String personalSummary, String qualifications,
+                     List<JobInteraction> jobInteractions, String personalSummary, String qualifications,
                      String experience, Map<KeywordType, List<String>> seekerKeywords) {
         super(email, password, firstName, lastName, jobInteractions);
         this.personalSummary = personalSummary;
@@ -52,28 +52,28 @@ public class JobSeeker extends User implements Searchable, CardDisplayable {
         return personalSummary;
     }
 
-    public String getQualifications() {
-        return qualifications;
-    }
-
-    public String getExperience() {
-        return experience;
-    }
-
-    public Map<KeywordType, List<String>> getSeekerKeywords() {
-        return seekerKeywords;
-    }
-
     public void setPersonalSummary(String personalSummary) {
         this.personalSummary = personalSummary;
+    }
+
+    public String getQualifications() {
+        return qualifications;
     }
 
     public void setQualifications(String qualifications) {
         this.qualifications = qualifications;
     }
 
+    public String getExperience() {
+        return experience;
+    }
+
     public void setExperience(String experience) {
         this.experience = experience;
+    }
+
+    public Map<KeywordType, List<String>> getSeekerKeywords() {
+        return seekerKeywords;
     }
 
     public void setSeekerKeywords(Map<KeywordType, List<String>> seekerKeywords) {
@@ -93,7 +93,7 @@ public class JobSeeker extends User implements Searchable, CardDisplayable {
     @Override
     public String toString() {
         return "JobSeeker{" +
-                super.toString()  +
+                super.toString() +
                 ", personalSummary='" + personalSummary + '\'' +
                 ", qualifications='" + qualifications + '\'' +
                 ", experience='" + experience + '\'' +

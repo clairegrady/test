@@ -1,18 +1,18 @@
 package gui.body;
 
 import com.intellij.uiDesigner.core.GridConstraints;
-import controller.BodyViewController;
+import controller.NavigationController;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class ChooseAccount extends JPanel {
-    private BodyViewController bvc;
+    private NavigationController navigationController;
 
-    public ChooseAccount(BodyViewController bvc) {
+    public ChooseAccount(NavigationController navigationController) {
 
         super();
-        this.bvc = bvc;
+        this.navigationController = navigationController;
 
         /* Initial creation of the main panel */
         JPanel createPanel = new JPanel();
@@ -29,24 +29,24 @@ public class ChooseAccount extends JPanel {
 
         //Body Title
         JLabel bodyTitle = new JLabel("Which account would you like to create?");
-        setPosition(c,0,0, 2,0,0,0,0);
+        setPosition(c, 0, 0, 2, 0, 0, 0, 0);
         createPanel.add(bodyTitle, c);
 
         //Seeker Button
         JButton seekerButton = new JButton("Job Seeker");
         seekerButton.setFocusable(false);
-        setButtonPosition(c,0,6,1,30,10,0,10);
+        setButtonPosition(c, 0, 6, 1, 30, 10, 0, 10);
         createPanel.add(seekerButton, c);
 
         //Recruiter Button
         JButton recruiterButton = new JButton("Recruiter");
         recruiterButton.setFocusable(false);
-        setButtonPosition(c,1,6,1,30,10,0,10);
+        setButtonPosition(c, 1, 6, 1, 30, 10, 0, 10);
         createPanel.add(recruiterButton, c);
 
         //Back Button
         JPanel buttonPanel = new JPanel();
-        setButtonPosition(c, 0, 8, 2,50,0,0,0);
+        setButtonPosition(c, 0, 8, 2, 50, 0, 0, 0);
         c.anchor = GridBagConstraints.LINE_START;
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         createPanel.add(buttonPanel, c);
@@ -59,19 +59,19 @@ public class ChooseAccount extends JPanel {
 
         //Creating the action listeners to change the tabs and refresh the main panel
 
-        seekerButton.addActionListener(e-> {
-            bvc.getMainFrame().setBody("SEEKPROFILE");
-            bvc.getMainFrame().setHeader("LOGIN");
+        seekerButton.addActionListener(e -> {
+            navigationController.setBody("SEEKPROFILE");
+            navigationController.setHeader("LOGIN");
         });
 
         recruiterButton.addActionListener(e -> {
-            bvc.getMainFrame().setBody("CREATEACCOUNT");
-            bvc.getMainFrame().setHeader("LOGIN");
+            navigationController.setBody("CREATEACCOUNT");
+            navigationController.setHeader("LOGIN");
         });
 
-        backButton.addActionListener(e-> {
-            bvc.getMainFrame().setBody("LOGIN");
-            bvc.getMainFrame().setHeader("LOGIN");
+        backButton.addActionListener(e -> {
+            navigationController.setBody("LOGIN");
+            navigationController.setHeader("LOGIN");
         });
     }
 
@@ -80,21 +80,21 @@ public class ChooseAccount extends JPanel {
         createAccount.show(this, page);
     }
 
-    public void setPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r){
+    public void setPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r) {
         c.gridwidth = w;
         c.gridx = x;
         c.gridy = y;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.LINE_START;
-        c.insets = new Insets(t,l,b,r);
+        c.insets = new Insets(t, l, b, r);
     }
 
-    public void setButtonPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r){
+    public void setButtonPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r) {
         c.gridwidth = w;
         c.gridx = x;
         c.gridy = y;
         c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(t,l,b,r);
+        c.insets = new Insets(t, l, b, r);
     }
 
 }

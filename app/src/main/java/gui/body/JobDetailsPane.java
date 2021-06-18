@@ -1,6 +1,6 @@
 package gui.body;
 
-import controller.BodyViewController;
+import controller.NavigationController;
 import gui.body.searchBar.JobViewPane;
 import utility.GBC;
 
@@ -13,8 +13,10 @@ import java.util.ArrayList;
 
 public class JobDetailsPane extends JPanel implements ListSelectionListener {
 
-    private final BodyViewController bvc;
-
+    private final NavigationController navigationController;
+    private final ArrayList<String> skills;
+    private final ArrayList<String> location;
+    private final ArrayList<String> education;
     private JPanel bodyPane;
     private JPanel detailsPane;
     private JScrollPane jobDescScrollPane;
@@ -27,7 +29,6 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
     private JPanel actionPane;
     private JPanel editPane;
     private String[] publishedState = {"Active", "Draft", "Closed"};
-
     private String lastUpdatedDate;
     private String jobTitle;
     private String company;
@@ -36,14 +37,11 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
     private String employmentType;
     private String payFloor;
     private String payCeiling;
-    private final ArrayList<String> skills;
-    private final ArrayList<String> location;
-    private final ArrayList<String> education;
 
-    JobDetailsPane(BodyViewController bvc){
+    JobDetailsPane(NavigationController navigationController) {
         super(new BorderLayout());
-        this.bvc = bvc;
-        this.add(new JobViewPane(bvc), BorderLayout.NORTH);
+        this.navigationController = navigationController;
+        this.add(new JobViewPane(navigationController), BorderLayout.NORTH);
         this.createComponentPanes();
         this.skills = new ArrayList<>();
         this.location = new ArrayList<>();
@@ -71,14 +69,14 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
         jobDescriptionPane = new JEditorPane();
         jobDescScrollPane = new JScrollPane(jobDescriptionPane);
         jobDescScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        jobDescScrollPane.setPreferredSize(new Dimension(500,350));
+        jobDescScrollPane.setPreferredSize(new Dimension(500, 350));
         jobDescScrollPane.setBorder(BorderFactory.createTitledBorder("Job Description"));
 
         editPane = new JPanel();
         editPane.setBackground(Color.WHITE);
 
         detailsPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        detailsPane.setPreferredSize(new Dimension(900,600));
+        detailsPane.setPreferredSize(new Dimension(900, 600));
         detailsPane.setBackground(Color.WHITE);
 
         skillsListModel = new DefaultListModel<>();
@@ -86,17 +84,17 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
         skillsListScrollPane = setUpScrollPane(skillsList);
 
 
-        skillsListScrollPane.setPreferredSize(new Dimension(300,180));
+        skillsListScrollPane.setPreferredSize(new Dimension(300, 180));
         skillsListScrollPane.setBorder(BorderFactory.createTitledBorder("Required Skills"));
 
         qualificationsListModel = new DefaultListModel<>();
         JList<String> qualificationsList = new JList<>(qualificationsListModel);
         qualificationsListScrollPane = setUpScrollPane(qualificationsList);
-        qualificationsListScrollPane.setPreferredSize(new Dimension(300,180));
+        qualificationsListScrollPane.setPreferredSize(new Dimension(300, 180));
         qualificationsListScrollPane.setBorder(BorderFactory.createTitledBorder("Required Education"));
 
         actionPane = new JPanel();
-        actionPane.setPreferredSize(new Dimension(400,30));
+        actionPane.setPreferredSize(new Dimension(400, 30));
         actionPane.setBackground(Color.WHITE);
     }
 
@@ -125,7 +123,7 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
         editButton.setAlignmentX(Box.RIGHT_ALIGNMENT);
 
         editButton.addActionListener(e -> {
-            bvc.setBody("CREATEJOB");
+            navigationController.setBody("CREATEJOB");
         });
     }
 
@@ -138,11 +136,11 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
         JLabel categoryLabel = new JLabel(jobCategory);
         JLabel paymentLabel = new JLabel(payFloor + " - " + payCeiling + "  |  " + employmentType);
 
-        jobTitleLabel.setFont(new Font(null,Font.BOLD,35));
-        companyLabel.setFont(new Font(null,Font.BOLD,18));
-        locationLabel.setFont(new Font(null,Font.PLAIN,14));
-        categoryLabel.setFont(new Font(null,Font.PLAIN,14));
-        paymentLabel.setFont(new Font(null,Font.PLAIN,14));
+        jobTitleLabel.setFont(new Font(null, Font.BOLD, 35));
+        companyLabel.setFont(new Font(null, Font.BOLD, 18));
+        locationLabel.setFont(new Font(null, Font.PLAIN, 14));
+        categoryLabel.setFont(new Font(null, Font.PLAIN, 14));
+        paymentLabel.setFont(new Font(null, Font.PLAIN, 14));
 
         jobTitlePane.add(jobTitleLabel);
         jobTitlePane.add(companyLabel);
@@ -170,6 +168,7 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
             qualificationsListModel.addElement(eduElement);
         }
     }
+
     protected void setSkillsListPaneComponents() {
         for (String skill : skills) {
             skillsListModel.addElement(skill);
@@ -180,39 +179,39 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
         bodyPane.add(detailsPane);
 
         detailsPane.add(jobTitlePane,
-                new GBC(0,0)
+                new GBC(0, 0)
                         .setWeight(0.6, 0)
                         .setFill(GridBagConstraints.BOTH)
                         .setInsets(5));
 
         detailsPane.add(jobDescScrollPane,
-                new GBC(0,1)
+                new GBC(0, 1)
                         .setWeight(0.6, 3.0)
-                        .setSpan(1,3)
+                        .setSpan(1, 3)
                         .setFill(GridBagConstraints.BOTH)
                         .setInsets(5));
 
         detailsPane.add(editPane,
-                new GBC(1,0)
-                        .setWeight(0.3,0)
+                new GBC(1, 0)
+                        .setWeight(0.3, 0)
                         .setFill(GridBagConstraints.BOTH)
                         .setInsets(5));
 
         detailsPane.add(skillsListScrollPane,
-                new GBC(1,1)
-                        .setWeight(0.3,1.0)
+                new GBC(1, 1)
+                        .setWeight(0.3, 1.0)
                         .setFill(GridBagConstraints.BOTH)
                         .setInsets(5));
 
         detailsPane.add(qualificationsListScrollPane,
-                new GBC(1,2)
-                        .setWeight(0.3,1.0)
+                new GBC(1, 2)
+                        .setWeight(0.3, 1.0)
                         .setFill(GridBagConstraints.BOTH)
                         .setInsets(5));
 
         detailsPane.add(actionPane,
-                new GBC(1,3)
-                        .setWeight(0.3,0)
+                new GBC(1, 3)
+                        .setWeight(0.3, 0)
                         .setFill(GridBagConstraints.BOTH)
                         .setInsets(5));
         this.add(bodyPane, BorderLayout.CENTER);

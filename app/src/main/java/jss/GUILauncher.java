@@ -13,19 +13,15 @@ public class GUILauncher {
         try {
             // Set cross-platform Java L&F
             UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
-            UIManager.put( "TabbedPane.selectedBackground", Color.white );
-            UIManager.put( "TabbedPane.showTabSeparators", true );
-        }
-        catch (UnsupportedLookAndFeelException e) {
+            UIManager.put("TabbedPane.selectedBackground", Color.white);
+            UIManager.put("TabbedPane.showTabSeparators", true);
+        } catch (UnsupportedLookAndFeelException e) {
             // handle exception
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             // handle exception
-        }
-        catch (InstantiationException e) {
+        } catch (InstantiationException e) {
             // handle exception
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             // handle exception
         }
 
@@ -41,7 +37,7 @@ public class GUILauncher {
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from
      * the event dispatch thread.
-     *
+     * <p>
      * This is borrowed from the oracle java tutorials - Mitch
      */
     private void createAndShowGUI() {

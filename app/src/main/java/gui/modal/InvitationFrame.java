@@ -1,16 +1,16 @@
 package gui.modal;
 
-import controller.BodyViewController;
+import controller.NavigationController;
 
 import javax.swing.*;
 
 public class InvitationFrame extends JFrame {
 
-    private BodyViewController bvc;
+    private NavigationController navigationController;
     private JDialog inviteModal;
     private JPanel panel;
 
-    public InvitationFrame(BodyViewController bvc) {
+    public InvitationFrame(NavigationController navigationController) {
         super();
 
         inviteModal = new JDialog(this, "Send Invitation",true);

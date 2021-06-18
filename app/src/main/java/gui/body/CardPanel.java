@@ -1,11 +1,11 @@
 package gui.body;
 
+import gui.card.Card;
+import gui.card.CardController;
 import gui.card.CardData;
 import gui.card.CardDisplayable;
-import gui.card.CardController;
-import gui.card.Card;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class CardPanel extends JPanel implements CardController {
     public void displayCards() {
         clearCardPanel();
         List<CardDisplayable> cardPanelData = cardPanelController.getCardPanelData();
-        for (CardDisplayable cd :  cardPanelData) {
+        for (CardDisplayable cd : cardPanelData) {
             addCard(
                     cd.getCardData(),
                     cardPanelData.size(),
@@ -37,7 +37,7 @@ public class CardPanel extends JPanel implements CardController {
 
     public void displayCards(List<CardDisplayable> cards) {
         clearCardPanel();
-        for (CardDisplayable cd :  cards) {
+        for (CardDisplayable cd : cards) {
             addCard(
                     cd.getCardData(),
                     cards.size(),

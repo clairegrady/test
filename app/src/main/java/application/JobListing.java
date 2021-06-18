@@ -15,12 +15,12 @@ public class JobListing extends JobInteraction {
         return closeDate;
     }
 
-    public int getPublishDate() {
-        return publishDate;
-    }
-
     public void setCloseDate(int closeDate) {
         this.closeDate = closeDate;
+    }
+
+    public int getPublishDate() {
+        return publishDate;
     }
 
     public void setPublishDate(int publishDate) {

@@ -7,9 +7,9 @@ import java.awt.*;
 
 public class RecruiterListingFilterPane extends JPanel {
 
-    Dimension searchBarSize = new Dimension(700,45);
     protected RecruiterFilterPaneController recruiterFilterPaneController;
     protected JPanel centrePanel;
+    Dimension searchBarSize = new Dimension(700, 45);
     private JLabel jobNumDisplay;
     private JButton createJobButton;
 
@@ -24,10 +24,10 @@ public class RecruiterListingFilterPane extends JPanel {
         this.jobNumDisplay = new JLabel();
         this.setPreferredSize(searchBarSize);
         this.centrePanel = new JPanel();
-        centrePanel.setLayout(new BoxLayout(centrePanel,BoxLayout.LINE_AXIS));
-        centrePanel.setPreferredSize(new Dimension(700,45));
+        centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.LINE_AXIS));
+        centrePanel.setPreferredSize(new Dimension(700, 45));
 
-        centrePanel.setBorder(BorderFactory.createEmptyBorder(7,0,15,0));
+        centrePanel.setBorder(BorderFactory.createEmptyBorder(7, 0, 15, 0));
 
         this.createJobButton = new JButton("Create Job");
 
@@ -37,7 +37,7 @@ public class RecruiterListingFilterPane extends JPanel {
         centrePanel.add(jobNumDisplay);
         centrePanel.add(Box.createHorizontalGlue());
         centrePanel.add(createJobButton);
-        createJobButton.addActionListener(e -> recruiterFilterPaneController.createJob());
+        createJobButton.addActionListener(e -> recruiterFilterPaneController.navigate());
         this.add(centrePanel);
     }
 

@@ -20,12 +20,12 @@ public class JobInvitation extends JobInteraction {
         return dateInvited;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
     public void setDateInvited(int dateInvited) {
         this.dateInvited = dateInvited;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public void setMessage(String message) {

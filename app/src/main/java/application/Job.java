@@ -9,22 +9,12 @@ import search.Searchable;
 import utility.UniqueId;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Job implements Storable, Searchable, CardDisplayable {
-
-    @Override
-    public CardData getCardData() {
-        return new CardData(this.getTitle(), this.getCompany());
-    }
-
-    @Override
-    public String getCardDisplayUniqueId() {
-        return uniqueId;
-    }
 
     private final String uniqueId = UniqueId.generate();
     private String title;
@@ -37,9 +27,7 @@ public class Job implements Storable, Searchable, CardDisplayable {
     private int uid;
     private int dateCreated;
     private int advertised;
-    private Map<String, Integer > matchingScore; // Had to make both K and V a string so my linter
-    // would stop yelling at me, not sure why?
-
+    private Map<String, Integer> matchingScore; // Had to make both K and V a string so my linter
     public Job() {
         this.title = "title";
         this.jobKeywords = new HashMap<>();
@@ -52,7 +40,6 @@ public class Job implements Storable, Searchable, CardDisplayable {
         this.advertised = -1;
         this.matchingScore = new HashMap<>();
     }
-
     public Job(String title, Map<KeywordType, List<String>> jobKeywords, EmploymentType employmentType,
                String description, int payCeiling, int payFloor, String company, int dateCreated,
                int advertised, Map<String, Integer> matchingScore) {
@@ -67,6 +54,17 @@ public class Job implements Storable, Searchable, CardDisplayable {
         this.advertised = advertised;
         this.matchingScore = matchingScore;
     }
+    // would stop yelling at me, not sure why?
+
+    @Override
+    public CardData getCardData() {
+        return new CardData(this.getTitle(), this.getCompany());
+    }
+
+    @Override
+    public String getCardDisplayUniqueId() {
+        return uniqueId;
+    }
 
     @Override
     public String getUniqueId() {
@@ -77,8 +75,16 @@ public class Job implements Storable, Searchable, CardDisplayable {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public Map<KeywordType, List<String>> getJobKeywords() {
         return jobKeywords;
+    }
+
+    public void setJobKeywords(Map<KeywordType, List<String>> jobKeywords) {
+        this.jobKeywords = jobKeywords;
     }
 
     @Override
@@ -99,76 +105,68 @@ public class Job implements Storable, Searchable, CardDisplayable {
         return employmentType;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public int getPayCeiling() {
-        return payCeiling;
-    }
-
-    public int getPayFloor() {
-        return payFloor;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public int getUid() {
-        return uid;
-    }
-
-    public int getDateCreated() {
-        return dateCreated;
-    }
-
-    public int getAdvertised() {
-        return advertised;
-    }
-
-    public Map<String, Integer> getMatchingScore() {
-        return matchingScore;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setJobKeywords(Map<KeywordType, List<String>> jobKeywords) {
-        this.jobKeywords = jobKeywords;
-    }
-
     public void setEmploymentType(EmploymentType employmentType) {
         this.employmentType = employmentType;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public int getPayCeiling() {
+        return payCeiling;
+    }
+
     public void setPayCeiling(int payCeiling) {
         this.payCeiling = payCeiling;
+    }
+
+    public int getPayFloor() {
+        return payFloor;
     }
 
     public void setPayFloor(int payFloor) {
         this.payFloor = payFloor;
     }
 
+    public String getCompany() {
+        return company;
+    }
+
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public int getUid() {
+        return uid;
     }
 
     public void setUid(int uid) {
         this.uid = uid;
     }
 
+    public int getDateCreated() {
+        return dateCreated;
+    }
+
     public void setDateCreated(int dateCreated) {
         this.dateCreated = dateCreated;
     }
 
+    public int getAdvertised() {
+        return advertised;
+    }
+
     public void setAdvertised(int advertised) {
         this.advertised = advertised;
+    }
+
+    public Map<String, Integer> getMatchingScore() {
+        return matchingScore;
     }
 
     public void setMatchingScore(Map<String, Integer> matchingScore) {

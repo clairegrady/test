@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class SelectAccount extends JFrame /*implements ActionListener*/ {
 
+    public static CardLayout card = new CardLayout(40, 30);
     private JPanel headerPanel;
     private JPanel midPanel;
     private JPanel bodyPanel;
@@ -31,9 +32,6 @@ public class SelectAccount extends JFrame /*implements ActionListener*/ {
     private JProgressBar progressBar;
     private JButton profileIcon;
     private JButton logoutIcon;
-
-
-    public static CardLayout card = new CardLayout(40,30);
 
     public SelectAccount() {
         JFrame frame = new JFrame();
@@ -67,8 +65,8 @@ public class SelectAccount extends JFrame /*implements ActionListener*/ {
         c.gridheight = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.LINE_START;
-        midPanel.setLayout(new BoxLayout(midPanel,BoxLayout.Y_AXIS));
-        frame.add(midPanel,c);
+        midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
+        frame.add(midPanel, c);
         //midPanel.setBackground(Color.BLUE);
 
         bodyPanel = new JPanel();

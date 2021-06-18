@@ -18,11 +18,11 @@ public class Recruiter extends User {
     }
 
     public Recruiter(String email, String password, String firstName, String lastName,
-            List<JobInteraction> jobInteractions, String company) {
+                     List<JobInteraction> jobInteractions, String company) {
         super(email, password, firstName, lastName, jobInteractions);
         this.company = company;
     }
-    
+
     public String getCompany() {
         return company;
     }

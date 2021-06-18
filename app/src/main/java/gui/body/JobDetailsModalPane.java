@@ -1,12 +1,12 @@
 package gui.body;
 
-import controller.BodyViewController;
+import controller.NavigationController;
 
 public class JobDetailsModalPane extends JobDetailsPane {
 
 
-    public JobDetailsModalPane(BodyViewController bvc) {
-        super(bvc);
+    public JobDetailsModalPane(NavigationController navigationController) {
+        super(navigationController);
     }
 
     @Override

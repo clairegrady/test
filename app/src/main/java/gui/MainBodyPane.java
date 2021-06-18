@@ -1,6 +1,8 @@
 package gui;
 
-import controller.BodyViewController;
+import controller.JobController;
+import controller.NavigationController;
+import controller.UserController;
 import gui.body.*;
 import gui.body.progressView.CreateAccountScreen;
 import gui.body.progressView.CreateJobForm;
@@ -11,27 +13,31 @@ import java.awt.*;
 
 public class MainBodyPane extends JPanel {
 
-    private BodyViewController bvc;
+    private NavigationController navigationController;
+    private UserController userController;
+    private JobController jobController;
 
 
-    public MainBodyPane(BodyViewController bvc) {
+    public MainBodyPane(NavigationController navigationController, UserController userController, JobController jobController) {
 
         super();
-        this.bvc = bvc;
+        this.navigationController = navigationController;
+        this.jobController = jobController;
+        this.userController = userController;
         this.setLayout(new CardLayout());
-        this.setMinimumSize(new Dimension(800,800));
-        this.add(new LoginPane(bvc, bvc.getMainFrame().getLC()), "LOGIN");
-        this.add(new CreateAccountScreen(bvc), "CREATEACCOUNT");
-        this.add(new CreateJobForm(bvc), "CREATEJOB"); // added
-        this.add(new ChooseAccount(bvc), "CHOOSE");
-        this.add(new PersonalProfileTab(bvc), "SEEKPROFILE");
+        this.setMinimumSize(new Dimension(800, 800));
+        this.add(new LoginPane(navigationController, userController), "LOGIN");
+        this.add(new CreateAccountScreen(navigationController, userController), "CREATEACCOUNT");
+        this.add(new CreateJobForm(navigationController,
+                jobController), "CREATEJOB"); // added
+        this.add(new ChooseAccount(navigationController), "CHOOSE");
+        this.add(new PersonalProfileTab(navigationController, userController), "SEEKPROFILE");
         this.setBody("LOGIN");
     }
 
     public void createPanes() {
-//        this.add(new JobManagementBody(bvc), "JOBMANAGER");
-        this.add(new RecruiterView(bvc), "RECRUITER");
-        this.add(new JobSeekerView(bvc), "JOBSEEKER");
+        this.add(new RecruiterView(navigationController, userController), "RECRUITER");
+        this.add(new JobSeekerView(navigationController, userController, jobController), "JOBSEEKER");
 
         this.setBody("LOGIN");
     }
@@ -43,7 +49,7 @@ public class MainBodyPane extends JPanel {
 
     public void setBody(String body, String id) {
         if (body.equalsIgnoreCase("JOBMANAGER")) {
-            this.add(new JobManagementView(bvc, id), "JOBMANAGER");
+            this.add(new JobManagementView(navigationController, id), "JOBMANAGER");
         }
         CardLayout bp = (CardLayout) (this.getLayout());
         bp.show(this, body);

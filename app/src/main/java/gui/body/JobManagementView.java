@@ -1,7 +1,7 @@
 package gui.body;
 
 import application.Job;
-import controller.BodyViewController;
+import controller.NavigationController;
 import data.DataStore;
 
 import javax.swing.*;
@@ -9,23 +9,23 @@ import java.awt.*;
 
 public class JobManagementView extends JPanel implements TabController {
 
-    BodyViewController bvc;
+    NavigationController navigationController;
     private String jobId;
     private Job job;
 
-    public JobManagementView(BodyViewController bvc) {
+    public JobManagementView(NavigationController navigationController) {
 
         super();
-        this.bvc = bvc;
+        this.navigationController = navigationController;
         this.setLayout(new BorderLayout());
         this.jobId = "Default";
         addTabs();
 
     }
 
-    public JobManagementView(BodyViewController bvc, String jobId){
+    public JobManagementView(NavigationController navigationController, String jobId) {
         super();
-        this.bvc = bvc;
+        this.navigationController = navigationController;
         this.setLayout(new BorderLayout());
         this.jobId = jobId;
         this.job = DataStore.getDatastore().getJobById(jobId).get();
@@ -37,21 +37,21 @@ public class JobManagementView extends JPanel implements TabController {
     public void addTabs() {
         JTabbedPane tabbedPane = new JTabbedPane();
         Dimension tabSize = new Dimension(800, 500);
-        tabbedPane.putClientProperty("JTabbedPane.tabAreaAlignment","center");
+        tabbedPane.putClientProperty("JTabbedPane.tabAreaAlignment", "center");
 
-        JComponent jobDetailsTab = new JobDetailsPane(this.bvc);
+        JComponent jobDetailsTab = new JobDetailsPane(this.navigationController);
         jobDetailsTab.setPreferredSize(tabSize);
         tabbedPane.addTab("Job Details", null, jobDetailsTab, "Details");
 
-        Tab seekerSearch = new UserTab(this.bvc, this.job);
+        Tab seekerSearch = new UserTab(this.navigationController, this.job);
         seekerSearch.setPreferredSize(tabSize);
         tabbedPane.addTab("Seeker Search", null, seekerSearch, "View Potential Candidates");
 
-        Tab applicantsTab = new ApplicantsTab(this.bvc, this.job);
+        Tab applicantsTab = new ApplicantsTab(this.navigationController, this.job);
         applicantsTab.setPreferredSize(tabSize);
         tabbedPane.addTab("Applications", null, applicantsTab, "Review Applications");
 
-        Tab inviteesTab = new ApplicantsTab(this.bvc, this.job);
+        Tab inviteesTab = new ApplicantsTab(this.navigationController, this.job);
         inviteesTab.setPreferredSize(tabSize);
         tabbedPane.addTab("Invitations", null, inviteesTab, "Manage Invitations");
 

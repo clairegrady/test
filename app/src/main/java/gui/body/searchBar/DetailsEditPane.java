@@ -2,19 +2,19 @@ package gui.body.searchBar;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import controller.BodyViewController;
+import controller.NavigationController;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DetailsEditPane extends JPanel {
 
-    Dimension searchBarSize = new Dimension(800,40);
-    BodyViewController bvc;
+    Dimension searchBarSize = new Dimension(800, 40);
+    NavigationController navigationController;
 
-    public DetailsEditPane(BodyViewController bvc) {//}, String seekerFirstName, String seekerLastName) {
+    public DetailsEditPane(NavigationController navigationController) {//}, String seekerFirstName, String seekerLastName) {
         super();
-        this.bvc = bvc;
+        this.navigationController = navigationController;
         this.setPreferredSize(searchBarSize);
         this.setLayout(new GridLayoutManager(1, 2, new Insets(5, 15, 5, 15), -1, -1));
 
@@ -29,7 +29,7 @@ public class DetailsEditPane extends JPanel {
         JButton editButton = new JButton("Edit");
         editButton.addActionListener(e -> {
             JFrame frame = new JFrame();
-            JOptionPane.showMessageDialog(frame, "BVC METHOD TO LAUNCH EDIT DETAILS MAIN PANEL");
+            JOptionPane.showMessageDialog(frame, "navigationController METHOD TO LAUNCH EDIT DETAILS MAIN PANEL");
         });
         rightPanel.add(editButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 

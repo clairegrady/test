@@ -2,19 +2,19 @@ package gui.body.searchBar;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import controller.BodyViewController;
+import controller.NavigationController;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DetailsSavePane extends JPanel {
 
-    Dimension searchBarSize = new Dimension(800,40);
-    BodyViewController bvc;
+    Dimension searchBarSize = new Dimension(800, 40);
+    NavigationController navigationController;
 
-    public DetailsSavePane(BodyViewController bvc, String seekerFirstName, String seekerLastName) {
+    public DetailsSavePane(NavigationController navigationController, String seekerFirstName, String seekerLastName) {
         super();
-        this.bvc = bvc;
+        this.navigationController = navigationController;
         this.setPreferredSize(searchBarSize);
         this.setLayout(new GridLayoutManager(1, 2, new Insets(5, 15, 5, 15), -1, -1));
 
@@ -29,12 +29,12 @@ public class DetailsSavePane extends JPanel {
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
             JFrame frame = new JFrame();
-            JOptionPane.showMessageDialog(frame, "BVC METHOD TO setJobSeekerDetails() AND TO LAUNCH SEEKER DETAILS MAIN PANEL");
+            JOptionPane.showMessageDialog(frame, "navigationController METHOD TO setJobSeekerDetails() AND TO LAUNCH SEEKER DETAILS MAIN PANEL");
         });
         JButton discardButton = new JButton("Discard Changes");
         discardButton.addActionListener(e -> {
             JFrame frame = new JFrame();
-            JOptionPane.showMessageDialog(frame, "BVC METHOD TO LAUNCH SEEKER DETAILS MAIN PANEL");
+            JOptionPane.showMessageDialog(frame, "navigationController METHOD TO LAUNCH SEEKER DETAILS MAIN PANEL");
         });
         rightPanel.add(discardButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         rightPanel.add(saveButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));

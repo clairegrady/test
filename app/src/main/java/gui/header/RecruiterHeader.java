@@ -17,7 +17,7 @@ import java.util.Locale;
 
 public class RecruiterHeader extends JPanel {
 
-    public RecruiterHeader(JFrame frame, String firstName){
+    public RecruiterHeader(JFrame frame, String firstName) {
 
         /* Title panel */
         setLayout(new GridLayoutManager(1, 2, new Insets(5, 15, 5, 15), -1, -1));

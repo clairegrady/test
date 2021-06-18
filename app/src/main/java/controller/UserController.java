@@ -1,22 +1,22 @@
 package controller;
 
 import application.JobSeeker;
+import application.Recruiter;
 import application.User;
 import data.DataStore;
-import gui.MainFrame;
 import jss.DummyData;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class LoginController {
+public class UserController {
 
-    private MainFrame mainFrame;
+    private NavigationController navigationController;
     private String authenticatedUserID;
     private String userType;
 
-    public LoginController(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
+    public UserController(NavigationController navigationController) {
+        this.navigationController = navigationController;
         this.authenticatedUserID = "*@example.com";
         this.userType = "LOGGEDOUT";
         new DummyData();
@@ -41,7 +41,7 @@ public class LoginController {
     public void setUserType() {
         Optional<User> user = DataStore.getDatastore().getUserById(authenticatedUserID);
 
-        try{
+        try {
             if (user.orElseThrow().getClass().getName().equals("application.JobSeeker")) {
                 System.out.println("JOBSEEKER" + "\n" + user.orElseThrow().getClass().getName().equals("application.JobSeeker"));
                 userType = "JOBSEEKER";
@@ -90,7 +90,14 @@ public class LoginController {
         }
         return details;
     }
+
     public void chooseAccount() {
-        mainFrame.setBody("CHOOSE");
+        navigationController.setBody("CHOOSE");
+    }
+
+    // TODO: determine where this method lives and move it?
+    public void createRecruiter(String email, String password, String firstName, String lastName, String company) {
+        Recruiter recruiter = new Recruiter(email, password, firstName, lastName, company);
+        DataStore.getDatastore().updateUser(recruiter);
     }
 }

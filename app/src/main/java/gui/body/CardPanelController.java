@@ -7,6 +7,7 @@ import java.util.List;
 public interface CardPanelController {
 
     List<CardDisplayable> getCardPanelData();
+
     Button getCardButton(String id);
 
 }

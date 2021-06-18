@@ -1,19 +1,18 @@
 package gui.modal;
 
-
-import controller.BodyViewController;
+import controller.NavigationController;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class SeekerProfileFrame extends JFrame {
 
-    private BodyViewController bvc;
+    private NavigationController navigationController;
     private JDialog profileModal;
     private JPanel panel;
     private JTextArea messageText;
 
-    public SeekerProfileFrame(BodyViewController bvc) {
+    public SeekerProfileFrame(NavigationController navigationController) {
         super();
 
         profileModal = new JDialog(this, "Job Seeker Profile",true);

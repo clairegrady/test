@@ -136,7 +136,7 @@ public class DummyData {
         testJobSeeker.addKeyword(KeywordType.SKILL, "Ruby");
         testJobSeeker.addKeyword(KeywordType.LOCATION, "Melbourne");
 
-        User testRecruiter =  new Recruiter(
+        User testRecruiter = new Recruiter(
                 "r",
                 "r",
                 "Test",
@@ -145,7 +145,7 @@ public class DummyData {
                 "Matt's stellar recruitment - we only hire stars"
         );
 
-        User testR =  new Recruiter(
+        User testR = new Recruiter(
                 "r",
                 "r",
                 "Test",

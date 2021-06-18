@@ -1,37 +1,41 @@
 package gui.body;
 
-import application.*;
-import controller.BodyViewController;
-import gui.body.searchBar.JobSearchPane;
+import application.JobStatus;
+import controller.JobController;
+import controller.NavigationController;
+import controller.UserController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 
 public class JobSeekerView extends JPanel implements TabController {
 
-    BodyViewController bvc;
+    private NavigationController navigationController;
+    private JobController jobController;
+    private UserController userController;
 
-    public JobSeekerView(BodyViewController bvc) {
+    public JobSeekerView(NavigationController navigationController, UserController userController, JobController jobController) {
         super();
-        this.bvc = bvc;
+        this.navigationController = navigationController;
+        this.jobController = jobController;
+        this.userController = userController;
         this.setLayout(new BorderLayout());
 
         JTabbedPane tabbedPane = new JTabbedPane();
         Dimension tabSize = new Dimension(800, 500);
-        tabbedPane.putClientProperty("JTabbedPane.tabAreaAlignment","center");
+        tabbedPane.putClientProperty("JTabbedPane.tabAreaAlignment", "center");
 
-        Tab searchTab = new SearchListingTab(bvc, JobStatus.ACTIVE);
+        Tab searchTab = new SearchListingTab(navigationController, jobController, userController, JobStatus.ACTIVE);
         tabbedPane.addTab("Search", null, searchTab, "Find Jobs");
 
-        Tab profileTab = new PersonalProfileTab(bvc);
+        Tab profileTab = new PersonalProfileTab(navigationController, userController);
         tabbedPane.addTab("Profile", null, profileTab, "Profile");
 
-        Tab applicationTab = new ApplicationTab(bvc);
+        Tab applicationTab = new ApplicationTab(navigationController, userController);
         applicationTab.setPreferredSize(tabSize);
         tabbedPane.addTab("Applications", null, applicationTab, "Review Applications");
 
-        Tab invitationTab = new InvitationTab(bvc);
+        Tab invitationTab = new InvitationTab(navigationController, userController);
         invitationTab.setPreferredSize(tabSize);
         tabbedPane.addTab("Invitations", null, invitationTab, "Manage Invitations");
 
@@ -48,8 +52,8 @@ public class JobSeekerView extends JPanel implements TabController {
 
     }
 
-    public String  getTabSubjectId() {
-        return bvc.getLoggedInUser();
+    public String getTabSubjectId() {
+        return userController.getLoggedInUser();
     }
 
 }

@@ -1,9 +1,9 @@
 package gui;
 
 
-import controller.BodyViewController;
-import controller.HeaderViewController;
-import controller.LoginController;
+import controller.JobController;
+import controller.NavigationController;
+import controller.UserController;
 import data.DataStore;
 
 import javax.swing.*;
@@ -13,22 +13,23 @@ import java.awt.event.WindowEvent;
 
 public class MainFrame extends JFrame {
 
+    private final NavigationController navigationController;
+    private final UserController userController;
+    private final JobController jobController;
     private MainHeaderPane header;
     private MainBodyPane body;
-    private BodyViewController bvc;
-    private HeaderViewController hvc;
-    private LoginController lc;
-    
+
     public MainFrame() {
         //Create and set up the window.
         super("JobSeekerSystem");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setMinimumSize(new Dimension(1080,920));
-        this.bvc = new BodyViewController(MainFrame.this);
-        this.hvc = new HeaderViewController(MainFrame.this);
-        this.lc = new LoginController(MainFrame.this);
-        this.body = new MainBodyPane(bvc);
-        this.header = new MainHeaderPane(hvc);
+        this.setMinimumSize(new Dimension(1080, 920));
+        this.navigationController = new NavigationController(this);
+        this.userController = new UserController(navigationController);
+        this.jobController = new JobController();
+//        this.lc = new UserController( this);
+        this.body = new MainBodyPane(navigationController, userController, jobController);
+        this.header = new MainHeaderPane(navigationController, userController);
 
 
         //Add content to the window.
@@ -65,15 +66,5 @@ public class MainFrame extends JFrame {
     public void setHeader(String header) {
         this.header.setHeader(header);
     }
-
-    public BodyViewController getBVC() {
-        return bvc;
-    }
-
-    public HeaderViewController getHVC() {
-        return hvc;
-    }
-
-    public LoginController getLC() {return lc; }
 
 }

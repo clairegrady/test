@@ -6,7 +6,7 @@ public enum DataType {
 
     private String filePath;
 
-    DataType(String filePath){
+    DataType(String filePath) {
         this.filePath = filePath;
     }
 

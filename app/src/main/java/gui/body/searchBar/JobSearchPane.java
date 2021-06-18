@@ -3,7 +3,6 @@ package gui.body.searchBar;
 import data.JobType;
 import data.Location;
 import data.Salary;
-import controller.BodyViewController;
 import gui.body.SearchListingTab;
 
 import javax.swing.*;
@@ -13,7 +12,7 @@ import static java.awt.FlowLayout.CENTER;
 
 public class JobSearchPane extends JPanel {
 
-    private Dimension searchBarSize = new Dimension(800,45);
+    private Dimension searchBarSize = new Dimension(800, 45);
     private SearchListingTab slt;
     private JTextField searchField;
     private JComboBox filterDropdown;
@@ -28,8 +27,8 @@ public class JobSearchPane extends JPanel {
         super();
         this.slt = slt;
         this.setSize(searchBarSize);
-        this.setLayout(new FlowLayout(CENTER,5,5 ));
-        this.setBorder(BorderFactory.createEmptyBorder(7,0,5,0));
+        this.setLayout(new FlowLayout(CENTER, 5, 5));
+        this.setBorder(BorderFactory.createEmptyBorder(7, 0, 5, 0));
         this.searchField = new JTextField(20);
         this.searchField.putClientProperty("JTextField.placeholderText", "Search");
         this.jobKeywords = JobType.getArray();

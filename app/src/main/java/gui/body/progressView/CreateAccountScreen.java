@@ -1,7 +1,8 @@
 package gui.body.progressView;
 
 import com.intellij.uiDesigner.core.GridConstraints;
-import controller.BodyViewController;
+import controller.NavigationController;
+import controller.UserController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,13 +17,16 @@ public class CreateAccountScreen extends JPanel {
     private JTextField companyEntry;
     private JPasswordField pwEntry;
     private JPasswordField pwConfirmEntry;
-    private BodyViewController bvc;
+    private NavigationController navigationController;
+    private UserController userController;
     private JButton proceedButton;
 
-    public CreateAccountScreen(BodyViewController bvc) {
+    public CreateAccountScreen(NavigationController navigationController, UserController userController) {
 
         super();
-        this.bvc = bvc;
+        this.navigationController = navigationController;
+        this.userController = userController;
+
 
         /* Initial creation of the main panel */
         JPanel createPanel = new JPanel();
@@ -46,13 +50,13 @@ public class CreateAccountScreen extends JPanel {
         //Body Title
         JLabel bodyTitle = new JLabel("Account Details");
         setTextPosition(bodyTitle);
-        setPosition(c,0,1,1,0,0,0,0);
+        setPosition(c, 0, 1, 1, 0, 0, 0, 0);
         createPanel.add(bodyTitle, c);
 
         //Mandatory message
         JLabel mandatory = new JLabel("*Denotes mandatory field");
         setTextPosition(mandatory);
-        setPosition(c,1,1,1,0,0,0,0);
+        setPosition(c, 1, 1, 1, 0, 0, 0, 0);
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.LINE_END;
         createPanel.add(mandatory, c);
@@ -60,72 +64,72 @@ public class CreateAccountScreen extends JPanel {
         //First Name
         JLabel fName = new JLabel("First Name*:");
         setTextPosition(fName);
-        setPosition(c,0,2,1,10,10,0,10);
+        setPosition(c, 0, 2, 1, 10, 10, 0, 10);
         createPanel.add(fName, c);
 
         //First Name Entry
         fNameEntry = new JTextField(20);
-        setPosition(c,0,3,1,0,10,0,10);
+        setPosition(c, 0, 3, 1, 0, 10, 0, 10);
         createPanel.add(fNameEntry, c);
 
         //Last Name
         JLabel lName = new JLabel("Last Name*:");
         setTextPosition(lName);
-        setPosition(c,1,2,1,10,10,0,10);
+        setPosition(c, 1, 2, 1, 10, 10, 0, 10);
         createPanel.add(lName, c);
 
         //Last Name Entry
         lNameEntry = new JTextField(20);
-        setPosition(c,1,3,1,0,10,0,10);
+        setPosition(c, 1, 3, 1, 0, 10, 0, 10);
         createPanel.add(lNameEntry, c);
 
         //Email
         JLabel email = new JLabel("Email Address*:");
         setTextPosition(email);
-        setPosition(c,0,4,1,10,10,0,10);
+        setPosition(c, 0, 4, 1, 10, 10, 0, 10);
         createPanel.add(email, c);
 
         //Email Entry
         emailEntry = new JTextField(20);
-        setPosition(c,0,5,1,0,10,0,10);
+        setPosition(c, 0, 5, 1, 0, 10, 0, 10);
         createPanel.add(emailEntry, c);
 
         //Company
         JLabel company = new JLabel("Company:");
         setTextPosition(company);
-        setPosition(c,1,4,1,10,10,0,10);
+        setPosition(c, 1, 4, 1, 10, 10, 0, 10);
         createPanel.add(company, c);
 
         //Company Entry
         companyEntry = new JTextField(20);
-        setPosition(c,1,5,1,0,10,0,10);
+        setPosition(c, 1, 5, 1, 0, 10, 0, 10);
         createPanel.add(companyEntry, c);
 
         //Password
         JLabel pw = new JLabel("Password*:");
         setTextPosition(pw);
-        setPosition(c,0,6,1,10,10,0,10);
+        setPosition(c, 0, 6, 1, 10, 10, 0, 10);
         createPanel.add(pw, c);
 
         //Password Entry
         pwEntry = new JPasswordField(20);
-        setPosition(c,0,7,1,0,10,0,10);
+        setPosition(c, 0, 7, 1, 0, 10, 0, 10);
         createPanel.add(pwEntry, c);
 
         //Password Confirm
         JLabel pwConfirm = new JLabel("Confirm Password*:");
         setTextPosition(pwConfirm);
-        setPosition(c,1,6,1,10,10,0,10);
+        setPosition(c, 1, 6, 1, 10, 10, 0, 10);
         createPanel.add(pwConfirm, c);
 
         //Password Entry
         pwConfirmEntry = new JPasswordField(20);
-        setPosition(c,1,7,1,0,10,0,10);
+        setPosition(c, 1, 7, 1, 0, 10, 0, 10);
         createPanel.add(pwConfirmEntry, c);
 
         //Back Button
         JPanel buttonPanel = new JPanel();
-        setPosition(c, 0, 9, 2,50,0,0,0);
+        setPosition(c, 0, 9, 2, 50, 0, 0, 0);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         createPanel.add(buttonPanel, c);
 
@@ -155,25 +159,25 @@ public class CreateAccountScreen extends JPanel {
         progressBar.putClientProperty("JProgressBar.square", true);
         progressBar.putClientProperty("JProgressBar.largeHeight", false);
         c.fill = GridBagConstraints.HORIZONTAL;
-        setPosition(c,0,0,2,0,0,0,0);
+        setPosition(c, 0, 0, 2, 0, 0, 0, 0);
         createPanel.add(progressBar, c);
 
         // //Main Panel - Card 2
         //Body Title
         JLabel bodyTitle2 = new JLabel("Success");
         setTextPosition(bodyTitle2);
-        setPosition(c2,0,1,1,0,0,0,0);
+        setPosition(c2, 0, 1, 1, 0, 0, 0, 0);
         successPanel.add(bodyTitle2, c2);
 
         //Success message
         JLabel text2 = new JLabel("You have registered as a Recruiter in the Job Seeker System");
         setTextPosition(text2);
-        setPosition(c2,0,2,2,20,0,0,0);
+        setPosition(c2, 0, 2, 2, 20, 0, 0, 0);
         successPanel.add(text2, c2);
 
         //Go to Profile Button
         JPanel buttonPanel2 = new JPanel();
-        setPosition(c2, 0, 3, 2,50,0,0,0);
+        setPosition(c2, 0, 3, 2, 50, 0, 0, 0);
         c2.fill = GridBagConstraints.NONE;
         c2.anchor = GridBagConstraints.LINE_END;
         buttonPanel2.setLayout(new BoxLayout(buttonPanel2, BoxLayout.X_AXIS));
@@ -185,41 +189,41 @@ public class CreateAccountScreen extends JPanel {
 
         //Creating the action listeners to change the tabs and refresh the main panel
         profileButton.addActionListener(e -> {
-            bvc.getMainFrame().setBody("RECRUITER");
-            bvc.getMainFrame().setHeader("RECRUITER");
+            navigationController.setBody("RECRUITER");
+            navigationController.setHeader("RECRUITER");
             //this.setPage("CREATE");
             //clearUserDetails();
             // need to implement logic based on account type
 
         });
 
-        backButton.addActionListener(e-> {
+        backButton.addActionListener(e -> {
             if (JOptionPane.showConfirmDialog(null, "Are you sure you want to leave without saving?", "Warning",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                bvc.getMainFrame().setBody("CHOOSE");
-                bvc.getMainFrame().setHeader("LOGIN");
+                navigationController.setBody("CHOOSE");
+                navigationController.setHeader("LOGIN");
                 clearUserDetails();
             }
         });
 
         proceedButton.addActionListener(e -> {
-                if (JOptionPane.showConfirmDialog(null, "Are you sure you want to create this account?", "Message",
-                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    this.setPage("SUCCESS");
-                    progressBar.setValue(100);
-                    successPanel.add(progressBar, c);
-                    bvc.createRecruiter(
-                            emailEntry.getText(),
-                            String.valueOf(pwEntry.getPassword()),
-                            fNameEntry.getText(),
-                            lNameEntry.getText(),
-                            companyEntry.getText()
-                    );
-                }
-            });
+            if (JOptionPane.showConfirmDialog(null, "Are you sure you want to create this account?", "Message",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                this.setPage("SUCCESS");
+                progressBar.setValue(100);
+                successPanel.add(progressBar, c);
+                userController.createRecruiter(
+                        emailEntry.getText(),
+                        String.valueOf(pwEntry.getPassword()),
+                        fNameEntry.getText(),
+                        lNameEntry.getText(),
+                        companyEntry.getText()
+                );
+            }
+        });
     }
 
-    public void addMandatory(JTextField field){
+    public void addMandatory(JTextField field) {
         field.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e2) { //watch for key strokes
                 proceedButton.setEnabled((fNameEntry.getText().length() > 0 && String.valueOf(pwEntry.getPassword()).length() > 0) && (String.valueOf(pwConfirmEntry.getPassword()).length() > 0 && lNameEntry.getText().length() > 0) && emailEntry.getText().length() > 0);
@@ -232,7 +236,7 @@ public class CreateAccountScreen extends JPanel {
         createAccount.show(this, page);
     }
 
-    public void getUserDetails(){
+    public void getUserDetails() {
         String fNameValue = fNameEntry.getText();
         String lNameValue = lNameEntry.getText();
         String emailValue = emailEntry.getText();
@@ -241,7 +245,7 @@ public class CreateAccountScreen extends JPanel {
         String pwConfirmValue = String.valueOf(pwConfirmEntry.getPassword());
     }
 
-    public void clearUserDetails(){
+    public void clearUserDetails() {
         fNameEntry.setText("");
         lNameEntry.setText("");
         emailEntry.setText("");
@@ -250,26 +254,26 @@ public class CreateAccountScreen extends JPanel {
         pwConfirmEntry.setText("");
     }
 
-    public void setTextPosition(JLabel text){
+    public void setTextPosition(JLabel text) {
         text.setHorizontalAlignment(JLabel.LEFT); //set page title left
         text.setVerticalAlignment(JLabel.TOP); //set page title top
     }
 
-    public void setPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r){
+    public void setPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r) {
         c.gridwidth = w;
         c.gridx = x;
         c.gridy = y;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.LINE_START;
-        c.insets = new Insets(t,l,b,r);
+        c.insets = new Insets(t, l, b, r);
     }
 
-    public void setButtonPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r){
+    public void setButtonPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r) {
         c.gridwidth = w;
         c.gridx = x;
         c.gridy = y;
         c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(t,l,b,r);
+        c.insets = new Insets(t, l, b, r);
     }
 
 }

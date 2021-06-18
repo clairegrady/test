@@ -18,12 +18,12 @@ public class Keyword implements Serializable {
         return value;
     }
 
-    public KeywordType getType() {
-        return type;
-    }
-
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public KeywordType getType() {
+        return type;
     }
 
     public void setType(KeywordType type) {

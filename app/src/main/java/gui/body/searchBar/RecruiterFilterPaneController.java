@@ -2,6 +2,6 @@ package gui.body.searchBar;
 
 public interface RecruiterFilterPaneController {
 
-    void createJob();
+    void navigate();
 
 }

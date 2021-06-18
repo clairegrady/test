@@ -1,33 +1,35 @@
 package gui.body;
 
-import application.*;
-import controller.BodyViewController;
+import application.JobStatus;
+import controller.NavigationController;
+import controller.UserController;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 
 public class RecruiterView extends JPanel implements TabController {
 
-    private BodyViewController bvc;
+    private NavigationController navigationController;
+    private UserController userController;
 
     // refactor this to inherit from Tabbed Pane view
-    public RecruiterView(BodyViewController bvc){
+    public RecruiterView(NavigationController navigationController, UserController userController) {
         super();
-        this.bvc = bvc;
+        this.navigationController = navigationController;
+        this.userController = userController;
         this.setLayout(new BorderLayout());
 
         JTabbedPane tabbedPane = new JTabbedPane();
         Dimension tabSize = new Dimension(800, 500);
-        tabbedPane.putClientProperty("JTabbedPane.tabAreaAlignment","center");
+        tabbedPane.putClientProperty("JTabbedPane.tabAreaAlignment", "center");
 
-        Tab activeTab = new RecruiterListingTab(bvc, JobStatus.ACTIVE);
+        Tab activeTab = new RecruiterListingTab(navigationController, userController, JobStatus.ACTIVE);
         tabbedPane.addTab("Active", null, activeTab, "View Active Jobs");
 
-        Tab draftTab = new RecruiterListingTab(bvc, JobStatus.DRAFT);
+        Tab draftTab = new RecruiterListingTab(navigationController, userController, JobStatus.DRAFT);
         tabbedPane.addTab("Draft", null, draftTab, "View Active Jobs");
 
-        Tab closedTab = new RecruiterListingTab(bvc, JobStatus.CLOSED);
+        Tab closedTab = new RecruiterListingTab(navigationController, userController, JobStatus.CLOSED);
         tabbedPane.addTab("Closed", null, closedTab, "View Active Jobs");
 
         tabbedPane.addChangeListener(e -> {
@@ -43,8 +45,8 @@ public class RecruiterView extends JPanel implements TabController {
 
     }
 
-    public String  getTabSubjectId() {
-        return bvc.getLoggedInUser();
+    public String getTabSubjectId() {
+        return userController.getLoggedInUser();
     }
 
 }
