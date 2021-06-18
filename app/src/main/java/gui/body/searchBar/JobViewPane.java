@@ -1,7 +1,5 @@
 package gui.body.searchBar;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
 import controller.BodyViewController;
 
 import javax.swing.*;
@@ -9,31 +7,29 @@ import java.awt.*;
 
 public class JobViewPane extends JPanel {
 
-    Dimension searchBarSize = new Dimension(800,40);
-    BodyViewController bvc;
+    private Dimension searchBarSize = new Dimension(700,45);
+    protected BodyViewController bvc;
+    protected JPanel centrePanel;
+    private JLabel jobCreatedOnText;
+    private JButton homeButton;
 
     public JobViewPane(BodyViewController bvc) {
         super();
         this.bvc = bvc;
         this.setPreferredSize(searchBarSize);
-        this.setLayout(new GridLayoutManager(1, 2, new Insets(5, 15, 5, 15), -1, -1));
+        this.homeButton = new JButton("Home");
+        this.centrePanel = new JPanel();
+        this.add(centrePanel);
         String createdDate = "";
-        JPanel leftPanel = new JPanel();
-        JLabel textLabel = new JLabel();
-        textLabel.setText("Job created on: " + createdDate);
-        leftPanel.setLayout(new GridLayoutManager(1, 1, new Insets(5, 15, 5, 15), -1, -1));
-        leftPanel.add(textLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new GridLayoutManager(1, 1, new Insets(5, 15, 5, 15), -1, -1));
-        JButton createJobButton = new JButton("Home");
-        // PLACEHOLDER
-        createJobButton.addActionListener(e -> bvc.loginComplete("RECRUITER"));
-        rightPanel.add(createJobButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-
-        this.add(leftPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 1, false));
-        this.add(rightPanel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 1, false));
-
+        this.jobCreatedOnText = new JLabel("Job Created on: " + createdDate);
+        this.homeButton.addActionListener(e -> bvc.loginComplete("RECRUITER"));
+        this.centrePanel.setLayout(new BoxLayout(centrePanel,BoxLayout.LINE_AXIS));
+        this.centrePanel.setPreferredSize(searchBarSize);
+        this.centrePanel.setBorder(BorderFactory.createEmptyBorder(7,0,15,0));
+        this.centrePanel.add(jobCreatedOnText);
+        this.centrePanel.add(Box.createHorizontalGlue());
+        this.centrePanel.add(homeButton);
+        this.homeButton.addActionListener(e -> bvc.createJob());
     }
 
     public String dateToString(int numDate) {
@@ -45,4 +41,5 @@ public class JobViewPane extends JPanel {
 
         return finalDate;
     }
+    
 }

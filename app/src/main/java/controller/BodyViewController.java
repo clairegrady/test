@@ -5,11 +5,13 @@ import data.DataStore;
 import data.KeywordType;
 import gui.MainFrame;
 
+import java.io.Serializable;
 import java.awt.*;
 import java.util.Map;
 
 
-public class BodyViewController {
+
+public class BodyViewController implements Serializable {
 
     MainFrame mainFrame;
 
