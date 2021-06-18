@@ -2,7 +2,11 @@ package controller;
 
 import application.Recruiter;
 import data.DataStore;
+import data.KeywordType;
 import gui.MainFrame;
+
+import java.awt.*;
+import java.util.Map;
 
 
 public class BodyViewController {
@@ -32,6 +36,11 @@ public class BodyViewController {
     public void createJob(){
         mainFrame.setBody("CREATEJOB");
     }
+
+    public static void createNewJob(String jobTitle, Map<KeywordType, List> keywordMap, String employmentType, String description, int salaryCeiling, int salaryFloor, String companyName, String status){
+        System.out.println(companyName + " has a new job named " + jobTitle + " which been created. The job is " + employmentType + " with a pay range of " + salaryFloor + " to " + salaryCeiling + ". This job will be " + status);
+    }
+
 
     public MainFrame getMainFrame() {
         return mainFrame;

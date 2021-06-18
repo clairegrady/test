@@ -16,4 +16,16 @@ public enum Location {
         }
         return list;
     }
+
+    public static String[] getCreateArray() {
+        Location[] constants = Location.values();
+        String[] list = new String[constants.length+1];
+        list[0] = "-Select location";
+        int i = 1;
+        for (Location d : constants) {
+            list[i] = d.toString();
+            i++;
+        }
+        return list;
+    }
 }

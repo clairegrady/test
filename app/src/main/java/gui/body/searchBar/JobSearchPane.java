@@ -1,10 +1,10 @@
 package gui.body.searchBar;
 
-import application.JobType;
+import data.JobType;
 import data.Location;
 import data.Salary;
 import controller.BodyViewController;
-import gui.body.JobSearchPaneController;
+import gui.body.SearchListingTab;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import static java.awt.FlowLayout.CENTER;
 public class JobSearchPane extends JPanel {
 
     private Dimension searchBarSize = new Dimension(800,45);
-    private BodyViewController bvc;
+    private SearchListingTab slt;
     private JTextField searchField;
     private JComboBox filterDropdown;
     private JComboBox payDropdown;
@@ -23,19 +23,18 @@ public class JobSearchPane extends JPanel {
     private String payKeywords[];
     private String locationKeywords[];
     private JButton searchButton;
-    private JobSearchPaneController jobSearchPaneController;
 
-    public JobSearchPane(JobSearchPaneController jobSearchPaneController) {
+    public JobSearchPane(SearchListingTab slt) {
         super();
-        this.jobSearchPaneController = jobSearchPaneController;
+        this.slt = slt;
         this.setSize(searchBarSize);
         this.setLayout(new FlowLayout(CENTER,5,5 ));
         this.setBorder(BorderFactory.createEmptyBorder(7,0,5,0));
         this.searchField = new JTextField(20);
         this.searchField.putClientProperty("JTextField.placeholderText", "Search");
-        this.jobKeywords = new String[]{"Job Type", "IT", "Engineering", "Finance", "Business"};
-        this.payKeywords = new String[]{"Salary", "50 - 80K", "80 - 100K", "100K+"};
-        this.locationKeywords = new String[]{"Location", "Melbourne", "Canberra", "Sydney"};
+        this.jobKeywords = JobType.getArray();
+        this.payKeywords = Salary.getSalaryArray();
+        this.locationKeywords = Location.getArray();
         this.filterDropdown = new JComboBox(jobKeywords);
         this.payDropdown = new JComboBox(payKeywords);
         this.locationDropdown = new JComboBox(locationKeywords);
@@ -47,11 +46,9 @@ public class JobSearchPane extends JPanel {
         this.add(locationDropdown);
         this.add(searchButton);
         this.searchButton.addActionListener(e -> {
-            search();
+            JFrame frame = new JFrame();
+            JOptionPane.showMessageDialog(frame, "Test of button: " + searchField.getText());
+            // IF TEXTFIELD GREATER > 1, search by that, AND keywords, else just keywords
         });
-    }
-
-    public void search() {
-        jobSearchPaneController.searchData(searchField.getText());
     }
 }

@@ -1,4 +1,4 @@
-package application;
+package data;
 
 public enum JobType {
 
@@ -23,6 +23,19 @@ public enum JobType {
         JobType[] constants = JobType.values();
         String[] list = new String[constants.length+1];
         list[0] = "All Job Types";
+        int i = 1;
+        for (JobType d : constants) {
+            list[i] = d.field;
+            i++;
+        }
+        return list;
+    }
+
+    //Static method to return an array of values
+    public static String[] getCreateArray() {
+        JobType[] constants = JobType.values();
+        String[] list = new String[constants.length+1];
+        list[0] = "-Select job type";
         int i = 1;
         for (JobType d : constants) {
             list[i] = d.field;
