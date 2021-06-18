@@ -4,6 +4,7 @@ import controller.BodyViewController;
 import gui.body.*;
 import gui.body.progressView.CreateAccountScreen;
 import gui.body.progressView.CreateJobForm;
+import gui.body.PersonalProfileTab;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +24,7 @@ public class MainBodyPane extends JPanel {
         this.add(new CreateAccountScreen(bvc), "CREATEACCOUNT");
         this.add(new CreateJobForm(bvc), "CREATEJOB"); // added
         this.add(new ChooseAccount(bvc), "CHOOSE");
+        this.add(new PersonalProfileTab(bvc), "SEEKPROFILE");
         this.setBody("LOGIN");
     }
 
