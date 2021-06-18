@@ -60,7 +60,7 @@ public class ChooseAccount extends JPanel {
         //Creating the action listeners to change the tabs and refresh the main panel
 
         seekerButton.addActionListener(e -> {
-            navigationController.setBody("SEEKPROFILE");
+            navigationController.setBody("CREATESEEKER");
             navigationController.setHeader("LOGIN");
         });
 

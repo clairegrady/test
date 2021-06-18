@@ -23,6 +23,15 @@ public class JobSeeker extends User implements Searchable, CardDisplayable {
         this.seekerKeywords = new HashMap<>();
     }
 
+    public JobSeeker(String email, String password, String firstName, String lastName) {
+        super(email, password, firstName, lastName, new ArrayList<>());
+        this.personalSummary = "Default";
+        this.qualifications = "Default";
+        this.experience = "Default";
+        this.seekerKeywords = new HashMap<>();
+
+    }
+
     public JobSeeker(String email, String password, String firstName, String lastName,
                      List<JobInteraction> jobInteractions, String personalSummary, String qualifications,
                      String experience, Map<KeywordType, List<String>> seekerKeywords) {

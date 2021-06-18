@@ -100,4 +100,9 @@ public class UserController {
         Recruiter recruiter = new Recruiter(email, password, firstName, lastName, company);
         DataStore.getDatastore().updateUser(recruiter);
     }
+
+    public void createSeeker(String email, String password, String firstName, String lastName) {
+        JobSeeker seeker = new JobSeeker(email, password, firstName, lastName);
+        DataStore.getDatastore().updateUser(seeker);
+    }
 }

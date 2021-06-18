@@ -1,5 +1,6 @@
 package gui.body.progressView;
 
+import application.Validation;
 import com.intellij.uiDesigner.core.GridConstraints;
 import controller.NavigationController;
 import controller.UserController;
@@ -21,7 +22,7 @@ public class CreateAccountScreen extends JPanel {
     private UserController userController;
     private JButton proceedButton;
 
-    public CreateAccountScreen(NavigationController navigationController, UserController userController) {
+    public CreateAccountScreen(NavigationController navigationController, UserController userController, Boolean recruiter) {
 
         super();
         this.navigationController = navigationController;
@@ -94,16 +95,18 @@ public class CreateAccountScreen extends JPanel {
         setPosition(c, 0, 5, 1, 0, 10, 0, 10);
         createPanel.add(emailEntry, c);
 
-        //Company
-        JLabel company = new JLabel("Company:");
-        setTextPosition(company);
-        setPosition(c, 1, 4, 1, 10, 10, 0, 10);
-        createPanel.add(company, c);
+        if(recruiter) {
+            //Company
+            JLabel company = new JLabel("Company:");
+            setTextPosition(company);
+            setPosition(c, 1, 4, 1, 10, 10, 0, 10);
+            createPanel.add(company, c);
 
-        //Company Entry
-        companyEntry = new JTextField(20);
-        setPosition(c, 1, 5, 1, 0, 10, 0, 10);
-        createPanel.add(companyEntry, c);
+            //Company Entry
+            companyEntry = new JTextField(20);
+            setPosition(c, 1, 5, 1, 0, 10, 0, 10);
+            createPanel.add(companyEntry, c);
+        }
 
         //Password
         JLabel pw = new JLabel("Password*:");
@@ -207,18 +210,42 @@ public class CreateAccountScreen extends JPanel {
         });
 
         proceedButton.addActionListener(e -> {
-            if (JOptionPane.showConfirmDialog(null, "Are you sure you want to create this account?", "Message",
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if (!Validation.validName(fNameEntry.getText()) || !Validation.validName(lNameEntry.getText())){
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame, "Name entry fields must only contain letters.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!Validation.validEmail(emailEntry.getText())) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame, "Email must be a valid entry.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!String.valueOf(pwEntry.getPassword()).equals(String.valueOf(pwConfirmEntry.getPassword()))) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame, "Password and confirm password must match.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (String.valueOf(pwEntry.getPassword()).length() < 8) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame, "Password must be at least 8 characters long", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (JOptionPane.showConfirmDialog(null, "Are you sure you want to create this account?", "Message", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 this.setPage("SUCCESS");
                 progressBar.setValue(100);
                 successPanel.add(progressBar, c);
+                if (recruiter) {
                 userController.createRecruiter(
                         emailEntry.getText(),
                         String.valueOf(pwEntry.getPassword()),
                         fNameEntry.getText(),
                         lNameEntry.getText(),
-                        companyEntry.getText()
-                );
+                        companyEntry.getText());
+                }
+                else {
+                    userController.createSeeker(
+                            emailEntry.getText(),
+                            String.valueOf(pwEntry.getPassword()),
+                            fNameEntry.getText(),
+                            lNameEntry.getText()
+                    );
+                }
             }
         });
     }
