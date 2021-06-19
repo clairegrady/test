@@ -49,7 +49,7 @@ public class JobInteraction implements Serializable, CardDisplayable {
 
     @Override
     public CardData getCardData() {
-        return new CardData(this.job.getTitle(), this.job.getCompany());
+        return job.getCardData();
     }
 
     @Override

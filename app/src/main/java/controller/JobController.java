@@ -50,16 +50,11 @@ public class JobController {
                 JobStatus.getEnum(status),
                 newJob
         );
-
         userController.addJobListing(listing);
-
         newJob.updateMatches();
-
-        System.out.println(companyName + " has a new job named " + jobTitle + " which been created. The job is " + employmentType + " with a pay range of " + salaryFloor + " to " + salaryCeiling + ". This job will be " + status);
     }
 
     public void setBody(String body, String id) {
-        System.out.println(id);
         DataStore.getDatastore().getJobById(id).ifPresent(this::setCurrentJob);
         navigationController.setBody(body);
     }
@@ -75,6 +70,10 @@ public class JobController {
 
     public String getJobListingPublishDate() {
         return formatJobListingDate(currentJobListing.getPublishDate());
+    }
+
+    public Map<String, Integer> getJobListingMatchScores(String id) {
+        return DataStore.getDatastore().getJobById(id).get().getMatchingScore();
     }
 
     public void setJobDetailsPaneInformation(JobDetailsPane jobDetailsPane) {

@@ -46,10 +46,12 @@ public class InviteesTab extends Tab implements CardPanelController, SeekerFilte
         this.add(this.sfp, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
 
+        display();
     }
 
     public void display() {
-        cpo.displayCards();
+        loadCardPanelData();
+        cpo.displayCardsTest(cardPanelData);
     }
 
     public void displayWithFilter() {
@@ -62,7 +64,7 @@ public class InviteesTab extends Tab implements CardPanelController, SeekerFilte
 //        );
     }
 
-    public List<CardDisplayable> getCardPanelData() {
+    public void loadCardPanelData() {
 
         List<CardDisplayable> jiList = new ArrayList<>();
 
@@ -77,10 +79,9 @@ public class InviteesTab extends Tab implements CardPanelController, SeekerFilte
 
         this.cardPanelData = jiList;
 
-        return jiList;
     }
 
-    public Button getCardButton(String id) {
+    public gui.body.Button getCardButton(String id) {
         return new Button();
     }
 
@@ -94,5 +95,9 @@ public class InviteesTab extends Tab implements CardPanelController, SeekerFilte
 //        }
 //
 //        displayWithFilter();
+    }
+
+    public String getCardCenterLabel(String id) {
+        return String.valueOf(job.getMatchingScore().get(id));
     }
 }

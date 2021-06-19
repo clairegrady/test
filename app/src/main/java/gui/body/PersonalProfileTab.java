@@ -1,6 +1,5 @@
 package gui.body;
 
-import application.JobSeeker;
 import controller.NavigationController;
 import controller.UserController;
 

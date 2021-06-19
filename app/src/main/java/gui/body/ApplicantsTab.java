@@ -4,13 +4,11 @@ package gui.body;
 import application.Job;
 import application.JobApplication;
 import application.JobInteraction;
-import controller.JobController;
 import controller.NavigationController;
 import data.DataStore;
 import gui.body.searchBar.SeekerFilterPane;
 import gui.body.searchBar.SeekerFilterPaneController;
 import gui.card.CardDisplayable;
-import gui.modal.SeekerProfileFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,10 +46,12 @@ public class ApplicantsTab extends Tab implements CardPanelController, SeekerFil
         this.add(this.sfp, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
 
+        display();
     }
 
     public void display() {
-        cpo.displayCards();
+        loadCardPanelData();
+        cpo.displayCardsTest(cardPanelData);
     }
 
     public void displayWithFilter() {
@@ -64,11 +64,9 @@ public class ApplicantsTab extends Tab implements CardPanelController, SeekerFil
 //        );
     }
 
-    public List<CardDisplayable> getCardPanelData() {
+    public void loadCardPanelData() {
 
         List<CardDisplayable> jiList = new ArrayList<>();
-
-        System.out.println("job for applicants: " + this.job);
 
         if (!Objects.isNull(this.job)) {
             jiList = DataStore.getDatastore().getJobSeekers()
@@ -81,11 +79,10 @@ public class ApplicantsTab extends Tab implements CardPanelController, SeekerFil
 
         this.cardPanelData = jiList;
 
-        return jiList;
     }
 
-    public Button getCardButton(String id) {
-        Button button = new Button("Profile", navigationController);
+    public gui.body.Button getCardButton(String id) {
+        gui.body.Button button = new Button("Profile", navigationController);
         button.addActionListener(ae -> button.navigationController.displayProfileModal(id));
         return button;
     }
@@ -100,5 +97,9 @@ public class ApplicantsTab extends Tab implements CardPanelController, SeekerFil
 //        }
 //
 //        displayWithFilter();
+    }
+
+    public String getCardCenterLabel(String id) {
+        return String.valueOf(job.getMatchingScore().get(id));
     }
 }

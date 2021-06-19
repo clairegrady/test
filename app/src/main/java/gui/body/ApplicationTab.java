@@ -3,6 +3,7 @@ package gui.body;
 
 import application.JobApplication;
 import application.JobInteraction;
+import controller.JobController;
 import data.JobStatus;
 import application.User;
 import controller.NavigationController;
@@ -24,6 +25,7 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
 
     private NavigationController navigationController;
     private UserController userController;
+    private JobController jobController;
     private CardPanel cpo;
     private AppSearchPane asp;
     private List<CardDisplayable> cardPanelData;
@@ -34,10 +36,11 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
         super();
     }
 
-    public ApplicationTab(NavigationController navigationController, UserController userController) {
+    public ApplicationTab(NavigationController navigationController, UserController userController, JobController jobController) {
         super();
         this.navigationController = navigationController;
         this.userController = userController;
+        this.jobController = jobController;
         this.stringFilter = ji -> true;
         this.statusFilter = ji -> true;
 
@@ -47,14 +50,21 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
         this.add(this.asp, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
 
+        display();
+
     }
 
     public void display() {
-        cpo.displayCards();
+        loadCardPanelData();
+        cpo.displayCardsTest(this.cardPanelData);
+    }
+
+    public String getCardCenterLabel(String id) {
+        return String.valueOf(jobController.getJobListingMatchScores(id).get(userController.getLoggedInUser()));
     }
 
     public void displayWithFilter() {
-        cpo.displayCards(this.cardPanelData.stream()
+        cpo.displayCardsTest(this.cardPanelData.stream()
                 .filter(cd -> cd instanceof JobInteraction)
                 .map(cd -> (JobInteraction) cd)
                 .filter(this.stringFilter)
@@ -63,7 +73,7 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
         );
     }
 
-    public List<CardDisplayable> getCardPanelData() {
+    public void loadCardPanelData() {
         String userId = userController.getLoggedInUser();
 
         Optional<User> loggedInUser = DataStore.getDatastore().getUserById(userId);
@@ -78,10 +88,9 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
 
         this.cardPanelData = jiList;
 
-        return jiList;
     }
 
-    public Button getCardButton(String id) {
+    public gui.body.Button getCardButton(String id) {
         // TODO: set up the button controller
 //        Button button = new Button("View", navigationController);
 //        button.setProperty("blah");
@@ -105,4 +114,5 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
 
         displayWithFilter();
     }
+
 }

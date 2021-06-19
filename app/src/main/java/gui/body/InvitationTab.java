@@ -3,6 +3,7 @@ package gui.body;
 
 import application.JobInteraction;
 import application.JobInvitation;
+import controller.JobController;
 import data.JobStatus;
 import application.User;
 import controller.NavigationController;
@@ -24,6 +25,7 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
 
     private NavigationController navigationController;
     private UserController userController;
+    private JobController jobController;
     private CardPanel cpo;
     private AppSearchPane asp;
     private List<CardDisplayable> cardPanelData;
@@ -34,10 +36,11 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
         super();
     }
 
-    public InvitationTab(NavigationController navigationController, UserController userController) {
+    public InvitationTab(NavigationController navigationController, UserController userController, JobController jobController) {
         super();
         this.navigationController = navigationController;
         this.userController = userController;
+        this.jobController = jobController;
         this.stringFilter = ji -> true;
         this.statusFilter = ji -> true;
 
@@ -47,13 +50,19 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
         this.add(this.asp, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
 
+        display();
     }
 
     public void display() {
-        cpo.displayCards();
+        loadCardPanelData();
+        cpo.displayCardsTest(this.cardPanelData);
     }
 
-    public List<CardDisplayable> getCardPanelData() {
+    public String getCardCenterLabel(String id) {
+        return String.valueOf(jobController.getJobListingMatchScores(id).get(userController.getLoggedInUser()));
+    }
+
+    public void loadCardPanelData() {
 
         String userId = userController.getLoggedInUser();
 
@@ -69,16 +78,14 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
 
         this.cardPanelData = jiList;
 
-        return jiList;
-
     }
 
-    public Button getCardButton(String id) {
+    public gui.body.Button getCardButton(String id) {
         return new Button();
     }
 
     public void displayWithFilter() {
-        cpo.displayCards(this.cardPanelData.stream()
+        cpo.displayCardsTest(this.cardPanelData.stream()
                 .filter(cd -> cd instanceof JobInteraction)
                 .map(cd -> (JobInteraction) cd)
                 .filter(this.stringFilter)
@@ -98,4 +105,5 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
 
         displayWithFilter();
     }
+
 }

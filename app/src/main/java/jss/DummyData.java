@@ -13,6 +13,7 @@ public class DummyData {
     public DummyData() {
         initUsers();
         initJobs();
+        Match.updateAllMatches();
     }
 
     public static void initJobs() {

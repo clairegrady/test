@@ -63,7 +63,7 @@ public class Job implements Storable, Searchable, CardDisplayable {
 
     @Override
     public CardData getCardData() {
-        return new CardData(this.getTitle(), this.getCompany());
+        return new CardData(this.title, this.company, this.uniqueId);
     }
 
     @Override

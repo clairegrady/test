@@ -26,12 +26,12 @@ public class Search {
                 ))
                 .filter(e -> e.getValue() > SEARCH_CUTOFF)
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .limit(15)
                 .map(AbstractMap.SimpleEntry::getKey)
                 .collect(Collectors.toList());
     }
 
     public static Predicate<Job> ceilingGreaterThan(int threshold) {
-        System.out.println(threshold);
         return job -> job.getPayCeiling() >= threshold;
     }
 

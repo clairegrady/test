@@ -91,7 +91,10 @@ public class SeekerProfileBody {
         seekerPanel.add(educationTitle, c);
 
         JTextArea educationText = new JTextArea();
-        educationText.setText(jobSeeker.getKeywordsListForType(KeywordType.EDUCATION).get(0));
+        //TODO: remove the get(0)
+        educationText.setText(
+                jobSeeker.getKeywordsListForType(KeywordType.EDUCATION).get(0)
+       );
         setTextAreaPosition(educationText, 300, 20);
         setPosition(c, 1, 7, 1, 1, 0, 10, 0, 10);
         seekerPanel.add(educationText, c);

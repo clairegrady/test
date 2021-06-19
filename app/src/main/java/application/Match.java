@@ -23,8 +23,6 @@ public class Match extends Thread {
 
     public static int calculateUserScore(Map<KeywordType, List<String>> jobKw, Map<KeywordType,
             List<String>> userKw) {
-        int score = 0;
-
         return userKw.entrySet()
                 .stream()
                 .map(
@@ -32,8 +30,11 @@ public class Match extends Thread {
                                 .getValue()
                                 .stream()
                                 .map(
-                                        kw -> kwList.getKey().getMatchWeighting() * FuzzySearch.extractOne(kw,
-                                                jobKw.get(kwList.getKey())).getScore()
+                                        kw ->
+                                                kwList.getKey().getMatchWeighting() *
+                                                        jobKw.get(kwList.getKey()).size() > 0 ?
+                                                        FuzzySearch.extractOne(kw,
+                                                        jobKw.get(kwList.getKey())).getScore() : 0
                                 )
                                 .reduce(0, Integer::sum)
                 )
@@ -77,7 +78,6 @@ public class Match extends Thread {
     }
 
     public static void updateUserMatches(JobSeeker js) {
-        System.out.println(js);
         for (Job job : DataStore.getDatastore().getJobs()) {
             job.updateMatchingScore(
                     js.getUniqueId(),

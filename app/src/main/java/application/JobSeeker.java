@@ -91,7 +91,7 @@ public class JobSeeker extends User implements Searchable, CardDisplayable {
 
     @Override
     public CardData getCardData() {
-        return new CardData(getFirstName(), getLastName());
+        return new CardData(getFirstName() + " " + getLastName(), " ", getEmail());
     }
 
     @Override

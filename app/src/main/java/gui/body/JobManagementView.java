@@ -3,7 +3,6 @@ package gui.body;
 import application.Job;
 import controller.JobController;
 import controller.NavigationController;
-import data.DataStore;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +56,6 @@ public class JobManagementView extends JPanel implements TabController {
 
         this.add(tabbedPane, BorderLayout.CENTER);
 
-        System.out.println(job);
     }
 
 

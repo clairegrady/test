@@ -1,13 +1,9 @@
 package gui.body;
 
-import gui.card.CardDisplayable;
-
-import java.util.List;
-
 public interface CardPanelController {
 
-    List<CardDisplayable> getCardPanelData();
-
+    void loadCardPanelData();
+    String getCardCenterLabel(String id);
     Button getCardButton(String id);
 
 }

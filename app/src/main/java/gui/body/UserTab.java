@@ -11,10 +11,10 @@ import gui.card.CardDisplayable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class UserTab extends Tab implements CardPanelController, SeekerFilterPaneController {
 
@@ -44,10 +44,12 @@ public class UserTab extends Tab implements CardPanelController, SeekerFilterPan
         this.add(this.sfp, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
 
+        display();
     }
 
     public void display() {
-        cpo.displayCards();
+        loadCardPanelData();
+        cpo.displayCardsTest(cardPanelData);
     }
 
     public void displayWithFilter() {
@@ -60,21 +62,27 @@ public class UserTab extends Tab implements CardPanelController, SeekerFilterPan
 //        );
     }
 
-    public List<CardDisplayable> getCardPanelData() {
+    public void loadCardPanelData() {
 
         List<CardDisplayable> jiList = new ArrayList<>();
 
         if (!Objects.isNull(this.job)) {
-            jiList = new ArrayList<>(DataStore.getDatastore().getJobSeekers());
+            jiList = this.job.getMatchingScore()
+                    .entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .map(e -> DataStore.getDatastore().getJobSeekerById(e.getKey()).get())
+                    .collect(Collectors.toList());
         }
 
         this.cardPanelData = jiList;
 
-        return jiList;
     }
 
-    public Button getCardButton(String id) {
-        return new Button();
+    public gui.body.Button getCardButton(String id) {
+        gui.body.Button button = new Button("Profile", navigationController);
+        button.addActionListener(ae -> button.navigationController.displayProfileModal(id));
+        return button;
     }
 
     public void filterEvents(String searchText, int matchingScore) {
@@ -87,5 +95,9 @@ public class UserTab extends Tab implements CardPanelController, SeekerFilterPan
 //        }
 //
 //        displayWithFilter();
+    }
+
+    public String getCardCenterLabel(String id) {
+        return String.valueOf(job.getMatchingScore().get(id));
     }
 }

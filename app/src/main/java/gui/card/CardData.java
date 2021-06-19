@@ -1,33 +1,47 @@
 package gui.card;
 
+import utility.UniqueId;
+
 public class CardData {
 
-    private String labelOne;
-    private String labelTwo;
+    private String mainLabel;
+    private String secondaryLabel;
+    private String itemUniqueId;
+
 
     public CardData() {
-        this.labelOne = "Default";
-        this.labelOne = "Default";
+        this.mainLabel = "Default";
+        this.secondaryLabel = "Default";
+        this.itemUniqueId = "Default";
     }
 
-    public CardData(String labelOne, String labelTwo) {
-        this.labelOne = labelOne;
-        this.labelTwo = labelTwo;
+    public CardData(String mainLabel, String secondaryLabel, String itemUniqueId) {
+        this.mainLabel = mainLabel;
+        this.secondaryLabel = secondaryLabel;
+        this.itemUniqueId = itemUniqueId;
     }
 
-    public String getLabelOne() {
-        return labelOne;
+    public String getMainLabel() {
+        return mainLabel;
     }
 
-    public void setLabelOne(String labelOne) {
-        this.labelOne = labelOne;
+    public void setMainLabel(String mainLabel) {
+        this.mainLabel = mainLabel;
     }
 
-    public String getLabelTwo() {
-        return labelTwo;
+    public String getSecondaryLabel() {
+        return secondaryLabel;
     }
 
-    public void setLabelTwo(String labelTwo) {
-        this.labelTwo = labelTwo;
+    public void setSecondaryLabel(String secondaryLabel) {
+        this.secondaryLabel = secondaryLabel;
+    }
+
+    public String getItemUniqueId() {
+        return itemUniqueId;
+    }
+
+    public void setItemUniqueId(String itemUniqueId) {
+        this.itemUniqueId = itemUniqueId;
     }
 }

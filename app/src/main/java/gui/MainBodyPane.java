@@ -6,7 +6,10 @@ import controller.UserController;
 import gui.body.*;
 import gui.body.progressView.CreateAccountScreen;
 import gui.body.progressView.CreateJobForm;
+import gui.body.JobManagementView;
+import gui.body.JobSeekerView;
 import gui.body.PersonalProfileTab;
+import gui.body.RecruiterView;
 
 import javax.swing.*;
 import java.awt.*;
