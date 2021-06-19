@@ -31,6 +31,10 @@ public class User implements Storable {
         this.jobInteractions.add(jobInteraction);
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
     @Override
     public String getUniqueId() {
         return getEmail();

@@ -31,7 +31,7 @@ public class JobSeekerView extends JPanel implements TabController {
         Tab profileTab = new PersonalProfileTab(navigationController, userController);
         tabbedPane.addTab("Profile", null, profileTab, "Profile");
 
-        Tab applicationTab = new ApplicationTab(navigationController, userController, jobController);
+        Tab applicationTab = new ApplicationTab(navigationController, userController);
         applicationTab.setPreferredSize(tabSize);
         tabbedPane.addTab("Applications", null, applicationTab, "Review Applications");
 

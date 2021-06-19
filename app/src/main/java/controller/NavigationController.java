@@ -45,7 +45,7 @@ public class NavigationController implements Serializable {
 
     public void displayProfileModal(String id) {
         SeekerProfileFrame spf = new SeekerProfileFrame(this, userController);
-        spf.displayProfile(new SeekerProfileBody(mainFrame.getUserController().getJobSeekerById(id)).createBody());
+        spf.displayProfile(this.getUserController().getJobSeekerById(id));
     }
 
 }

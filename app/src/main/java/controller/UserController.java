@@ -1,9 +1,6 @@
 package controller;
 
-import application.JobListing;
-import application.JobSeeker;
-import application.Recruiter;
-import application.User;
+import application.*;
 import data.DataStore;
 import jss.DummyData;
 
@@ -21,6 +18,12 @@ public class UserController {
         this.authenticatedUserID = "*@example.com";
         this.userType = "LOGGEDOUT";
         new DummyData();
+    }
+
+    public void sendInvitation(JobSeeker jobSeeker, String message) {
+        JobInteraction ji = new JobInvitation(navigationController.getJobController().getCurrentJob(), message);
+
+        jobSeeker.addJobInteraction(ji);
     }
 
     public boolean validateLogin(String email, String password) {

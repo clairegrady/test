@@ -103,7 +103,7 @@ public class DummyData {
         jobInteractions.add(new JobApplication(JobStatus.ACTIVE, job2, -1));
         jobInteractions.add(new JobApplication(JobStatus.ACTIVE, job3, -1));
 
-        jobInteractions.add(new JobInvitation(JobStatus.ACTIVE, job1, "Please come and interview for this awesome job"));
+//        jobInteractions.add(new JobInvitation(job1, "Please come and interview for this awesome job"));
 
 
         Optional<User> js = DataStore.getDatastore().getUserById("j");

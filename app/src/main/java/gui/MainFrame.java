@@ -1,6 +1,7 @@
 package gui;
 
 
+import application.Job;
 import controller.JobController;
 import controller.NavigationController;
 import controller.UserController;

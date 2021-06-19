@@ -4,7 +4,7 @@ import application.JobSeeker;
 import controller.NavigationController;
 import controller.UserController;
 import data.KeywordType;
-import gui.modal.InvitationFrame;
+//import gui.modal.InvitationFrame;
 import gui.modal.SeekerProfileFrame;
 
 import javax.swing.*;
@@ -93,23 +93,15 @@ public class SeekerProfileBody {
         seekerPanel.add(educationTitle, c);
 
         JTextArea educationText = new JTextArea();
-        if (jobSeeker.getKeywordsListForType(KeywordType.EDUCATION) != null) {
+        if (jobSeeker.getKeywordsListForType(KeywordType.EDUCATION).size() > 0) {
             educationText.setText(jobSeeker.getKeywordsListForType(KeywordType.EDUCATION).get(0));
         }
+
         setTextAreaPosition(educationText, 300, 20);
         setPosition(c, 1, 7, 1, 1, 0, 10, 0, 10);
         seekerPanel.add(educationText, c);
 
         return seekerPanel;
-    }
-
-    public void displayProfile() {
-        SeekerProfileFrame spf = new SeekerProfileFrame(navigationController, userController);
-        spf.displayProfile(seekerPanel);
-        JButton invite = new JButton("Send Invitation");
-        invite.addActionListener(e -> {
-            InvitationFrame invitation = new InvitationFrame(navigationController);
-        });
     }
 
     public void setTextAreaPosition(JTextArea textArea, int w, int h){

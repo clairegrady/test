@@ -139,16 +139,14 @@ public class JobController {
 
         Optional<User> u = DataStore.getDatastore().getUserById(userController.getLoggedInUser());
         Optional<JobListing> jl = Optional.empty();
-        System.out.println(u);
         if (u.isPresent()) {
             jl = u.get().getJobInteractions()
                     .stream()
                     .filter(ji -> ji instanceof JobListing && ji.getJob().getUniqueId().equals(id))
-                    .peek(System.out::println)
                     .findFirst()
                     .map(ji -> (JobListing) ji);
         }
-        System.out.println(jl);
+
         assert jl.isPresent();
         return jl.get();
 
