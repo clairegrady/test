@@ -33,18 +33,26 @@ public class MainBodyPane extends JPanel {
                 jobController), "CREATEJOB"); // added
         this.add(new ChooseAccount(navigationController), "CHOOSE");
 
-        this.add(new PersonalProfileTab(navigationController, userController), "SEEKPROFILE");
+
         this.setBody("LOGIN");
     }
 
     public void createPanes() {
-        this.add(new RecruiterView(navigationController, userController, jobController), "RECRUITER");
-        this.add(new JobSeekerView(navigationController, userController, jobController), "JOBSEEKER");
-        this.add(new JobManagementView(navigationController, jobController), "JOBMANAGER");
+        if (userController.getUserType().equals("RECRUITER")) {
+            this.add(new RecruiterView(navigationController, userController, jobController), "RECRUITER");
+        } else {
+            this.add(new JobSeekerView(navigationController, userController, jobController), "JOBSEEKER");
+            this.add(new PersonalProfileTab(navigationController, userController), "SEEKPROFILE");
+        }
+
         this.setBody("LOGIN");
+
     }
 
     public void setBody(String body) {
+        if (body.equals("JOBMANAGER")) {
+            this.add(new JobManagementView(navigationController, jobController), "JOBMANAGER");
+        }
         CardLayout bp = (CardLayout) (this.getLayout());
         bp.show(this, body);
     }

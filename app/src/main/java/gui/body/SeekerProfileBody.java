@@ -3,6 +3,7 @@ package gui.body;
 import application.JobSeeker;
 import controller.NavigationController;
 import controller.UserController;
+import data.KeywordType;
 import gui.modal.InvitationFrame;
 import gui.modal.SeekerProfileFrame;
 
@@ -41,7 +42,7 @@ public class SeekerProfileBody {
         setPosition(c, 0, 2, 1, 1, 10, 10, 0, 10);
         seekerPanel.add(summaryTitle, c);
 
-        JTextArea summaryText = new JTextArea("Personal Summary TEXT Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+        JTextArea summaryText = new JTextArea(jobSeeker.getPersonalSummary());
         setTextAreaPosition(summaryText, 300, 100);
         setPosition(c, 0, 3, 1, 1, 0, 10, 0, 10);
         seekerPanel.add(summaryText, c);
@@ -52,7 +53,7 @@ public class SeekerProfileBody {
         setPosition(c, 0, 4, 1, 1, 10, 10, 0, 10);
         seekerPanel.add(experienceTitle, c);
 
-        JTextArea experienceText = new JTextArea("Experience TEXT Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+        JTextArea experienceText = new JTextArea(jobSeeker.getExperience());
         setTextAreaPosition(experienceText, 300, 100);
         setPosition(c, 0, 5, 1, 3, 0, 10, 0, 10);
         seekerPanel.add(experienceText, c);
@@ -63,7 +64,11 @@ public class SeekerProfileBody {
         setPosition(c, 1, 2, 1, 1, 10, 10, 0, 10);
         seekerPanel.add(skillsTitle, c);
 
-        JTextArea skillsText = new JTextArea("Skills TEXT Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+        JTextArea skillsText = new JTextArea();
+        jobSeeker.getKeywordsListForType(KeywordType.SKILL);
+        for(int i = 0; i < jobSeeker.getKeywordsListForType(KeywordType.SKILL).size(); i++){
+            skillsText.append(jobSeeker.getKeywordsListForType(KeywordType.SKILL).get(i) + "\n");
+        }
         setTextAreaPosition(skillsText, 300, 100);
         setPosition(c, 1, 3, 1, 1, 0, 10, 0, 10);
         seekerPanel.add(skillsText, c);
@@ -74,7 +79,7 @@ public class SeekerProfileBody {
         setPosition(c, 1, 4, 1, 1, 10, 10, 0, 10);
         seekerPanel.add(qualTitle, c);
 
-        JTextArea qualText = new JTextArea("Qualifications TEXT Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+        JTextArea qualText = new JTextArea(jobSeeker.getQualifications());
         setTextAreaPosition(qualText, 300, 70);
         setPosition(c, 1, 5, 1, 1, 0, 10, 0, 10);
         seekerPanel.add(qualText, c);
@@ -85,7 +90,8 @@ public class SeekerProfileBody {
         setPosition(c, 1, 6, 1, 1, 10, 10, 0, 10);
         seekerPanel.add(educationTitle, c);
 
-        JTextArea educationText = new JTextArea("Education TEXT ");
+        JTextArea educationText = new JTextArea();
+        educationText.setText(jobSeeker.getKeywordsListForType(KeywordType.EDUCATION).get(0));
         setTextAreaPosition(educationText, 300, 20);
         setPosition(c, 1, 7, 1, 1, 0, 10, 0, 10);
         seekerPanel.add(educationText, c);

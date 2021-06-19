@@ -86,6 +86,7 @@ public class SearchListingTab extends Tab implements CardPanelController, JobSea
     }
 
     public void searchData(String searchText, String category, String pay, String location) {
+
         this.results = new ArrayList<>(Search.searchJobs(
                 searchText,
                 JobCategory.getEnum(category),

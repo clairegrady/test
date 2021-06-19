@@ -158,6 +158,7 @@ public class DummyData {
                 "Post-Graduate",
                 newKeywordMap()
         );
+        testJS.addKeyword(KeywordType.EDUCATION, "Post Graduate");
 
         DataStore.getDatastore().updateUser(testJobSeeker);
         DataStore.getDatastore().updateUser(testRecruiter);

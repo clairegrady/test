@@ -17,7 +17,7 @@ public class Search {
         List<Job> jobs = DataStore.getDatastore().getJobs();
 
         return jobs.stream()
-                .filter(ceilingGreaterThan(pay.getValue()))
+                .filter(ceilingGreaterThan(pay.getDollarValue()))
                 .filter(hasLocation(location))
                 .filter(hasCategory(category))
                 .map(job -> new AbstractMap.SimpleEntry<>(
@@ -31,6 +31,7 @@ public class Search {
     }
 
     public static Predicate<Job> ceilingGreaterThan(int threshold) {
+        System.out.println(threshold);
         return job -> job.getPayCeiling() >= threshold;
     }
 

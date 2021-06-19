@@ -4,6 +4,7 @@ package gui.body;
 import application.Job;
 import application.JobApplication;
 import application.JobInteraction;
+import controller.JobController;
 import controller.NavigationController;
 import data.DataStore;
 import gui.body.searchBar.SeekerFilterPane;
@@ -66,6 +67,8 @@ public class ApplicantsTab extends Tab implements CardPanelController, SeekerFil
     public List<CardDisplayable> getCardPanelData() {
 
         List<CardDisplayable> jiList = new ArrayList<>();
+
+        System.out.println("job for applicants: " + this.job);
 
         if (!Objects.isNull(this.job)) {
             jiList = DataStore.getDatastore().getJobSeekers()

@@ -42,7 +42,7 @@ public class JobManagementView extends JPanel implements TabController {
         applicantsTab.setPreferredSize(tabSize);
         tabbedPane.addTab("Applications", null, applicantsTab, "Review Applications");
 
-        Tab inviteesTab = new ApplicantsTab(this.navigationController, this.job);
+        Tab inviteesTab = new InviteesTab(this.navigationController, this.job);
         inviteesTab.setPreferredSize(tabSize);
         tabbedPane.addTab("Invitations", null, inviteesTab, "Manage Invitations");
 

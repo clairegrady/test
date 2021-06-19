@@ -1,8 +1,8 @@
 package gui.body;
 
+import application.JobSeeker;
 import controller.NavigationController;
 import controller.UserController;
-import data.DataStore;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,12 +51,12 @@ public class PersonalProfileTab extends Tab {
     }
 
     public void display() {
-
+//TODO: use this method
     }
 
     public void insertBody(){
-//        SeekerProfileBody spb = new SeekerProfileBody();
-//        blankPanel.add(spb.createBody());
+        SeekerProfileBody spb = new SeekerProfileBody(userController.getJobSeekerById(userController.getLoggedInUser()));
+        blankPanel.add(spb.createBody());
     }
 
 

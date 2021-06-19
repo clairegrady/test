@@ -55,6 +55,10 @@ public class MainFrame extends JFrame {
         this.header.createPanes();
     }
 
+    public UserController getUserController() {
+        return this.userController;
+    }
+
     public void setBody(String body) {
         this.body.setBody(body);
     }

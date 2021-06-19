@@ -29,19 +29,23 @@ public enum Sal {
     ONEFIFTY(150),
     TWOHUNDRED(200);
 
-    private int value;
+    private int displayValue;
 
-    Sal(int value) {
-        this.value = value;
+    Sal(int displayValue) {
+        this.displayValue = displayValue;
     }
 
     @Override
     public String toString() {
-        return value + "K+";
+        return displayValue + "K+";
     }
 
     public int getValue() {
-        return value;
+        return displayValue;
+    }
+
+    public int getDollarValue() {
+        return displayValue * 1000;
     }
 
     public static Sal[] getValuesExcept(Sal salary) {

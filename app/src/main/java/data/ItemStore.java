@@ -46,4 +46,15 @@ public class ItemStore<T extends Storable> {
     void updateItem(T item) {
         items.put(item.getUniqueId(), item);
     }
+
+    <S extends T> Optional<S> getSubclassById(String id, Class<S> c) {
+
+        T item = items.get(id);
+
+        if (item != null) {
+            return Optional.ofNullable((S) item);
+        }
+
+        return Optional.empty();
+    }
 }

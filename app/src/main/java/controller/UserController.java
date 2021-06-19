@@ -112,4 +112,11 @@ public class UserController {
         JobSeeker seeker = new JobSeeker(email, password, firstName, lastName);
         DataStore.getDatastore().updateUser(seeker);
     }
+
+    public JobSeeker getJobSeekerById(String id) {
+        Optional<JobSeeker> jobSeeker = DataStore.getDatastore().getJobSeekerById(id);
+//TODO: error handling for null val
+        return jobSeeker.get();
+
+    }
 }
