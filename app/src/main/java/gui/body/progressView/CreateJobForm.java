@@ -158,12 +158,12 @@ public class CreateJobForm extends JPanel {
         jobDetailsPanel.add(companyEntry, c);
 
         //Location Entry
-        locationEntry = new JComboBox<>(Location.getCreateArray());
+        locationEntry = new JComboBox(Location.getCreateFormLocations());
         setPosition(c, 0, 7, 1, 0, 10, 0, 10);
         jobDetailsPanel.add(locationEntry, c);
 
         //Category Entry
-        categoryEntry = new JComboBox<>(JobType.getCreateArray());
+        categoryEntry = new JComboBox(JobCategory.getCreateFormCategories());
         setPosition(c, 1, 7, 1, 0, 10, 0, 10);
         jobDetailsPanel.add(categoryEntry, c);
 
@@ -175,11 +175,11 @@ public class CreateJobForm extends JPanel {
         jobDetailsPanel.add(payTypeEntry, c);
 
         //Pay Range Entry min
-        String[] salaryArray = Salary.getCreateSalaryArray();
+//        String[] salaryArray = Sal.getCreateFormSalaries();
         String[] perHourArray = Salary.getCreatePerHourArray();
-        DefaultComboBoxModel<String> salaryModel = new DefaultComboBoxModel<>(salaryArray);
+        DefaultComboBoxModel<String> salaryModel = new DefaultComboBoxModel(Sal.getCreateFormSalaries());
         DefaultComboBoxModel<String> perHourModel = new DefaultComboBoxModel<>(perHourArray);
-        DefaultComboBoxModel<String> salaryModel2 = new DefaultComboBoxModel<>(salaryArray);
+        DefaultComboBoxModel<String> salaryModel2 = new DefaultComboBoxModel(Sal.getCreateFormSalaries());
         DefaultComboBoxModel<String> perHourModel2 = new DefaultComboBoxModel<>(perHourArray);
 
         payRangeMinEntry = new JComboBox<>();

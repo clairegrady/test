@@ -1,11 +1,8 @@
 package search;
 
 import application.Job;
-import application.User;
-import data.DataStore;
-import data.KeywordType;
+import data.*;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
-import me.xdrop.fuzzywuzzy.model.BoundExtractedResult;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -15,77 +12,38 @@ public class Search {
 
     private static final int SEARCH_CUTOFF = 35;
 
-    public static List<User> getUsersForJob(Job job) {
-        return job
-                .getMatchingScore()
-                .entrySet()
-                .stream()
+    public static List<Job> searchJobs(String searchText, JobCategory category, Sal pay, Location location) {
+
+        List<Job> jobs = DataStore.getDatastore().getJobs();
+
+        return jobs.stream()
+                .filter(ceilingGreaterThan(pay.getValue()))
+                .filter(hasLocation(location))
+                .filter(hasCategory(category))
+                .map(job -> new AbstractMap.SimpleEntry<>(
+                        job,
+                        searchText.equalsIgnoreCase("") ? 100 : FuzzySearch.weightedRatio(searchText, job.getDescription())
+                ))
+                .filter(e -> e.getValue() > SEARCH_CUTOFF)
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .map(user -> DataStore.getDatastore().getUserById(user.getKey()))
-                .flatMap(Optional::stream)
+                .map(AbstractMap.SimpleEntry::getKey)
                 .collect(Collectors.toList());
     }
 
-    public static Predicate<Job> floorGreaterThan(int num) {
-        return job -> job.getPayFloor() >= num;
+    public static Predicate<Job> ceilingGreaterThan(int threshold) {
+        return job -> job.getPayCeiling() >= threshold;
     }
 
-    public static List<Job> jobDescriptionSearch(String val) {
-        return FuzzySearch
-                .extractSorted(val, DataStore.getDatastore().getJobs(), Job::getDescription, SEARCH_CUTOFF)
-                .stream()
-                .map(BoundExtractedResult::getReferent)
-                .collect(Collectors.toList());
+    public static Predicate<Job> hasLocation(Location location) {
+        return location == Location.ALL_LOCATIONS ? job -> true : hasKeyword(KeywordType.LOCATION,  location.toString());
     }
 
-    public static List<Job> jobKeywordSearch(String val) {
-        return searchKeywords(val, null);
+    public static Predicate<Job> hasCategory(JobCategory category) {
+        return category == JobCategory.ALL_CATEGORIES ? job -> true : hasKeyword(KeywordType.CATEGORY,  category.toString());
     }
 
-    public static List<Job> jobKeywordSearch(String val, KeywordType type) {
-        return searchKeywords(val, type);
-    }
-
-    public static List<Job> jobSalarySearch(int min) {
-        return DataStore
-                .getDatastore().getJobs()
-                .stream()
-                .filter(floorGreaterThan(min))
-                .sorted(Comparator.comparing(Job::getPayCeiling, Comparator.reverseOrder()))
-                .collect(Collectors.toList());
-    }
-
-    public static List<Job> searchKeywords(String val, KeywordType kwt) {
-        return DataStore.getDatastore().getJobs()
-                .stream()
-                .collect(
-                        Collectors.toMap(
-                                job -> job,
-                                job -> topKeywordMatchHelper(job, val, kwt)
-                        )
-                )
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getValue() > SEARCH_CUTOFF)
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-    }
-
-    public static int topKeywordMatch(Job job, String val) {
-        return FuzzySearch
-                .extractOne(val, job.getAllKeywordsList())
-                .getScore();
-    }
-
-    public static int topKeywordMatchForType(Job job, String val, KeywordType type) {
-        return FuzzySearch
-                .extractOne(val, job.getKeywordsListForType(type))
-                .getScore();
-    }
-
-    public static int topKeywordMatchHelper(Job j, String val, KeywordType kwt) {
-        return Objects.isNull(kwt) ? topKeywordMatch(j, val) : topKeywordMatchForType(j, val, kwt);
+    public static Predicate<Job> hasKeyword(KeywordType keywordType, String value) {
+        return job -> job.getJobKeywords().get(keywordType).stream().anyMatch(kw -> kw.equalsIgnoreCase(value));
     }
 
 }

@@ -2,6 +2,7 @@ package data;
 
 import application.Job;
 import application.JobSeeker;
+import application.Recruiter;
 import application.User;
 
 import java.util.List;
@@ -38,6 +39,19 @@ public class DataStore {
 
     public Optional<Job> getJobById(String uniqueId) {
         return jobs.getByUniqueId(uniqueId);
+    }
+
+    public Optional<JobSeeker> getJobSeekerById(String uniqueId) {
+        Optional<User> u = users.getByUniqueId(uniqueId);
+
+        Optional<JobSeeker> js = Optional.empty();
+
+        if (u.isPresent()) {
+            js = Optional.ofNullable(u.get() instanceof JobSeeker ? (JobSeeker) u.get() : null);
+        }
+
+        return js;
+
     }
 
     public Optional<User> getUserById(String uniqueId) {

@@ -1,6 +1,7 @@
 package gui.modal;
 
 import controller.NavigationController;
+import controller.UserController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,12 +9,14 @@ import java.awt.*;
 public class SeekerProfileFrame extends JFrame {
 
     private NavigationController navigationController;
+    private UserController userController;
     private JDialog profileModal;
     private JPanel panel;
     private JTextArea messageText;
 
-    public SeekerProfileFrame(NavigationController navigationController) {
+    public SeekerProfileFrame(NavigationController navigationController, UserController userController) {
         super();
+        this.userController = userController;
 
         profileModal = new JDialog(this, "Job Seeker Profile",true);
         profileModal.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

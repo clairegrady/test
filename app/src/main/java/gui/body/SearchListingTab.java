@@ -7,8 +7,12 @@ import application.User;
 import controller.JobController;
 import controller.NavigationController;
 import controller.UserController;
+import data.JobCategory;
 import data.DataStore;
+import data.Location;
+import data.Sal;
 import gui.body.searchBar.JobSearchPane;
+import gui.body.searchBar.JobSearchPaneController;
 import gui.card.CardDisplayable;
 import search.Search;
 
@@ -81,9 +85,12 @@ public class SearchListingTab extends Tab implements CardPanelController, JobSea
         return new Button();
     }
 
-    public void searchData(String text) {
-        List<CardDisplayable> jobList = new ArrayList<>(Search.jobDescriptionSearch(text));
-        this.results = jobList;
+    public void searchData(String searchText, String category, String pay, String location) {
+        this.results = new ArrayList<>(Search.searchJobs(
+                searchText,
+                JobCategory.getEnum(category),
+                Sal.getEnum(pay),
+                Location.getEnum(location)));
         display();
 
     }
