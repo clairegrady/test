@@ -13,6 +13,7 @@ import gui.body.searchBar.JobSearchPaneController;
 import gui.card.CardDisplayable;
 import gui.modal.JobDetailsFrame;
 import search.Search;
+import gui.modal.JobDetailsFrame;
 
 import javax.swing.*;
 import java.awt.*;

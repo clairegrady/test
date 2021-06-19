@@ -12,6 +12,7 @@ import data.DataStore;
 import gui.body.searchBar.AppSearchPane;
 import gui.body.searchBar.AppSearchPaneController;
 import gui.card.CardDisplayable;
+import gui.modal.JobDetailsFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,8 +81,13 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
 
     }
 
-    public gui.body.Button getCardButton(String id) {
-        return new Button();
+    public Button getCardButton(String id) {
+        Button button = new Button("View", jobController);
+        button.addActionListener(ae -> {
+            button.jobController.setCurrentJob(id);
+            new JobDetailsFrame(navigationController, jobController);
+        });
+        return button;
     }
 
     public void displayWithFilter() {
@@ -95,7 +101,7 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
     }
 
     public void filterEvents(String searchText, JobStatus status) {
-        this.stringFilter = ji -> ji.getJob().getTitle().toLowerCase().contains(searchText.toLowerCase());
+        this.stringFilter = ji -> ji.getJob().toString().toLowerCase().contains(searchText.toLowerCase());
 
         if (status == JobStatus.NULL) {
             this.statusFilter = ji -> true;

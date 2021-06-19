@@ -31,7 +31,7 @@ public class JobDetailsModalPane extends JobDetailsPane {
 
     @Override
     protected void setEditPaneComponents() {
-        
+
 
     }
 

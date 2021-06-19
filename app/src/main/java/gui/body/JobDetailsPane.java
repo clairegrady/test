@@ -1,28 +1,20 @@
 package gui.body;
 
-import data.JobStatus;
 import controller.JobController;
 import controller.NavigationController;
-import gui.body.searchBar.JobViewPane;
+import data.JobStatus;
 import utility.GBC;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-//import java.awt.;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//import java.awt.;
 
-public class JobDetailsPane extends Tab implements ListSelectionListener {
+
+public class JobDetailsPane extends JPanel {
 
     protected final NavigationController navigationController;
     protected final JobController jobController;
@@ -52,16 +44,13 @@ public class JobDetailsPane extends Tab implements ListSelectionListener {
 
     JobDetailsPane(NavigationController navigationController, JobController jobController) {
         super();
-        this.setLayout(new BorderLayout());
         this.navigationController = navigationController;
         this.jobController = jobController;
-        this.add(new JobViewPane(navigationController, jobController), BorderLayout.NORTH);
         this.createComponentPanes();
         this.skills = new ArrayList<>();
         this.location = new ArrayList<>();
         this.education = new ArrayList<>();
         displayJobDetails();
-
         this.setJobTitlePaneComponents();
         this.setActionPaneComponents();
         this.setEditPaneComponents();
@@ -73,19 +62,20 @@ public class JobDetailsPane extends Tab implements ListSelectionListener {
 
 
     private void createComponentPanes() {
-
-        this.bodyPane = new JPanel(new FlowLayout());
-        this.add(bodyPane, BorderLayout.CENTER);
+        this.setLayout(new FlowLayout());
         detailsPane = new JPanel(new GridBagLayout());
-        bodyPane.add(detailsPane);
+        this.add(detailsPane);
 
         jobTitlePane = new JPanel();
         jobTitlePane.setBackground(Color.WHITE);
 
         jobDescriptionPane = new JEditorPane();
+        jobDescriptionPane.setEditable(false);
+        jobDescriptionPane.setBackground(Color.WHITE);
         jobDescScrollPane = new JScrollPane(jobDescriptionPane);
         jobDescScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         jobDescScrollPane.setPreferredSize(new Dimension(500, 350));
+
         jobDescScrollPane.setBorder(BorderFactory.createTitledBorder("Job Description"));
 
         editPane = new JPanel();
@@ -185,9 +175,7 @@ public class JobDetailsPane extends Tab implements ListSelectionListener {
     protected JScrollPane setUpScrollPane(JList list) {
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setLayoutOrientation(JList.VERTICAL);
-        list.setSelectedIndex(0);
-        list.addListSelectionListener(this);
-        list.setVisibleRowCount(5);
+        list.setFocusable(false);
         return new JScrollPane(list);
     }
 
@@ -267,10 +255,6 @@ public class JobDetailsPane extends Tab implements ListSelectionListener {
         this.education = educationAndQualifications;
     }
 
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-
-    }
     protected JPanel getActionPane() {
         return actionPane;
     }
@@ -279,8 +263,4 @@ public class JobDetailsPane extends Tab implements ListSelectionListener {
         return editPane;
     }
 
-    @Override
-    public void display() {
-        
-    }
 }
