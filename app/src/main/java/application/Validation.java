@@ -1,10 +1,18 @@
 package application;
 
+import data.DataStore;
+
+import java.util.Optional;
+
 public class Validation {
+
+    public static boolean emailExists(String email){
+        Optional<User> user = DataStore.getDatastore().getUserById(email);
+        return user.isPresent();
+    }
 
     public static boolean validEmail(String email){
         String regex = "^(.+)@(.+)$";
-
         return email.matches(regex);
     }
 

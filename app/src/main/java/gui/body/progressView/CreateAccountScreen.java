@@ -11,22 +11,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class CreateAccountScreen extends JPanel {
-    private JProgressBar progressBar;
-    private JTextField fNameEntry;
-    private JTextField lNameEntry;
-    private JTextField emailEntry;
+    private final JProgressBar progressBar;
+    private final JTextField fNameEntry;
+    private final JTextField lNameEntry;
+    private final JTextField emailEntry;
     private JTextField companyEntry;
-    private JPasswordField pwEntry;
-    private JPasswordField pwConfirmEntry;
-    private NavigationController navigationController;
-    private UserController userController;
-    private JButton proceedButton;
+    private final JPasswordField pwEntry;
+    private final JPasswordField pwConfirmEntry;
+    private final JButton proceedButton;
 
     public CreateAccountScreen(NavigationController navigationController, UserController userController, Boolean recruiter) {
 
         super();
-        this.navigationController = navigationController;
-        this.userController = userController;
 
 
         /* Initial creation of the main panel */
@@ -104,6 +100,7 @@ public class CreateAccountScreen extends JPanel {
 
             //Company Entry
             companyEntry = new JTextField(20);
+            companyEntry.setText("");
             setPosition(c, 1, 5, 1, 0, 10, 0, 10);
             createPanel.add(companyEntry, c);
         }
@@ -190,14 +187,10 @@ public class CreateAccountScreen extends JPanel {
         profileButton.setFocusable(false);
         buttonPanel2.add(profileButton);
 
-        //Creating the action listeners to change the tabs and refresh the main panel
         profileButton.addActionListener(e -> {
-            navigationController.setBody("RECRUITER");
-            navigationController.setHeader("RECRUITER");
-            //this.setPage("CREATE");
-            //clearUserDetails();
-            // need to implement logic based on account type
-
+            userController.validateLogin(emailEntry.getText(), String.valueOf(pwEntry.getPassword()));
+            clearUserDetails(recruiter);
+            navigationController.loginComplete(userController.getUserType());
         });
 
         backButton.addActionListener(e -> {
@@ -205,7 +198,7 @@ public class CreateAccountScreen extends JPanel {
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 navigationController.setBody("CHOOSE");
                 navigationController.setHeader("LOGIN");
-                clearUserDetails();
+                clearUserDetails(recruiter);
             }
         });
 
@@ -217,6 +210,10 @@ public class CreateAccountScreen extends JPanel {
             else if (!Validation.validEmail(emailEntry.getText())) {
                 JFrame frame = new JFrame();
                 JOptionPane.showMessageDialog(frame, "Email must be a valid entry.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (Validation.emailExists(emailEntry.getText())) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame, "Email already exists.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else if (!String.valueOf(pwEntry.getPassword()).equals(String.valueOf(pwConfirmEntry.getPassword()))) {
                 JFrame frame = new JFrame();
@@ -263,20 +260,13 @@ public class CreateAccountScreen extends JPanel {
         createAccount.show(this, page);
     }
 
-    public void getUserDetails() {
-        String fNameValue = fNameEntry.getText();
-        String lNameValue = lNameEntry.getText();
-        String emailValue = emailEntry.getText();
-        String companyValue = companyEntry.getText();
-        String pwValue = String.valueOf(pwEntry.getPassword());
-        String pwConfirmValue = String.valueOf(pwConfirmEntry.getPassword());
-    }
-
-    public void clearUserDetails() {
+    public void clearUserDetails(boolean recruiter) {
         fNameEntry.setText("");
         lNameEntry.setText("");
         emailEntry.setText("");
+        if(recruiter){
         companyEntry.setText("");
+        }
         pwEntry.setText("");
         pwConfirmEntry.setText("");
     }
@@ -292,14 +282,6 @@ public class CreateAccountScreen extends JPanel {
         c.gridy = y;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.LINE_START;
-        c.insets = new Insets(t, l, b, r);
-    }
-
-    public void setButtonPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r) {
-        c.gridwidth = w;
-        c.gridx = x;
-        c.gridy = y;
-        c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(t, l, b, r);
     }
 
