@@ -65,9 +65,11 @@ public class SeekerProfileBody {
         seekerPanel.add(skillsTitle, c);
 
         JTextArea skillsText = new JTextArea();
-        jobSeeker.getKeywordsListForType(KeywordType.SKILL);
-        for(int i = 0; i < jobSeeker.getKeywordsListForType(KeywordType.SKILL).size(); i++){
-            skillsText.append(jobSeeker.getKeywordsListForType(KeywordType.SKILL).get(i) + "\n");
+        if (jobSeeker.getKeywordsListForType(KeywordType.SKILL) != null) {
+            jobSeeker.getKeywordsListForType(KeywordType.SKILL);
+            for(int i = 0; i < jobSeeker.getKeywordsListForType(KeywordType.SKILL).size(); i++){
+                skillsText.append(jobSeeker.getKeywordsListForType(KeywordType.SKILL).get(i) + "\n");
+            }
         }
         setTextAreaPosition(skillsText, 300, 100);
         setPosition(c, 1, 3, 1, 1, 0, 10, 0, 10);
@@ -91,10 +93,9 @@ public class SeekerProfileBody {
         seekerPanel.add(educationTitle, c);
 
         JTextArea educationText = new JTextArea();
-        //TODO: remove the get(0)
-        educationText.setText(
-                jobSeeker.getKeywordsListForType(KeywordType.EDUCATION).get(0)
-       );
+        if (jobSeeker.getKeywordsListForType(KeywordType.EDUCATION) != null) {
+            educationText.setText(jobSeeker.getKeywordsListForType(KeywordType.EDUCATION).get(0));
+        }
         setTextAreaPosition(educationText, 300, 20);
         setPosition(c, 1, 7, 1, 1, 0, 10, 0, 10);
         seekerPanel.add(educationText, c);
