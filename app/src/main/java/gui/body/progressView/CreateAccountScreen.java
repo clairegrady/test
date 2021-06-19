@@ -168,7 +168,10 @@ public class CreateAccountScreen extends JPanel {
         successPanel.add(bodyTitle2, c2);
 
         //Success message
-        JLabel text2 = new JLabel("You have registered as a Recruiter in the Job Seeker System");
+        JLabel text2 = new JLabel("You have registered as a Job Seeker in the Job Seeker System");
+        if (recruiter) {
+            text2 = new JLabel("You have registered as a Recruiter in the Job Seeker System");
+        }
         setTextPosition(text2);
         setPosition(c2, 0, 2, 2, 20, 0, 0, 0);
         successPanel.add(text2, c2);
