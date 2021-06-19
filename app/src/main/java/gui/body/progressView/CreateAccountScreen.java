@@ -23,8 +23,6 @@ public class CreateAccountScreen extends JPanel {
     public CreateAccountScreen(NavigationController navigationController, UserController userController, Boolean recruiter) {
 
         super();
-
-
         /* Initial creation of the main panel */
         JPanel createPanel = new JPanel();
         createPanel.setLayout(new GridBagLayout());

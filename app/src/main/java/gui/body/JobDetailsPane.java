@@ -22,9 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class JobDetailsPane extends JPanel implements ListSelectionListener {
+public class JobDetailsPane extends Tab implements ListSelectionListener {
 
     private final NavigationController navigationController;
+
     private List<String> skills;
     private List<String> location;
     private List<String> education;
@@ -51,7 +52,8 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
     private JobController jobController;
 
     JobDetailsPane(NavigationController navigationController, JobController jobController) {
-        super(new BorderLayout());
+        super();
+        this.setLayout(new BorderLayout());
         this.navigationController = navigationController;
         this.jobController = jobController;
         this.add(new JobViewPane(navigationController, jobController), BorderLayout.NORTH);
@@ -74,7 +76,9 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
     private void createComponentPanes() {
 
         this.bodyPane = new JPanel(new FlowLayout());
+        this.add(bodyPane, BorderLayout.CENTER);
         detailsPane = new JPanel(new GridBagLayout());
+        bodyPane.add(detailsPane);
 
         jobTitlePane = new JPanel();
         jobTitlePane.setBackground(Color.WHITE);
@@ -95,8 +99,6 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
         skillsListModel = new DefaultListModel<>();
         JList<String> skillsList = new JList<>(skillsListModel);
         skillsListScrollPane = setUpScrollPane(skillsList);
-
-
         skillsListScrollPane.setPreferredSize(new Dimension(300, 180));
         skillsListScrollPane.setBorder(BorderFactory.createTitledBorder("Required Skills"));
 
@@ -203,7 +205,6 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
     }
 
     private void setDetailsPaneLayout() {
-        bodyPane.add(detailsPane);
 
         detailsPane.add(jobTitlePane,
                 new GBC(0, 0)
@@ -241,7 +242,6 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
                         .setWeight(0.3, 0)
                         .setFill(GridBagConstraints.BOTH)
                         .setInsets(5));
-        this.add(bodyPane, BorderLayout.CENTER);
     }
 
     private void displayJobDetails() {
@@ -268,6 +268,11 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
+
+    }
+
+    @Override
+    public void display() {
 
     }
 }

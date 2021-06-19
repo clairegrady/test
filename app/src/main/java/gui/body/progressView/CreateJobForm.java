@@ -1,706 +1,689 @@
 package gui.body.progressView;
 
 import application.Education;
-import com.intellij.uiDesigner.core.GridConstraints;
 import controller.JobController;
 import controller.NavigationController;
-import data.*;
+import data.JobCategory;
+import data.KeywordType;
+import data.Location;
+import data.Salary;
+import utility.GBC;
 
 import javax.swing.*;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.Insets;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CreateJobForm extends JPanel {
-    private final JComboBox<String> locationEntry;
-    private final JComboBox<String> categoryEntry;
-    private final JProgressBar progressBar;
-    private final JComboBox<String> payTypeEntry;
-    private final JComboBox<String> employmentTypeEntry;
-    private final JButton proceedButton;
-    private final JButton proceedButton3;
-    private final JComboBox<String> educationEntry;
-    private final JTextArea descriptionEntry;
-    private final JTextField jobTitleEntry;
-    private final JTextField companyEntry;
-    private final JComboBox<String> payRangeMinEntry;
-    private final JComboBox<String> payRangeMaxEntry;
-    private final DefaultListModel<String> skillModel;
-    private final DefaultListModel<String> qualModel;
-    private JButton proceedButton2;
-    private JobController jobController;
+import static java.lang.Integer.parseInt;
 
+public class CreateJobForm extends JPanel implements ListSelectionListener {
+
+    private JPanel bodyPane;
+    private JPanel formPane;
+    private JPanel progressPane;
+    private JPanel backgroundPane;
+    private JPanel jobDetailsPanel;
+    private JPanel skillsAndQualsPage;
+    private JPanel descriptionPanel;
+    private JPanel publishPanel;
+    private JPanel buttonsPanel;
+    private CardLayout cardLayout;
+    private final NavigationController navigationController;
+    private final JobController jobController;
+
+    private JList<String> qualificationsList;
+    private JTextField qualificationsTextField;
+    private JScrollPane qualificationsListScrollPane;
+    private JButton qualificationsAddButton;
+    private JButton qualificationsRemoveButton;
+
+    private JList<String> skillsList;
+    private JTextField skillTextField;
+    private JScrollPane skillsListScrollPane;
+    private JButton addSkillButton;
+    private JButton removeSkillButton;
+    private final ActionListener leave;
+    private final ActionListener back;
+
+    private JComboBox<String> locationEntry;
+    private JComboBox<String> categoryEntry;
+    private JProgressBar progressBar;
+    private int progressBarValue;
+    private JComboBox<String> payTypeEntry;
+    private JComboBox<String> employmentTypeEntry;
+    private JButton proceedButton;
+    private JButton backButton;
+    private Integer minInt;
+    private Integer maxInt;
+    private JButton saveButton;
+    private JButton previewButton;
+    private JButton publishButton;
+    private JComboBox<String> educationEntry;
+    private JTextArea descriptionEntry;
+    private JTextField jobTitleEntry;
+    private JTextField companyEntry;
+    private JComboBox<String> payRangeMinEntry;
+    private JComboBox<String> payRangeMaxEntry;
+    private DefaultListModel<String> skillsListModel;
+    private DefaultListModel<String> qualificationsListModel;
+    private JPanel pageShown;
+    private final String details;
+    private final String skills;
+    private final String description;
+    private final String publish;
 
     public CreateJobForm(NavigationController navigationController, JobController jobController) {
 
         super();
-
+        this.navigationController = navigationController;
         this.jobController = jobController;
+        progressPane = new JPanel();
+        this.setLayout(new BorderLayout());
+        backgroundPane = new JPanel(new FlowLayout());
+        cardLayout = new CardLayout();
+        formPane = new JPanel(cardLayout);
+        bodyPane = new JPanel(new BorderLayout());
+        buttonsPanel = new JPanel();
+        this.add(progressPane, BorderLayout.NORTH);
+        this.add(backgroundPane, BorderLayout.CENTER);
+        backgroundPane.add(bodyPane);
+        bodyPane.add(formPane, BorderLayout.CENTER);
+        bodyPane.add(buttonsPanel, BorderLayout.PAGE_END);
+        progressBarValue = 25;
+        details = "DETAILS";
+        skills = "SKILLS";
+        description = "DESCRIPTION";
+        publish = "PUBLISH";
 
-        /* Initial panel - Job Details */
-        JPanel jobDetailsPanel = new JPanel();
-        jobDetailsPanel.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        this.add(jobDetailsPanel, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        jobDetailsPanel.setVisible(true);
+        jobDetailsPanel = new JPanel(new GridBagLayout());
+        jobDetailsPanel.setBackground(Color.WHITE);
+        jobDetailsPanel.setBorder(BorderFactory.createEmptyBorder(25,25,25,25));
+        skillsAndQualsPage = new JPanel(new GridBagLayout());
+        skillsAndQualsPage.setBackground(Color.WHITE);
+        skillsAndQualsPage.setBorder(BorderFactory.createEmptyBorder(25,25,25,25));
+        descriptionPanel = new JPanel(new GridBagLayout());
+        descriptionPanel.setBackground(Color.WHITE);
+        publishPanel = new JPanel(new GridBagLayout());
+        publishPanel.setBackground(Color.WHITE);
 
-        JPanel skillsPanel = new JPanel();
-        skillsPanel.setLayout(new GridBagLayout());
-        GridBagConstraints c2 = new GridBagConstraints();
-        this.add(skillsPanel, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        jobDetailsPanel.setName(details);
+        skillsAndQualsPage.setName(skills);
+        descriptionPanel.setName(description);
+        publishPanel.setName(publish);
+        pageShown = null;
 
-        JPanel descriptionPanel = new JPanel();
-        descriptionPanel.setLayout(new GridBagLayout());
-        GridBagConstraints c3 = new GridBagConstraints();
-        this.add(descriptionPanel, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        formPane.add(jobDetailsPanel, details);
+        formPane.add(skillsAndQualsPage, skills);
+        formPane.add(descriptionPanel, description);
+        formPane.add(publishPanel, publish);
+        setPage(details);
 
-        JPanel publishPanel = new JPanel();
-        publishPanel.setLayout(new GridBagLayout());
-        GridBagConstraints c4 = new GridBagConstraints();
-        this.add(publishPanel, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-
-        this.setLayout(new CardLayout());
-        this.add(jobDetailsPanel, "CREATEJOB");
-        this.add(skillsPanel, "SKILLS");
-        this.add(descriptionPanel, "DESCRIPTION");
-        this.add(publishPanel, "PUBLISH");
-        this.setPage("CREATEJOB");
-
-        //Job Details panel - Card 1
+        bodyPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        bodyPane.setPreferredSize(new Dimension(900,600));
+        bodyPane.setBackground(Color.WHITE);
         //Progress Panel
         progressBar = new JProgressBar();
         progressBar.setStringPainted(false);
-        progressBar.setValue(25);
-        progressBar.putClientProperty("JProgressBar.square", true);
+        progressBar.putClientProperty("JProgressBar.square", false);
         progressBar.putClientProperty("JProgressBar.largeHeight", false);
-        setPosition(c, 0, 0, 6, 0, 0, 0, 0);
-        jobDetailsPanel.add(progressBar, c);
+        progressBar.setPreferredSize(new Dimension(800, 5));
+        progressBar.setValue(progressBarValue);
+        progressPane.add(progressBar);
 
-        //Body Title
-        JLabel bodyTitle = new JLabel("Job Details");
-        setTextPosition(bodyTitle);
-        setPosition(c, 0, 1, 1, 10, 10, 0, 0);
-        jobDetailsPanel.add(bodyTitle, c);
+        leave = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                leavePage();
+            }
+        };
+        back = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                progressBarValue -= 25;
+                progressBar.setValue(progressBarValue);
+                cardLayout.previous(formPane);
+                findPage();
+                setNavigationButtonState();
+            };
+        };
 
-        //Mandatory message
-        JLabel mandatory = new JLabel("*Denotes mandatory field");
-        setTextPosition(mandatory);
-        setButtonPosition(c, 2, 1, 3, 10, 0, 0, 0);
-        jobDetailsPanel.add(mandatory, c);
+        proceedButton = new JButton("Continue");
+        proceedButton.addActionListener(e -> {
+            progressBarValue += 25;
+            progressBar.setValue(progressBarValue);
+            cardLayout.next(formPane);
+            findPage();
+            setNavigationButtonState();
+        });
 
-        //Job Title
-        JLabel jobTitle = new JLabel("Job Title*:");
-        setTextPosition(jobTitle);
-        setPosition(c, 0, 2, 2, 10, 10, 0, 10);
-        jobDetailsPanel.add(jobTitle, c);
+        backButton = new JButton("Back");
+        backButton.addActionListener(back);
 
-        //Company
-        JLabel company = new JLabel("Company*:");
-        setTextPosition(company);
-        setPosition(c, 0, 4, 2, 10, 10, 0, 10);
-        jobDetailsPanel.add(company, c);
+        findPage();
+        setNavigationButtonState();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
+        buttonsPanel.setBackground(Color.WHITE);
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(25,25,25,25));
+        buttonsPanel.add(backButton);
+        buttonsPanel.add(Box.createHorizontalGlue());
+        buttonsPanel.add(proceedButton);
 
-        //Location
-        JLabel location = new JLabel("Location*:");
-        setTextPosition(location);
-        setPosition(c, 0, 6, 1, 10, 10, 0, 10);
-        jobDetailsPanel.add(location, c);
+        createJobDetailsComponents();
+        setJobDetailsLayout();
+        createSkillsComponents();
+        setSkillsLayout();
+        createJobDescriptionComponents();
+        setJobDescriptionLayout();
+        createPublishPanelComponents();
+        setPublishPanelLayout();
 
-        //Category
-        JLabel category = new JLabel("Category*:");
-        setTextPosition(category);
-        setPosition(c, 1, 6, 1, 10, 10, 0, 10);
-        jobDetailsPanel.add(category, c);
 
-        //Pay type
-        JLabel payType = new JLabel("Pay Type:");
-        setTextPosition(payType);
-        setPosition(c, 2, 2, 3, 10, 10, 0, 10);
-        jobDetailsPanel.add(payType, c);
 
-        //Pay Range
-        JLabel payRange = new JLabel("Pay Range ($AUD)*:");
-        setTextPosition(payRange);
-        setPosition(c, 2, 4, 3, 10, 10, 0, 10);
-        jobDetailsPanel.add(payRange, c);
-
-        //Pay Range
-        JLabel to = new JLabel("to");
-        setTextPosition(to);
-        setPosition(c, 3, 5, 1, 10, 10, 0, 10);
-        jobDetailsPanel.add(to, c);
-
-        //Employment Type
-        JLabel employmentType = new JLabel("Employment Type");
-        setTextPosition(employmentType);
-        setPosition(c, 2, 6, 3, 10, 10, 0, 10);
-        jobDetailsPanel.add(employmentType, c);
-
-        //Job Title Entry
-        jobTitleEntry = new JTextField(10);
-        setPosition(c, 0, 3, 2, 0, 10, 0, 10);
-        jobDetailsPanel.add(jobTitleEntry, c);
-
-        //Company Entry
-        companyEntry = new JTextField(10);
-        setPosition(c, 0, 5, 2, 0, 10, 0, 10);
-        jobDetailsPanel.add(companyEntry, c);
-
-        //Location Entry
-        locationEntry = new JComboBox(Location.getCreateFormLocations());
-        setPosition(c, 0, 7, 1, 0, 10, 0, 10);
-        jobDetailsPanel.add(locationEntry, c);
-
-        //Category Entry
-        categoryEntry = new JComboBox(JobCategory.getCreateFormCategories());
-        setPosition(c, 1, 7, 1, 0, 10, 0, 10);
-        jobDetailsPanel.add(categoryEntry, c);
-
-        //Pay Type Entry
-        String[] payTypeArray = new String[]{"Salary", "Per Hour"};
-        payTypeEntry = new JComboBox<>(payTypeArray);
-
-        setPosition(c, 2, 3, 3, 0, 10, 0, 10);
-        jobDetailsPanel.add(payTypeEntry, c);
-
-        //Pay Range Entry min
-//        String[] salaryArray = Sal.getCreateFormSalaries();
-        String[] perHourArray = Salary.getCreatePerHourArray();
-        DefaultComboBoxModel<String> salaryModel = new DefaultComboBoxModel(Sal.getCreateFormSalaries());
-        DefaultComboBoxModel<String> perHourModel = new DefaultComboBoxModel<>(perHourArray);
-        DefaultComboBoxModel<String> salaryModel2 = new DefaultComboBoxModel(Sal.getCreateFormSalaries());
-        DefaultComboBoxModel<String> perHourModel2 = new DefaultComboBoxModel<>(perHourArray);
-
-        payRangeMinEntry = new JComboBox<>();
-        payRangeMinEntry.setModel(salaryModel);
-        setPosition(c, 2, 5, 1, 0, 10, 0, 10);
-        jobDetailsPanel.add(payRangeMinEntry, c);
-
-        //Pay Range Entry max
-        payRangeMaxEntry = new JComboBox<>();
-        payRangeMaxEntry.setModel(salaryModel2);
-        setPosition(c, 4, 5, 1, 0, 10, 0, 10);
-        jobDetailsPanel.add(payRangeMaxEntry, c);
-
-        payTypeEntry.addActionListener(ep -> {
-            if ("Per Hour".equals(payTypeEntry.getSelectedItem())) {
-                payRangeMinEntry.setModel(perHourModel);
-                payRangeMaxEntry.setModel(perHourModel2);
-            } else {
-                payRangeMinEntry.setModel(salaryModel);
-                payRangeMaxEntry.setModel(salaryModel2);
+        saveButton.addActionListener(e -> {
+            if (JOptionPane.showConfirmDialog(null, "Are you sure you want to save this job to your drafts?", "Warning",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                createJob("DRAFT");
+            }
+        });
+        publishButton.addActionListener(e -> {
+            if (JOptionPane.showConfirmDialog(null, "Are you sure you want to publish this job??", "Warning",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                createJob("ACTIVE");
             }
         });
 
-        //Employment Type
-        employmentTypeEntry = new JComboBox(EmploymentType.getCreateFormEmploymentType());
-        setPosition(c, 2, 7, 3, 0, 10, 0, 10);
-        jobDetailsPanel.add(employmentTypeEntry, c);
-
-        //Button Panel
-        JPanel buttonsPanel = new JPanel();
-        setButtonPosition(c, 0, 10, 6, 50, 0, 0, 0);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
-        jobDetailsPanel.add(buttonsPanel, c);
-
-        //Back Button
-        JButton backButton = new JButton("Back");
-        backButton.setFocusable(false);
-        buttonsPanel.add(backButton);
-
-        buttonsPanel.add(Box.createHorizontalGlue());
-
-        //Save Button
-//        JButton saveButton = new JButton("Save");
-//        saveButton.setFocusable(false);
-//        buttonsPanel.add(saveButton);
-
-        buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-
-        //Proceed Button
-        proceedButton = new JButton("Continue");
-        proceedButton.setFocusable(false);
-        proceedButton.setEnabled(false);
-        buttonsPanel.add(proceedButton);
-
-        payRangeMaxEntry.addActionListener(
-                ep ->
-                        proceedButton.setEnabled(
-                                companyEntry.getText().length() > 0 && !"-Select".equals(payRangeMinEntry.getSelectedItem()) && !"-Select".equals(payRangeMaxEntry.getSelectedItem()) && jobTitleEntry.getText().length() > 0 && !"-Select job type".equals(categoryEntry.getSelectedItem()) && !"-Select location".equals(locationEntry.getSelectedItem())));
-        payRangeMinEntry.addActionListener(ep -> proceedButton.setEnabled(companyEntry.getText().length() > 0 && !"-Select".equals(payRangeMinEntry.getSelectedItem()) && !"-Select".equals(payRangeMaxEntry.getSelectedItem()) && jobTitleEntry.getText().length() > 0 && !"-Select job type".equals(categoryEntry.getSelectedItem()) && !"-Select location".equals(locationEntry.getSelectedItem())));
-        categoryEntry.addActionListener(ep -> proceedButton.setEnabled(companyEntry.getText().length() > 0 && !"-Select".equals(payRangeMinEntry.getSelectedItem()) && !"-Select".equals(payRangeMaxEntry.getSelectedItem()) && jobTitleEntry.getText().length() > 0 && !"-Select job type".equals(categoryEntry.getSelectedItem()) && !"-Select location".equals(locationEntry.getSelectedItem())));
-        locationEntry.addActionListener(ep -> proceedButton.setEnabled(companyEntry.getText().length() > 0 && !"-Select".equals(payRangeMinEntry.getSelectedItem()) && !"-Select".equals(payRangeMaxEntry.getSelectedItem()) && jobTitleEntry.getText().length() > 0 && !"-Select job type".equals(categoryEntry.getSelectedItem()) && !"-Select location".equals(locationEntry.getSelectedItem())));
+        payRangeMaxEntry.addActionListener(e -> payRangeValidation());
+        payRangeMinEntry.addActionListener(e -> payRangeValidation());
+        payRangeMaxEntry.addActionListener(ep -> proceedButton.setEnabled(validateDetails()));
+        payRangeMinEntry.addActionListener(ep -> proceedButton.setEnabled(validateDetails()));
+        categoryEntry.addActionListener(ep -> proceedButton.setEnabled(validateDetails()));
+        locationEntry.addActionListener(ep -> proceedButton.setEnabled(validateDetails()));
 
         jobTitleEntry.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e1) {
-                proceedButton.setEnabled(companyEntry.getText().length() > 0 && !"-Select".equals(payRangeMinEntry.getSelectedItem()) && !"-Select".equals(payRangeMaxEntry.getSelectedItem()) && jobTitleEntry.getText().length() > 0 && !"-Select job type".equals(categoryEntry.getSelectedItem()) && !"-Select location".equals(locationEntry.getSelectedItem()));
+                proceedButton.setEnabled(validateDetails());
             }
         });
-
         companyEntry.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e3) {
-                proceedButton.setEnabled(companyEntry.getText().length() > 0 && !"-Select".equals(payRangeMinEntry.getSelectedItem()) && !"-Select".equals(payRangeMaxEntry.getSelectedItem()) && jobTitleEntry.getText().length() > 0 && !"-Select job type".equals(categoryEntry.getSelectedItem()) && !"-Select location".equals(locationEntry.getSelectedItem()));
+                proceedButton.setEnabled(validateDetails());
             }
         });
 
+        removeSkillButton.addActionListener(e2 -> {
+            if (skillsList.getModel().getSize() >= 1 && !skillsList.isSelectionEmpty()) {
+                skillsListModel.remove(skillsList.getSelectedIndex());
+                if (skillsList.getModel().getSize() < 1) {
+                    proceedButton.setEnabled(false);
+                }
+            }
+        });
+
+        qualificationsRemoveButton.addActionListener(e2 -> {
+            if (qualificationsList.getModel().getSize() >= 1 && !qualificationsList.isSelectionEmpty()) {
+                qualificationsListModel.remove(qualificationsList.getSelectedIndex());
+                if (qualificationsList.getModel().getSize() < 1){
+                    proceedButton.setEnabled(false);
+                }
+            }
+        });
+
+        educationEntry.addActionListener (e -> proceedButton.setEnabled(validateSkillsAndQuals()));
+
+        addSkillButton.addActionListener(e -> {
+            if (!"".equals(skillTextField.getText())) {
+                String tempSkill = skillTextField.getText();
+                skillsListModel.addElement(tempSkill);
+                skillTextField.setText("");
+                proceedButton.setEnabled(validateSkillsAndQuals());
+            }
+        });
+
+        qualificationsAddButton.addActionListener(e -> {
+            if (!"".equals(qualificationsTextField.getText())) {
+                String tempSkill = qualificationsTextField.getText();
+                qualificationsListModel.addElement(tempSkill);
+                qualificationsTextField.setText("");
+                proceedButton.setEnabled(validateSkillsAndQuals());
+            }
+        });
+
+        descriptionEntry.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e1) { proceedButton.setEnabled(validateDesc());
+            }
+        });
+    }
+
+    private void createJobDetailsComponents() {
+        jobTitleEntry = new JTextField(10);
+        companyEntry = new JTextField(10);
+        locationEntry = new JComboBox(Location.getCreateFormLocations());
+        categoryEntry = new JComboBox(JobCategory.getCreateFormCategories());
+        String[] payTypeArray = new String[] {"Salary", "Per Hour"};
+        payTypeEntry = new JComboBox<>(payTypeArray);
+        String[] salaryArray = Salary.getCreateSalaryArray();
+        String[] perHourArray = Salary.getCreatePerHourArray();
+        DefaultComboBoxModel<String> minSalaryModel = new DefaultComboBoxModel<>(salaryArray);
+        DefaultComboBoxModel<String> minPerHourModel = new DefaultComboBoxModel<>(perHourArray);
+        DefaultComboBoxModel<String> maxSalaryModel = new DefaultComboBoxModel<>(salaryArray);
+        DefaultComboBoxModel<String> maxPerHourModel = new DefaultComboBoxModel<>(perHourArray);
+        payRangeMinEntry = new JComboBox<>();
+        payRangeMinEntry.setModel(minSalaryModel);
+        payRangeMaxEntry = new JComboBox<>();
+        payRangeMaxEntry.setModel(maxSalaryModel);
+        payTypeEntry.addActionListener (ep -> {
+            if ("Per Hour".equals(payTypeEntry.getSelectedItem())) {
+                payRangeMinEntry.setModel(minPerHourModel);
+                payRangeMaxEntry.setModel(maxPerHourModel);
+            }
+            else {
+                payRangeMinEntry.setModel(minSalaryModel);
+                payRangeMaxEntry.setModel(maxSalaryModel);
+            }
+        });
+        String[] empTypeArray = new String[] {"Full time", "Contract", "Part time", "Casual"};
+        employmentTypeEntry = new JComboBox<>(empTypeArray);
+    }
+
+    private void setJobDetailsLayout() {
+        JLabel detailsSectionTitle = new JLabel("Job Details", SwingConstants.LEFT);
+        JLabel mandatory = new JLabel("*Denotes mandatory field", SwingConstants.LEFT);
+        JPanel jobTitlePane = createLabeledComponent("Job Title*:", jobTitleEntry);
+        JPanel companyPane = createLabeledComponent("Company*:", companyEntry);
+        JPanel locationPane = createLabeledComponent("Location*:", locationEntry);
+        JPanel categoryPane = createLabeledComponent("Category*:", categoryEntry);
+        JPanel payTypePane = createLabeledComponent("Pay Type:", payTypeEntry);
+        JPanel employmentTypePane = createLabeledComponent("Employment Type", employmentTypeEntry);
+
+        JPanel payRangeSelection = new JPanel();
+        payRangeSelection.setBackground(Color.WHITE);
+        BoxLayout payRangeBox = new BoxLayout(payRangeSelection, BoxLayout.LINE_AXIS);
+        payRangeSelection.setLayout(payRangeBox);
+        payRangeSelection.add(payRangeMinEntry);
+        payRangeSelection.add(new JLabel(" to "));
+        payRangeSelection.add(payRangeMaxEntry);
+
+        JPanel payRangePane = createLabeledComponent("Pay Range ($AUD)*:", payRangeSelection);
+
+        JPanel locationCategory = new JPanel();
+        locationCategory.setBackground(Color.WHITE);
+        BoxLayout locationCategoryBox = new BoxLayout(locationCategory, BoxLayout.LINE_AXIS);
+        locationCategory.setLayout(locationCategoryBox);
+        locationCategory.add(locationPane);
+        locationCategory.add(Box.createRigidArea(new Dimension(10, 0)));
+        locationCategory.add(categoryPane);
+
+        jobDetailsPanel.add(detailsSectionTitle, new GBC(0,0)
+                .setWeight(1.0,0)
+                .setInsets(5)
+                .setFill(GridBagConstraints.HORIZONTAL));
+        jobDetailsPanel.add(jobTitlePane, new GBC(0,1)
+                .setWeight(1.0,0)
+                .setInsets(5)
+                .setFill(GridBagConstraints.HORIZONTAL));
+        jobDetailsPanel.add(companyPane, new GBC(0,2)
+                .setWeight(1.0,0)
+                .setInsets(5)
+                .setFill(GridBagConstraints.HORIZONTAL));
+        jobDetailsPanel.add(locationCategory, new GBC(0,3)
+                .setWeight(1.0,0)
+                .setInsets(5)
+                .setFill(GridBagConstraints.HORIZONTAL));
+        jobDetailsPanel.add(mandatory, new GBC(1,0)
+                .setWeight(1.0,0)
+                .setInsets(5)
+                .setFill(GridBagConstraints.HORIZONTAL));
+        jobDetailsPanel.add(payTypePane, new GBC(1,1)
+                .setWeight(1.0,0)
+                .setInsets(5)
+                .setFill(GridBagConstraints.HORIZONTAL));
+        jobDetailsPanel.add(payRangePane, new GBC(1,2)
+                .setWeight(1.0,0)
+                .setInsets(5)
+                .setFill(GridBagConstraints.HORIZONTAL));
+        jobDetailsPanel.add(employmentTypePane, new GBC(1,3)
+                .setWeight(1.0,0)
+                .setInsets(5)
+                .setFill(GridBagConstraints.HORIZONTAL));
+    }
+
+    private void createSkillsComponents() {
         // Skills Panel - Card 2
-
-        //Body Title
-        JLabel bodyTitle2 = new JLabel("Desired Skills and Qualifications");
-        setTextPosition(bodyTitle2);
-        setPosition(c2, 0, 1, 2, 0, 10, 0, 0);
-        skillsPanel.add(bodyTitle2, c2);
-
-        //Mandatory message
-        JLabel mandatory2 = new JLabel("*Denotes mandatory field");
-        setTextPosition(mandatory2);
-        setButtonPosition(c2, 2, 1, 2, 0, 0, 0, 0);
-        skillsPanel.add(mandatory2, c2);
-
-        //Skill list
-        skillModel = new DefaultListModel<>();
-        JLabel skillFieldLabel = new JLabel("Skill*:");
-        setTextPosition(skillFieldLabel);
-        setPosition(c2, 0, 2, 2, 0, 10, 0, 10);
-        skillsPanel.add(skillFieldLabel, c2);
-        JTextField skillEntry = new JTextField();
-        setPosition(c2, 0, 3, 1, 0, 10, 0, 10);
-        skillsPanel.add(skillEntry, c2);
-        JButton addButton = new JButton("Add");
-        setButtonPosition(c2, 1, 3, 1, 0, 10, 0, 10);
-        skillsPanel.add(addButton, c2);
-
-
-        JList<String> skillList = new JList<>(skillModel);
-        JScrollPane skillScrollPane = new JScrollPane(skillList);
-        skillScrollPane.setPreferredSize(new Dimension(100, 150));
-        setPosition(c2, 0, 4, 2, 10, 10, 0, 10);
-        c2.gridheight = 3;
-        skillsPanel.add(skillScrollPane, c2);
-        JButton removeButton = new JButton("Remove");
-        setButtonPosition(c2, 1, 7, 1, 10, 10, 0, 10);
-        c2.gridheight = 1;
-        skillsPanel.add(removeButton, c2);
-
-        removeButton.addActionListener(e2 -> {
-            if (skillList.getModel().getSize() >= 1 && !skillList.isSelectionEmpty()) {
-                skillModel.remove(skillList.getSelectedIndex());
-                if (skillList.getModel().getSize() < 1) {
-                    proceedButton2.setEnabled(false);
-                }
-            }
-        });
-
-        //Education
-        JLabel education = new JLabel("Education*:");
-        setTextPosition(education);
-        setPosition(c2, 2, 2, 2, 10, 10, 0, 10);
-        skillsPanel.add(education, c2);
-
-        //Education Entry
         educationEntry = new JComboBox<>(Education.getCreateArray());
-        setPosition(c2, 2, 3, 2, 0, 10, 0, 10);
-        skillsPanel.add(educationEntry, c2);
 
-        //Qualifications
-        qualModel = new DefaultListModel<>();
-        JLabel qualFieldLabel = new JLabel("Qualifications*:");
-        setTextPosition(qualFieldLabel);
-        setPosition(c2, 2, 4, 2, 10, 10, 0, 10);
-        skillsPanel.add(qualFieldLabel, c2);
+        skillsListModel = new DefaultListModel<>();
+        skillTextField = new JTextField(20);
+        skillsList = new JList<>(skillsListModel);
+        skillsListScrollPane = setUpScrollPane(skillsList);
+        skillsListScrollPane.setPreferredSize(new Dimension(300, 180));
+        addSkillButton = new JButton("Add");
+        removeSkillButton = new JButton("Remove");
+//        skillsListScrollPane.setBorder(BorderFactory.createTitledBorder("Required Skills"));
 
-        JTextField qualEntry = new JTextField(50);
-        setPosition(c2, 2, 5, 1, 0, 10, 0, 10);
-        skillsPanel.add(qualEntry, c2);
-        JButton qualAddButton = new JButton("Add");
-        setButtonPosition(c2, 3, 5, 1, 0, 10, 0, 10);
-        skillsPanel.add(qualAddButton, c2);
+        qualificationsListModel = new DefaultListModel<>();
+        qualificationsTextField = new JTextField(20);
+        qualificationsList = new JList<>(qualificationsListModel);
+        qualificationsListScrollPane = setUpScrollPane(qualificationsList);
+        qualificationsListScrollPane.setPreferredSize(new Dimension(300, 180));
+        qualificationsAddButton = new JButton("Add");
+        qualificationsRemoveButton = new JButton("Remove");
+//        qualificationsListScrollPane.setBorder(BorderFactory.createTitledBorder("Required Qualifications"));
 
-        JList<String> qualList = new JList<>(qualModel);
-        JScrollPane qualScrollPane = new JScrollPane(qualList);
-        qualScrollPane.setPreferredSize(new Dimension(50, 100));
-        setPosition(c2, 2, 6, 2, 10, 10, 0, 10);
-        skillsPanel.add(qualScrollPane, c2);
-        JButton qualRemoveButton = new JButton("Remove");
-        setButtonPosition(c2, 3, 7, 1, 10, 10, 0, 10);
-        skillsPanel.add(qualRemoveButton, c2);
+    }
 
-        qualRemoveButton.addActionListener(e2 -> {
-            if (qualList.getModel().getSize() >= 1 && !qualList.isSelectionEmpty()) {
-                qualModel.remove(qualList.getSelectedIndex());
-                if (qualList.getModel().getSize() < 1) {
-                    proceedButton2.setEnabled(false);
-                }
+    public void setSkillsLayout() {
+
+        JLabel skillsAndQualsSectionTitle = new JLabel("Desired Skills and Qualifications");
+        JLabel mandatory2 = new JLabel("*Denotes mandatory field", SwingConstants.LEFT);
+        JPanel qualificationsPane = createListPane("Required Skills*:",qualificationsTextField, qualificationsListScrollPane, qualificationsAddButton, qualificationsRemoveButton);
+        JPanel skillsPane = createListPane("Required Qualifications*:",skillTextField, skillsListScrollPane, addSkillButton, removeSkillButton);
+        JPanel educationPane = createLabeledComponent("Education*:", educationEntry);
+
+        skillsAndQualsPage.add(skillsAndQualsSectionTitle, new GBC(0,0)
+                .setWeight(1,1)
+                .setFill(GridBagConstraints.HORIZONTAL)
+                .setInsets(5));
+        skillsAndQualsPage.add(mandatory2, new GBC(1,0)
+                .setWeight(1,1)
+                .setFill(GridBagConstraints.HORIZONTAL)
+                .setInsets(5));
+        skillsAndQualsPage.add(skillsPane, new GBC(1,1)
+                .setWeight(1,1)
+                .setFill(GridBagConstraints.HORIZONTAL)
+                .setInsets(5));
+        skillsAndQualsPage.add(qualificationsPane, new GBC(0,1)
+                .setWeight(1,1)
+                .setFill(GridBagConstraints.HORIZONTAL)
+                .setInsets(5));
+        skillsAndQualsPage.add(educationPane, new GBC(1,2)
+                .setWeight(1,1)
+                .setFill(GridBagConstraints.HORIZONTAL)
+                .setInsets(5));
+    }
+
+    public JPanel createLabeledComponent(String labelText, JComponent component) {
+        JPanel newPanel = new JPanel();
+        newPanel.setBackground(Color.WHITE);
+        BoxLayout boxLayout = new BoxLayout(newPanel, BoxLayout.PAGE_AXIS);
+        newPanel.setLayout(boxLayout);
+        JLabel label = new JLabel(labelText);;
+        label.setAlignmentX(LEFT_ALIGNMENT);
+        label.setLabelFor(component);
+        component.setAlignmentX(LEFT_ALIGNMENT);
+        newPanel.add(label);
+        newPanel.add(component);
+        return newPanel;
+    }
+
+    protected JScrollPane setUpScrollPane(JList list) {
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setLayoutOrientation(JList.VERTICAL);
+        list.setSelectedIndex(0);
+        list.addListSelectionListener(this);
+        list.setVisibleRowCount(5);
+        return new JScrollPane(list);
+    }
+
+
+    public void setPage(String page) {
+        CardLayout createJobFlow = (CardLayout) (formPane.getLayout());
+        createJobFlow.show(formPane, page);
+    }
+
+    public JPanel createListPane(String labelText ,JTextField textField, JScrollPane listScrollPane, JButton addButton, JButton removeButton) {
+        JPanel pane = new JPanel();
+        BoxLayout skillsLayout = new BoxLayout(pane, BoxLayout.PAGE_AXIS);
+        textField.setPreferredSize(new Dimension(100,15));
+        JPanel textAdd = new JPanel();
+        textAdd.setBackground(Color.WHITE);
+        BoxLayout locationCategoryBox = new BoxLayout(textAdd, BoxLayout.LINE_AXIS);
+        textAdd.setLayout(locationCategoryBox);
+        textAdd.add(textField);
+        textAdd.add(Box.createRigidArea(new Dimension(10, 0)));
+        textAdd.add(addButton);
+
+        removeButton.setAlignmentX(LEFT_ALIGNMENT);
+        textAdd.setAlignmentX(LEFT_ALIGNMENT);
+        listScrollPane.setAlignmentX(LEFT_ALIGNMENT);
+
+        pane.setLayout(skillsLayout);
+        pane.setBackground(Color.WHITE);
+        pane.add(textAdd);
+        pane.add(Box.createRigidArea(new Dimension(0, 10)));
+        pane.add(listScrollPane);
+        pane.add(Box.createRigidArea(new Dimension(0, 10)));
+        pane.add(removeButton);
+        pane.add(Box.createVerticalGlue());
+        return createLabeledComponent(labelText, pane);
+    }
+
+    public void createJob(String status) {
+
+        List<String> loc = new ArrayList<>();
+        loc.add(String.valueOf(locationEntry.getSelectedItem()));
+        List<String> cat = new ArrayList<>();
+        cat.add(String.valueOf(categoryEntry.getSelectedItem()));
+        List<String> pay = new ArrayList<>();
+        pay.add(String.valueOf(payTypeEntry.getSelectedItem()));
+        List<String> edu = new ArrayList<>();
+        edu.add(String.valueOf(educationEntry.getSelectedItem()));
+        int i;
+        List<String> ski = new ArrayList<>();
+        int n = skillsList.getModel().getSize();
+        for (i = 0; i < n; i++) {
+            String temp = String.valueOf(skillsList.getModel().getElementAt(i));
+            ski.add(temp);
+        }
+
+        List<String> qua = new ArrayList<>();
+        int n2 = qualificationsList.getModel().getSize();
+        for (i = 0; i < n2; i++) {
+            String temp = String.valueOf(qualificationsList.getModel().getElementAt(i));
+            qua.add(temp);
+        }
+
+        Map<KeywordType, List<String>> keywordMap = new HashMap<>() {
+            {
+                put(KeywordType.LOCATION, loc);
+                put(KeywordType.CATEGORY, cat);
+                put(KeywordType.PAYTYPE, pay);
+                put(KeywordType.EDUCATION, edu);
+                put(KeywordType.SKILL, ski);
+                put(KeywordType.QUALIFICATION, qua);
             }
-        });
+        };
 
-        //Mandatory field setting for second page
-        educationEntry.addActionListener(e -> proceedButton2.setEnabled(qualList.getModel().getSize() >= 1 && skillList.getModel().getSize() >= 1 && !"-Select highest level of education".equals(educationEntry.getSelectedItem())));
+        jobController.createNewJob(jobTitleEntry.getText(), keywordMap, String.valueOf(employmentTypeEntry.getSelectedItem()), descriptionEntry.getText(), maxInt, minInt, companyEntry.getText(), status);
 
-        addButton.addActionListener(e -> {
-            if (!"".equals(skillEntry.getText())) {
-                String tempSkill = skillEntry.getText();
-                skillModel.addElement(tempSkill);
-                skillEntry.setText("");
-                proceedButton2.setEnabled(qualList.getModel().getSize() >= 1 && skillList.getModel().getSize() >= 1 && !"-Select highest level of education".equals(educationEntry.getSelectedItem()));
-            }
-        });
+        navigationController.setBody("RECRUITER");
+        navigationController.setHeader("BUTTONS");
+        clearJobDetails();
+    }
 
-        qualAddButton.addActionListener(e -> {
-            if (!"".equals(qualEntry.getText())) {
-                String tempSkill = qualEntry.getText();
-                qualModel.addElement(tempSkill);
-                qualEntry.setText("");
-                proceedButton2.setEnabled(qualList.getModel().getSize() >= 1 && skillList.getModel().getSize() >= 1 && !"-Select highest level of education".equals(educationEntry.getSelectedItem()));
-            }
-        });
-
-        //Button Panel 2
-        JPanel buttonsPanel2 = new JPanel();
-        setButtonPosition(c2, 0, 10, 4, 50, 0, 0, 0);
-        c2.fill = GridBagConstraints.HORIZONTAL;
-        buttonsPanel2.setLayout(new BoxLayout(buttonsPanel2, BoxLayout.X_AXIS));
-        skillsPanel.add(buttonsPanel2, c2);
-
-        //Back Button
-        JButton backButton2 = new JButton("Back");
-        backButton2.setFocusable(false);
-        buttonsPanel2.add(backButton2);
-
-        buttonsPanel2.add(Box.createHorizontalGlue());
-
-        //Save Button
-//        JButton saveButton2 = new JButton("Save");
-//        saveButton2.setFocusable(false);
-//        buttonsPanel2.add(saveButton2);
-
-        buttonsPanel2.add(Box.createRigidArea(new Dimension(10, 0)));
-
-        //Proceed Button
-        proceedButton2 = new JButton("Continue");
-        proceedButton2.setFocusable(false);
-        proceedButton2.setEnabled(false);
-        buttonsPanel2.add(proceedButton2);
-
-        // Job Description Panel - Card 3
-
-        //Body Title
-        JLabel bodyTitle3 = new JLabel("Job Description*");
-        setTextPosition(bodyTitle3);
-        setPosition(c3, 0, 1, 1, 0, 10, 0, 0);
-        descriptionPanel.add(bodyTitle3, c3);
-
-        //Mandatory message
-        JLabel mandatory3 = new JLabel("*Denotes mandatory field");
-        setTextPosition(mandatory3);
-        setButtonPosition(c3, 2, 1, 2, 0, 0, 0, 0);
-        descriptionPanel.add(mandatory3, c3);
-
-        //Description entry
+    private void createJobDescriptionComponents() {
         descriptionEntry = new JTextArea();
         descriptionEntry.setLineWrap(true);
         descriptionEntry.setWrapStyleWord(true);
-        descriptionEntry.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e1) {
-                proceedButton3.setEnabled(descriptionEntry.getText().length() > 0);
-            }
-        });
+    }
+
+    private void setJobDescriptionLayout() {
+        JLabel jobDescriptionTitle = new JLabel("Job Description*", SwingConstants.LEFT);
+        JLabel mandatory = new JLabel("*Denotes mandatory field", SwingConstants.LEFT);
         JScrollPane descScroll = new JScrollPane(descriptionEntry);
         descScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        descScroll.setPreferredSize((new Dimension(500, 100)));
-        setPosition(c3, 0, 2, 4, 10, 10, 0, 10);
-        descriptionPanel.add(descScroll, c3);
+        descScroll.setPreferredSize((new Dimension(600,300)));
 
-        //Button Panel 3
-        JPanel buttonsPanel3 = new JPanel();
-        setButtonPosition(c3, 0, 10, 6, 50, 0, 0, 0);
-        c3.fill = GridBagConstraints.HORIZONTAL;
-        buttonsPanel3.setLayout(new BoxLayout(buttonsPanel3, BoxLayout.X_AXIS));
-        descriptionPanel.add(buttonsPanel3, c3);
+        descriptionPanel.add(jobDescriptionTitle, new GBC(0,1)
+                .setSpan(1,1)
+                .setInsets(0,10,0,0));
 
-        //Back Button
-        JButton backButton3 = new JButton("Back");
-        backButton3.setFocusable(false);
-        buttonsPanel3.add(backButton3);
+        descriptionPanel.add(mandatory, new GBC(2,1)
+                .setSpan(2,1)
+                .setInsets(0,0,0,0));
 
-        buttonsPanel3.add(Box.createHorizontalGlue());
+        descriptionPanel.add(descScroll, new GBC(0,2)
+                .setSpan(4,1)
+                .setInsets(10,10,10,10));
+    }
 
+    private void createPublishPanelComponents() {
+        saveButton = new JButton("Save as draft");
+        previewButton = new JButton("Preview");
+        publishButton = new JButton(("Publish"));
+    }
+
+    private void setPublishPanelLayout() {
+        JLabel publishTitle = new JLabel("What would you like to do next?", SwingConstants.LEFT);
+        publishPanel.add(publishTitle, new GBC(0,1)
+                .setSpan(5,1)
+                .setAnchor(GridBagConstraints.CENTER)
+                .setFill(GridBagConstraints.NONE)
+                .setInsets(10));
         //Save Button
-//        JButton saveButton3 = new JButton("Save");
-//        saveButton3.setFocusable(false);
-//        buttonsPanel3.add(saveButton3);
-
-        buttonsPanel3.add(Box.createRigidArea(new Dimension(10, 0)));
-
-        //Proceed Button
-        proceedButton3 = new JButton("Continue");
-        proceedButton3.setFocusable(false);
-        proceedButton3.setEnabled(false);
-        buttonsPanel3.add(proceedButton3);
-
-        // Publish Panel - Card 4
-
-        //Body Title
-        JLabel bodyTitle4 = new JLabel("What would you like to do next?");
-        setTextPosition(bodyTitle4);
-        setPosition(c4, 0, 1, 5, 0, 0, 0, 0);
-        c4.anchor = GridBagConstraints.CENTER;
-        c4.fill = GridBagConstraints.NONE;
-        publishPanel.add(bodyTitle4, c4);
-
-        //Save Button
-        JButton saveButton4 = new JButton("Save as draft");
-        saveButton4.setFocusable(false);
-        setButtonPosition(c4, 1, 3, 1, 20, 10, 10, 10);
-        publishPanel.add(saveButton4, c4);
+        publishPanel.add(saveButton, new GBC(1,3)
+                .setSpan(1,1)
+                .setInsets(10));
 
         //Preview Button
-        JButton previewButton4 = new JButton("Preview");
-        previewButton4.setFocusable(false);
-        setButtonPosition(c4, 2, 3, 1, 20, 10, 10, 10);
-        c4.anchor = GridBagConstraints.LINE_START;
-        c4.fill = GridBagConstraints.NONE;
-        publishPanel.add(previewButton4, c4);
-
-        //Proceed Button
-        JButton proceedButton4 = new JButton("Publish");
-        proceedButton4.setFocusable(false);
-        setButtonPosition(c4, 1, 4, 2, 10, 10, 10, 10);
-        c4.fill = GridBagConstraints.NONE;
-        c4.anchor = GridBagConstraints.CENTER;
-        publishPanel.add(proceedButton4, c4);
-
-        //Button Panel 4
-        JPanel buttonsPanel4 = new JPanel();
-        setButtonPosition(c4, 0, 5, 5, 50, 0, 0, 0);
-        //c4.fill = GridBagConstraints.NONE;
-        c4.anchor = GridBagConstraints.LINE_START;
-        buttonsPanel4.setLayout(new BoxLayout(buttonsPanel4, BoxLayout.X_AXIS));
-        publishPanel.add(buttonsPanel4, c4);
-
-        //Back Button
-        JButton backButton4 = new JButton("Back");
-        backButton4.setFocusable(false);
-        buttonsPanel4.add(backButton4);
-
-        //Creating the action listeners
-        backButton.addActionListener(e -> {
-            if (JOptionPane.showConfirmDialog(null, "Are you sure you want to leave without saving?", "Warning",
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                navigationController.setBody("RECRUITER");
-                navigationController.setHeader("BUTTONS");
-                clearJobDetails();
-            }
-        });
-
-        AtomicInteger minInt = new AtomicInteger();
-        AtomicInteger maxInt = new AtomicInteger();
-
-        proceedButton.addActionListener(e -> {
-            String minVal = String.valueOf(payRangeMinEntry.getSelectedItem());
-            String maxVal = String.valueOf(payRangeMaxEntry.getSelectedItem());
-            Pattern p = Pattern.compile("\\d+");
-            Matcher m = p.matcher(minVal);
-            while (m.find()) {
-                minVal = String.valueOf(m.group());
-            }
-            m = p.matcher(maxVal);
-            while (m.find()) {
-                maxVal = String.valueOf(m.group());
-            }
-            minInt.set(Integer.parseInt(minVal));
-            maxInt.set(Integer.parseInt(maxVal));
-
-            if (minInt.get() <= maxInt.get()) {
-                setPage("SKILLS");
-                progressBar.setValue(50);
-                setPosition(c2, 0, 0, 4, 0, 0, 0, 0);
-                skillsPanel.add(progressBar, c2);
-            } else {
-                JFrame frame = new JFrame();
-                JOptionPane.showMessageDialog(frame, "The selected Maximum Pay must be equal or higher than the Minimum Pay", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        backButton2.addActionListener(e -> {
-            setPage("CREATEJOB");
-            progressBar.setValue(25);
-            setPosition(c, 0, 0, 6, 0, 0, 0, 0);
-            jobDetailsPanel.add(progressBar, c);
-        });
-
-        proceedButton2.addActionListener(e -> {
-            setPage("DESCRIPTION");
-            progressBar.setValue(75);
-            setPosition(c3, 0, 0, 6, 0, 0, 0, 0);
-            descriptionPanel.add(progressBar, c3);
-        });
-
-        backButton3.addActionListener(e -> {
-            setPage("SKILLS");
-            progressBar.setValue(50);
-            setPosition(c2, 0, 0, 4, 0, 0, 0, 0);
-            skillsPanel.add(progressBar, c2);
-        });
-
-        proceedButton3.addActionListener(e -> {
-            setPage("PUBLISH");
-            progressBar.setValue(100);
-            setPosition(c4, 0, 0, 4, 0, 0, 0, 0);
-            publishPanel.add(progressBar, c4);
-        });
-
-        backButton4.addActionListener(e -> {
-            setPage("DESCRIPTION");
-            setPosition(c3, 0, 0, 6, 0, 0, 0, 0);
-            descriptionPanel.add(progressBar, c3);
-        });
-
-        saveButton4.addActionListener(e -> {
-            if (JOptionPane.showConfirmDialog(null, "Are you sure you want to save this job to your drafts?", "Warning",
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-
-                List<String> loc = new ArrayList<>();
-                loc.add(String.valueOf(locationEntry.getSelectedItem()));
-                List<String> cat = new ArrayList<>();
-                cat.add(String.valueOf(categoryEntry.getSelectedItem()));
-                List<String> pay = new ArrayList<>();
-                pay.add(String.valueOf(payTypeEntry.getSelectedItem()));
-                List<String> edu = new ArrayList<>();
-                edu.add(String.valueOf(educationEntry.getSelectedItem()));
-                int i;
-                List<String> ski = new ArrayList<>();
-                int n = skillList.getModel().getSize();
-                for (i = 0; i < n; i++) {
-                    String temp = String.valueOf(skillList.getModel().getElementAt(i));
-                    ski.add(temp);
-                }
-
-                List<String> qua = new ArrayList<>();
-                int n2 = qualList.getModel().getSize();
-                for (i = 0; i < n2; i++) {
-                    String temp = String.valueOf(qualList.getModel().getElementAt(i));
-                    qua.add(temp);
-                }
-
-                Map<KeywordType, List<String>> keywordMap = new HashMap<>() {
-                    {
-                        put(KeywordType.LOCATION, loc);
-                        put(KeywordType.CATEGORY, cat);
-                        put(KeywordType.PAYTYPE, pay);
-                        put(KeywordType.EDUCATION, edu);
-                        put(KeywordType.SKILL, ski);
-                        put(KeywordType.QUALIFICATION, qua);
-                    }
-                };
-
-                jobController.createNewJob(jobTitleEntry.getText(), keywordMap, String.valueOf(employmentTypeEntry.getSelectedItem()), descriptionEntry.getText(), maxInt.get(), minInt.get(), companyEntry.getText(), "Draft");
-
-                navigationController.setBody("RECRUITER");
-                navigationController.setHeader("BUTTONS");
-                clearJobDetails();
-            }
-        });
-
-        proceedButton4.addActionListener(e -> {
-            if (JOptionPane.showConfirmDialog(null, "Are you sure you want to publish this job??", "Warning",
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-
-                List<String> loc = new ArrayList<>();
-                loc.add(String.valueOf(locationEntry.getSelectedItem()));
-                List<String> cat = new ArrayList<>();
-                cat.add(String.valueOf(categoryEntry.getSelectedItem()));
-                List<String> pay = new ArrayList<>();
-                pay.add(String.valueOf(payTypeEntry.getSelectedItem()));
-                List<String> edu = new ArrayList<>();
-                edu.add(String.valueOf(educationEntry.getSelectedItem()));
-                int i;
-                List<String> ski = new ArrayList<>();
-                int n = skillList.getModel().getSize();
-                for (i = 0; i < n; i++) {
-                    String temp = String.valueOf(skillList.getModel().getElementAt(i));
-                    ski.add(temp);
-                }
-
-                List<String> qua = new ArrayList<>();
-                int n2 = qualList.getModel().getSize();
-                for (i = 0; i < n2; i++) {
-                    String temp = String.valueOf(qualList.getModel().getElementAt(i));
-                    qua.add(temp);
-                }
-
-                Map<KeywordType, List<String>> keywordMap = new HashMap<>() {
-                    {
-                        put(KeywordType.LOCATION, loc);
-                        put(KeywordType.CATEGORY, cat);
-                        put(KeywordType.PAYTYPE, pay);
-                        put(KeywordType.EDUCATION, edu);
-                        put(KeywordType.SKILL, ski);
-                        put(KeywordType.QUALIFICATION, qua);
-                    }
-                };
-
-                jobController.createNewJob(jobTitleEntry.getText(), keywordMap, String.valueOf(employmentTypeEntry.getSelectedItem()), descriptionEntry.getText(), maxInt.get(), minInt.get(), companyEntry.getText(), "Active");
-
-                navigationController.setBody("RECRUITER");
-                navigationController.setHeader("BUTTONS");
-                clearJobDetails();
-            }
-        });
+        publishPanel.add(previewButton, new GBC(2,3)
+                .setSpan(1,1)
+                .setAnchor(GridBagConstraints.LINE_START)
+                .setFill(GridBagConstraints.NONE)
+                .setInsets(10));
+        publishPanel.add(publishButton, new GBC(1,4)
+                .setSpan(4,1)
+                .setFill(GridBagConstraints.HORIZONTAL)
+                .setAnchor(GridBagConstraints.LINE_START)
+                .setFill(GridBagConstraints.NONE)
+                .setInsets(10));
     }
 
-    public void setPage(String page) {
-        CardLayout createJob = (CardLayout) (this.getLayout());
-        createJob.show(this, page);
+    public void clearJobDetails(){
+            jobTitleEntry.setText("");
+            companyEntry.setText("");
+            locationEntry.setSelectedIndex(0);
+            categoryEntry.setSelectedIndex(0);
+            payTypeEntry.setSelectedIndex(0);
+            payRangeMinEntry.setSelectedIndex(0);
+            payRangeMaxEntry.setSelectedIndex(0);
+            employmentTypeEntry.setSelectedIndex(0);
+            skillsListModel.removeAllElements();
+            educationEntry.setSelectedIndex(0);
+            qualificationsListModel.removeAllElements();
+            descriptionEntry.setText("");
     }
 
-    public void setTextPosition(JLabel text) {
-        text.setHorizontalAlignment(JLabel.LEFT); //set page title left
-        text.setVerticalAlignment(JLabel.TOP); //set page title top
+    private boolean validateDetails() {
+        if ((companyEntry != null)
+                && (jobTitleEntry != null)
+                && (companyEntry.getText().length() > 0)
+                && (jobTitleEntry.getText().length() > 0)
+                && (!"-Select".equals(payRangeMinEntry.getSelectedItem()))
+                && (!"-Select".equals(payRangeMaxEntry.getSelectedItem()))
+                && (!"-Select job type".equals(categoryEntry.getSelectedItem()))
+                && (!"-Select location".equals(locationEntry.getSelectedItem()))){
+            return true;
+        }
+        return false;
     }
 
-    public void setPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r) {
-        c.gridwidth = w;
-        c.gridx = x;
-        c.gridy = y;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.LINE_START;
-        c.insets = new Insets(t, l, b, r);
+    private boolean validateSkillsAndQuals() {
+        if ((qualificationsList != null)
+                && (skillsList != null)
+                && (qualificationsList.getModel().getSize() >= 1)
+                && (skillsList.getModel().getSize() >= 1)
+                && (!"-Select highest level of education".equals(educationEntry.getSelectedItem()))) {
+            return true;
+        }
+        return false;
     }
 
-    public void setButtonPosition(GridBagConstraints c, int x, int y, int w, int t, int l, int b, int r) {
-        c.gridwidth = w;
-        c.gridx = x;
-        c.gridy = y;
-        c.fill = GridBagConstraints.NONE;
-        c.anchor = GridBagConstraints.LINE_END;
-        c.insets = new Insets(t, l, b, r);
+    private boolean validateDesc(){
+        if ((descriptionEntry != null)
+                && (descriptionEntry.getText().length() > 0)) {
+            return true;
+        }
+        return false;
+    }
+    private void leavePage(){
+        if (JOptionPane.showConfirmDialog(null, "Are you sure you want to leave without saving?", "Warning",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            navigationController.setBody("RECRUITER");
+            navigationController.setHeader("BUTTONS");
+            proceedButton.setVisible(true);
+            cardLayout.show(formPane, "DETAILS");
+            clearJobDetails();
+        }
+    }
+    private void setNavigationButtonState() {
+        switch (pageShown.getName()) {
+            case "DETAILS" -> {
+                backButton.addActionListener(leave);
+                backButton.removeActionListener(back);
+                proceedButton.setVisible(true);
+                proceedButton.setEnabled(validateDetails());
+            }
+            case "SKILLS" -> {
+                backButton.removeActionListener(leave);
+                backButton.addActionListener(back);
+                proceedButton.setVisible(true);
+                proceedButton.setEnabled(validateSkillsAndQuals());
+            }
+            case "DESCRIPTION" -> {
+                proceedButton.setVisible(true);
+                proceedButton.setEnabled(validateDesc());
+            }
+            case "PUBLISH" -> {
+                proceedButton.setEnabled(false);
+                proceedButton.setVisible(false);
+            }
+            default -> {
+                proceedButton.setEnabled(false);
+            }
+        }
+    }
+    private void findPage() {
+        for (Component page : formPane.getComponents()) {
+            if (page.isVisible()){
+                pageShown = (JPanel) page;
+            }
+        }
     }
 
-    public void clearJobDetails() {
-        jobTitleEntry.setText("");
-        companyEntry.setText("");
-        locationEntry.setSelectedIndex(0);
-        categoryEntry.setSelectedIndex(0);
-        payTypeEntry.setSelectedIndex(0);
-        payRangeMinEntry.setSelectedIndex(0);
-        payRangeMaxEntry.setSelectedIndex(0);
-        employmentTypeEntry.setSelectedIndex(0);
-        skillModel.removeAllElements();
-        educationEntry.setSelectedIndex(0);
-        qualModel.removeAllElements();
-        descriptionEntry.setText("");
+    private void payRangeValidation() {
+        String minVal = String.valueOf(payRangeMinEntry.getSelectedItem());
+        String maxVal = String.valueOf(payRangeMaxEntry.getSelectedItem());
+        Pattern p = Pattern.compile("\\d+");
+        Matcher m = p.matcher(minVal);
+        while (m.find()) {
+            minVal = String.valueOf(m.group());
+        }
+        m = p.matcher(maxVal);
+        while (m.find()) {
+            maxVal = String.valueOf(m.group());
+        }
+        minInt = parseInt(minVal);
+        maxInt = parseInt(maxVal);
+
+        if(minInt >= maxInt) {
+            JFrame frame = new JFrame();
+            JOptionPane.showMessageDialog(frame, "The selected Maximum Pay must be equal or higher than the Minimum Pay", "Error", JOptionPane.ERROR_MESSAGE);
+            proceedButton.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+
     }
 }

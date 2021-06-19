@@ -29,8 +29,7 @@ public class MainBodyPane extends JPanel {
         this.add(new LoginPane(navigationController, userController), "LOGIN");
         this.add(new CreateAccountScreen(navigationController, userController, true), "CREATEACCOUNT");
         this.add(new CreateAccountScreen(navigationController, userController, false), "CREATESEEKER");
-        this.add(new CreateJobForm(navigationController,
-                jobController), "CREATEJOB"); // added
+        this.add(new CreateJobForm(navigationController, jobController), "CREATEJOB"); // added
         this.add(new ChooseAccount(navigationController), "CHOOSE");
 
 
