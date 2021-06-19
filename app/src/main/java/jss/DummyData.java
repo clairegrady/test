@@ -3,6 +3,7 @@ package jss;
 import application.*;
 import data.DataStore;
 import data.EmploymentType;
+import data.JobStatus;
 import data.KeywordType;
 
 import java.util.*;

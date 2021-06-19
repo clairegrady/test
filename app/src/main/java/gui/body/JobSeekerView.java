@@ -1,6 +1,6 @@
 package gui.body;
 
-import application.JobStatus;
+import data.JobStatus;
 import controller.JobController;
 import controller.NavigationController;
 import controller.UserController;

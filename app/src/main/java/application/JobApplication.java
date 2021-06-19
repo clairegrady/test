@@ -1,5 +1,7 @@
 package application;
 
+import data.JobStatus;
+
 public class JobApplication extends JobInteraction {
 
     private int dateApplied;

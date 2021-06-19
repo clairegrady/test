@@ -1,6 +1,6 @@
 package gui.body.searchBar;
 
-import application.JobStatus;
+import data.JobStatus;
 
 import javax.swing.*;
 import java.awt.*;

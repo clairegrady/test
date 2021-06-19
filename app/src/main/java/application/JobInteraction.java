@@ -1,5 +1,6 @@
 package application;
 
+import data.JobStatus;
 import gui.card.CardData;
 import gui.card.CardDisplayable;
 import utility.UniqueId;

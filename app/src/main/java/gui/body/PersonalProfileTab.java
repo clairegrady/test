@@ -59,6 +59,4 @@ public class PersonalProfileTab extends Tab {
         blankPanel.add(spb.createBody());
     }
 
-
-
 }

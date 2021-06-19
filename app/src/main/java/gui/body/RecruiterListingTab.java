@@ -3,7 +3,7 @@ package gui.body;
 
 import application.JobInteraction;
 import application.JobListing;
-import application.JobStatus;
+import data.JobStatus;
 import application.User;
 import controller.JobController;
 import controller.NavigationController;

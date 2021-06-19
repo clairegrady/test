@@ -1,5 +1,7 @@
 package application;
 
+import data.JobStatus;
+
 public class JobInvitation extends JobInteraction {
 
     private String message;

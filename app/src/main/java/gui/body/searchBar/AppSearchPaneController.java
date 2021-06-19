@@ -1,6 +1,6 @@
 package gui.body.searchBar;
 
-import application.JobStatus;
+import data.JobStatus;
 
 public interface AppSearchPaneController {
 

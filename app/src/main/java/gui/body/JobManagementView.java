@@ -30,7 +30,7 @@ public class JobManagementView extends JPanel implements TabController {
         Dimension tabSize = new Dimension(800, 500);
         tabbedPane.putClientProperty("JTabbedPane.tabAreaAlignment", "center");
 
-        JComponent jobDetailsTab = new JobDetailsPane(this.navigationController);
+        JComponent jobDetailsTab = new JobDetailsPane(navigationController, jobController);
         jobDetailsTab.setPreferredSize(tabSize);
         tabbedPane.addTab("Job Details", null, jobDetailsTab, "Details");
 

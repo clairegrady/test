@@ -235,7 +235,10 @@ public class CreateJobForm extends JPanel {
         proceedButton.setEnabled(false);
         buttonsPanel.add(proceedButton);
 
-        payRangeMaxEntry.addActionListener(ep -> proceedButton.setEnabled(companyEntry.getText().length() > 0 && !"-Select".equals(payRangeMinEntry.getSelectedItem()) && !"-Select".equals(payRangeMaxEntry.getSelectedItem()) && jobTitleEntry.getText().length() > 0 && !"-Select job type".equals(categoryEntry.getSelectedItem()) && !"-Select location".equals(locationEntry.getSelectedItem())));
+        payRangeMaxEntry.addActionListener(
+                ep ->
+                        proceedButton.setEnabled(
+                                companyEntry.getText().length() > 0 && !"-Select".equals(payRangeMinEntry.getSelectedItem()) && !"-Select".equals(payRangeMaxEntry.getSelectedItem()) && jobTitleEntry.getText().length() > 0 && !"-Select job type".equals(categoryEntry.getSelectedItem()) && !"-Select location".equals(locationEntry.getSelectedItem())));
         payRangeMinEntry.addActionListener(ep -> proceedButton.setEnabled(companyEntry.getText().length() > 0 && !"-Select".equals(payRangeMinEntry.getSelectedItem()) && !"-Select".equals(payRangeMaxEntry.getSelectedItem()) && jobTitleEntry.getText().length() > 0 && !"-Select job type".equals(categoryEntry.getSelectedItem()) && !"-Select location".equals(locationEntry.getSelectedItem())));
         categoryEntry.addActionListener(ep -> proceedButton.setEnabled(companyEntry.getText().length() > 0 && !"-Select".equals(payRangeMinEntry.getSelectedItem()) && !"-Select".equals(payRangeMaxEntry.getSelectedItem()) && jobTitleEntry.getText().length() > 0 && !"-Select job type".equals(categoryEntry.getSelectedItem()) && !"-Select location".equals(locationEntry.getSelectedItem())));
         locationEntry.addActionListener(ep -> proceedButton.setEnabled(companyEntry.getText().length() > 0 && !"-Select".equals(payRangeMinEntry.getSelectedItem()) && !"-Select".equals(payRangeMaxEntry.getSelectedItem()) && jobTitleEntry.getText().length() > 0 && !"-Select job type".equals(categoryEntry.getSelectedItem()) && !"-Select location".equals(locationEntry.getSelectedItem())));

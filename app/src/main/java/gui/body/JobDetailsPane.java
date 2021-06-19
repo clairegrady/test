@@ -1,22 +1,33 @@
 package gui.body;
 
+import data.JobStatus;
+import controller.JobController;
 import controller.NavigationController;
 import gui.body.searchBar.JobViewPane;
 import utility.GBC;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
+//import java.awt.;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class JobDetailsPane extends JPanel implements ListSelectionListener {
 
     private final NavigationController navigationController;
-    private final ArrayList<String> skills;
-    private final ArrayList<String> location;
-    private final ArrayList<String> education;
+    private List<String> skills;
+    private List<String> location;
+    private List<String> education;
     private JPanel bodyPane;
     private JPanel detailsPane;
     private JScrollPane jobDescScrollPane;
@@ -25,10 +36,10 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
     private DefaultListModel<String> skillsListModel;
     private JScrollPane qualificationsListScrollPane;
     private DefaultListModel<String> qualificationsListModel;
+    private JLabel currentStatus;
     private JPanel jobTitlePane;
     private JPanel actionPane;
     private JPanel editPane;
-    private String[] publishedState = {"Active", "Draft", "Closed"};
     private String lastUpdatedDate;
     private String jobTitle;
     private String company;
@@ -37,16 +48,18 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
     private String employmentType;
     private String payFloor;
     private String payCeiling;
+    private JobController jobController;
 
-    JobDetailsPane(NavigationController navigationController) {
+    JobDetailsPane(NavigationController navigationController, JobController jobController) {
         super(new BorderLayout());
         this.navigationController = navigationController;
-        this.add(new JobViewPane(navigationController), BorderLayout.NORTH);
+        this.jobController = jobController;
+        this.add(new JobViewPane(navigationController, jobController), BorderLayout.NORTH);
         this.createComponentPanes();
         this.skills = new ArrayList<>();
         this.location = new ArrayList<>();
         this.education = new ArrayList<>();
-        setPlaceholderStuffs();
+        displayJobDetails();
 
         this.setJobTitlePaneComponents();
         this.setActionPaneComponents();
@@ -101,8 +114,10 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
     protected void setActionPaneComponents() {
         actionPane.setLayout(new BoxLayout(actionPane, BoxLayout.LINE_AXIS));
 
-        JComboBox<String> publishStatusSelector = new JComboBox<>(publishedState);
+        JComboBox<String> publishStatusSelector = new JComboBox(JobStatus.getCreateFormEmploymentType());
+        publishStatusSelector.setSelectedIndex(JobStatus.getIndexOfValue(jobController.getJobListingStatus()));
         JButton publishButton = new JButton("Update Status");
+        publishButton.addActionListener(e -> jobController.updateJobListingStatus(this, publishStatusSelector.getSelectedItem().toString()));
 
         actionPane.add(publishStatusSelector);
         actionPane.add(Box.createHorizontalGlue());
@@ -110,17 +125,29 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
 
     }
 
+    public void updateCurrentStatus(String currentStatus, Color colour) {
+        this.currentStatus.setText(currentStatus);
+        this.currentStatus.setForeground(colour);
+    }
+
     protected void setEditPaneComponents() {
         editPane.setLayout(new BoxLayout(editPane, BoxLayout.PAGE_AXIS));
 
         JLabel lastUpdated = new JLabel(" last updated: " + lastUpdatedDate);
+        this.currentStatus = new JLabel(jobController.getJobListingStatus());
+        this.currentStatus.setForeground(jobController.getStatusColour());
+        this.currentStatus.setFont(new Font(null, Font.ITALIC, 20));
+        this.currentStatus.setBorder(new EmptyBorder(0,0,20,0));
         JButton editButton = new JButton("Edit");
 
+        editPane.add(this.currentStatus);
         editPane.add(editButton);
         editPane.add(lastUpdated);
 
+
         lastUpdated.setAlignmentX(Box.RIGHT_ALIGNMENT);
         editButton.setAlignmentX(Box.RIGHT_ALIGNMENT);
+        this.currentStatus.setAlignmentX(Box.RIGHT_ALIGNMENT);
 
         editButton.addActionListener(e -> {
             navigationController.setBody("CREATEJOB");
@@ -132,7 +159,7 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
 
         JLabel jobTitleLabel = new JLabel(jobTitle);
         JLabel companyLabel = new JLabel(company);
-        JLabel locationLabel = new JLabel(location.get(0));
+        JLabel locationLabel = new JLabel(String.join(", ", location));
         JLabel categoryLabel = new JLabel(jobCategory);
         JLabel paymentLabel = new JLabel(payFloor + " - " + payCeiling + "  |  " + employmentType);
 
@@ -217,31 +244,26 @@ public class JobDetailsPane extends JPanel implements ListSelectionListener {
         this.add(bodyPane, BorderLayout.CENTER);
     }
 
-    private void setPlaceholderStuffs() {
+    private void displayJobDetails() {
+        jobController.setJobDetailsPaneInformation(this);
+    }
 
+    public void addJobDetails(String jobTitle, String company, String jobDescription, String jobCategory,
+                              String employmentType, String payFloor, String payCeiling,
+                              String lastUpdatedDate, List<String> locations,
+                              List<String> skills, List<String> educationAndQualifications) {
+        this.jobTitle = jobTitle;
+        this.company = company;
+        this.jobDescription = jobDescription;
+        this.jobCategory = jobCategory;
+        this.employmentType = employmentType;
+        this.payFloor = payFloor;
+        this.payCeiling = payCeiling;
+        this.lastUpdatedDate = lastUpdatedDate;
 
-        for (int i = 0; i <= 10; i++) {
-            skills.add("skill" + i);
-            education.add("education" + i);
-        }
-        location.add("Sydney");
-        lastUpdatedDate = "12 June 2050";
-        jobTitle = "Sweet Dev Job";
-        company = "The Illustrious Purple Buttons Company";
-        jobDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Est ante in nibh mauris cursus mattis molestie a iaculis. Est lorem ipsum dolor sit amet consectetur adipiscing elit. Vivamus arcu felis bibendum ut tristique et. Et odio pellentesque diam volutpat commodo sed. Vulputate odio ut enim blandit volutpat. Ut aliquam purus sit amet. Vitae justo eget magna fermentum iaculis eu non diam phasellus. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Lacus luctus accumsan tortor posuere. Id neque aliquam vestibulum morbi blandit cursus. Dapibus ultrices in iaculis nunc sed augue. In fermentum posuere urna nec tincidunt praesent semper. Pharetra et ultrices neque ornare. Pharetra sit amet aliquam id diam maecenas ultricies. Est lorem ipsum dolor sit amet consectetur. Dictum at tempor commodo ullamcorper a. Neque sodales ut etiam sit amet.\n" +
-                "\n" +
-                "Vitae auctor eu augue ut lectus arcu. Ac turpis egestas integer eget. Sagittis aliquam malesuada bibendum arcu vitae elementum. Vitae aliquet nec ullamcorper sit amet risus nullam. A pellentesque sit amet porttitor eget. Suspendisse in est ante in nibh mauris cursus mattis. Scelerisque fermentum dui faucibus in ornare. Dignissim convallis aenean et tortor at risus viverra adipiscing at. Diam donec adipiscing tristique risus nec feugiat in fermentum. Gravida cum sociis natoque penatibus et magnis dis. Ultricies tristique nulla aliquet enim tortor at auctor urna. Mattis molestie a iaculis at erat pellentesque adipiscing. Habitant morbi tristique senectus et. Convallis convallis tellus id interdum velit.\n" +
-                "\n" +
-                "Convallis posuere morbi leo urna molestie at elementum eu. At risus viverra adipiscing at in tellus. Lacus sed turpis tincidunt id aliquet. A diam sollicitudin tempor id eu nisl nunc. Consequat semper viverra nam libero justo. Sit amet dictum sit amet justo donec. Faucibus turpis in eu mi bibendum. Condimentum lacinia quis vel eros donec ac odio tempor. Diam sollicitudin tempor id eu nisl nunc mi ipsum faucibus. Convallis aenean et tortor at risus. Maecenas ultricies mi eget mauris pharetra et ultrices. Cras ornare arcu dui vivamus arcu felis bibendum ut.\n" +
-                "\n" +
-                "Turpis tincidunt id aliquet risus feugiat in ante metus dictum. Porta nibh venenatis cras sed felis. Felis bibendum ut tristique et egestas quis ipsum. Massa sapien faucibus et molestie ac feugiat sed lectus. Tortor at risus viverra adipiscing at in tellus integer feugiat. Egestas dui id ornare arcu. Congue mauris rhoncus aenean vel. Vulputate mi sit amet mauris commodo quis. Semper eget duis at tellus. Pharetra diam sit amet nisl suscipit adipiscing bibendum est ultricies. Scelerisque eleifend donec pretium vulputate. Neque ornare aenean euismod elementum nisi quis eleifend. Blandit libero volutpat sed cras ornare arcu dui vivamus. Quam viverra orci sagittis eu volutpat. Non enim praesent elementum facilisis leo vel. Sollicitudin tempor id eu nisl nunc mi ipsum. Tincidunt eget nullam non nisi est sit amet facilisis. Turpis tincidunt id aliquet risus feugiat in.\n" +
-                "\n" +
-                "Magna eget est lorem ipsum dolor. Nibh praesent tristique magna sit amet. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique. Eget dolor morbi non arcu. Justo eget magna fermentum iaculis. Euismod nisi porta lorem mollis aliquam ut porttitor leo a. Mattis molestie a iaculis at erat. Phasellus vestibulum lorem sed risus. Orci phasellus egestas tellus rutrum tellus pellentesque eu. Id consectetur purus ut faucibus pulvinar. Fermentum odio eu feugiat pretium nibh ipsum consequat nisl. Iaculis at erat pellentesque adipiscing commodo. Aliquam sem fringilla ut morbi tincidunt augue interdum velit. Elementum eu facilisis sed odio morbi quis commodo odio aenean. Ante metus dictum at tempor. In dictum non consectetur a erat nam at. Libero justo laoreet sit amet cursus sit amet dictum. Mi ipsum faucibus vitae aliquet.";
-        jobCategory = "IT";
-        employmentType = "Full Time";
-        payFloor = "$130,000";
-        payCeiling = "$150,000";
-
+        this.location = locations;
+        this.skills = skills;
+        this.education = educationAndQualifications;
     }
 
     @Override
