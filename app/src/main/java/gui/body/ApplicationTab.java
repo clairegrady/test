@@ -12,6 +12,7 @@ import data.DataStore;
 import gui.body.searchBar.AppSearchPane;
 import gui.body.searchBar.AppSearchPaneController;
 import gui.card.CardDisplayable;
+import gui.modal.JobDetailsFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,11 +37,11 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
         super();
     }
 
-    public ApplicationTab(NavigationController navigationController, UserController userController, JobController jobController) {
+    public ApplicationTab(NavigationController navigationController, UserController userController) {
         super();
         this.navigationController = navigationController;
         this.userController = userController;
-        this.jobController = jobController;
+        this.jobController = navigationController.getJobController();
         this.stringFilter = ji -> true;
         this.statusFilter = ji -> true;
 
@@ -90,17 +91,13 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
 
     }
 
-    public gui.body.Button getCardButton(String id) {
-        // TODO: set up the button controller
-//        Button button = new Button("View", navigationController);
-//        button.setProperty("blah");
-//        button.setText("View");
-//        button.addActionListener(ae -> {
-//            button.getNavigationController().setBody("JOBMANAGER", id);
-//        });
-//
-//        return button;
-        return new Button();
+    public Button getCardButton(String id) {
+        Button button = new Button("View", jobController);
+        button.addActionListener(ae -> {
+            button.jobController.setCurrentJob(id);
+            new JobDetailsFrame(navigationController, jobController);
+        });
+        return button;
     }
 
     public void filterEvents(String searchText, JobStatus status) {
@@ -114,5 +111,4 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
 
         displayWithFilter();
     }
-
 }

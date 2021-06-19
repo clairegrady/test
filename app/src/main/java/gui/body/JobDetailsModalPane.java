@@ -3,21 +3,41 @@ package gui.body;
 import controller.JobController;
 import controller.NavigationController;
 
+import javax.swing.*;
+
 public class JobDetailsModalPane extends JobDetailsPane {
 
+    private JButton applyButton;
 
     public JobDetailsModalPane(NavigationController navigationController, JobController jobController) {
         super(navigationController, jobController);
+
+
     }
 
     @Override
     protected void setActionPaneComponents() {
-        super.setActionPaneComponents();
+
+        this.actionPane = super.getActionPane();
+        actionPane.setLayout(new BoxLayout(actionPane, BoxLayout.LINE_AXIS));
+        applyButton = new JButton("Apply");
+
+        applyButton.addActionListener(e -> {
+
+        });
+        actionPane.add(applyButton);
+
     }
 
     @Override
     protected void setEditPaneComponents() {
-        super.setEditPaneComponents();
+        
+
+    }
+
+    @Override
+    protected void displayJobDetails() {
+        this.jobController.setJobDetailsPaneInformation(this);
     }
 
 }

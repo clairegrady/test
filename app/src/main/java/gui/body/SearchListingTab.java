@@ -10,6 +10,8 @@ import data.Location;
 import data.Sal;
 import gui.body.searchBar.JobSearchPane;
 import gui.body.searchBar.JobSearchPaneController;
+import gui.card.CardDisplayable;
+import gui.modal.JobDetailsFrame;
 import search.Search;
 
 import javax.swing.*;
@@ -42,14 +44,12 @@ public class SearchListingTab extends JobCardTab implements JobSearchPaneControl
         return String.valueOf(jobController.getJobListingMatchScores(id).get(userController.getLoggedInUser()));
     }
 
-    @Override
-    public gui.body.Button getCardButton(String id) {
-        gui.body.Button button = new Button();
-        button.addActionListener(e ->
-                JOptionPane.showConfirmDialog(null, "This displays a job modal", "Future Enhacement",
-                        JOptionPane.YES_NO_OPTION
-                )
-        );
+    public Button getCardButton(String id) {
+        Button button = new Button("View", jobController);
+        button.addActionListener(ae -> {
+            button.jobController.setCurrentJob(id);
+            new JobDetailsFrame(navigationController, jobController);
+        });
         return button;
     }
 
@@ -61,5 +61,6 @@ public class SearchListingTab extends JobCardTab implements JobSearchPaneControl
                 Sal.getEnum(pay),
                 Location.getEnum(location)));
         display();
+
     }
 }

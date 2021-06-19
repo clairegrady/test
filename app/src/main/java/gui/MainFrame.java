@@ -31,7 +31,6 @@ public class MainFrame extends JFrame {
         this.body = new MainBodyPane(navigationController, userController, jobController);
         this.header = new MainHeaderPane(navigationController, userController);
 
-
         //Add content to the window.
         this.add(header, BorderLayout.NORTH);
         this.add(body, BorderLayout.CENTER);
@@ -57,6 +56,10 @@ public class MainFrame extends JFrame {
 
     public UserController getUserController() {
         return this.userController;
+    }
+
+    public JobController getJobController() {
+        return this.jobController;
     }
 
     public void setBody(String body) {

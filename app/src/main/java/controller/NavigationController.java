@@ -1,16 +1,14 @@
 package controller;
 
-import data.DataStore;
 import gui.MainFrame;
 import gui.body.SeekerProfileBody;
 import gui.modal.SeekerProfileFrame;
 
-import javax.swing.*;
 import java.io.Serializable;
 
 public class NavigationController implements Serializable {
 
-    MainFrame mainFrame;
+    private MainFrame mainFrame;
     private UserController userController;
 
     public NavigationController(MainFrame mainFrame) {
@@ -40,6 +38,10 @@ public class NavigationController implements Serializable {
         mainFrame.setBody("LOGIN");
         mainFrame.setHeader("LOGIN");
     }
+
+    public JobController getJobController() {return mainFrame.getJobController();}
+
+    public UserController getUserController() {return mainFrame.getUserController();}
 
     public void displayProfileModal(String id) {
         SeekerProfileFrame spf = new SeekerProfileFrame(this, userController);

@@ -25,7 +25,7 @@ public class LoginPane extends JPanel {
         this.lc = lc;
 
         JPanel featurePanel = new JPanel();
-        featurePanel.setSize(new Dimension(600, 300));
+        featurePanel.setSize(new Dimension(600, 200));
         featurePanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -68,8 +68,6 @@ public class LoginPane extends JPanel {
 
         this.add(featurePanel, BorderLayout.CENTER);
 
-
-        //TODO fix the layout management on the Login Page -> Probably needs a box
 
         emailField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) { //watch for key strokes

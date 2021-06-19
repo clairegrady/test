@@ -24,8 +24,8 @@ import java.util.List;
 
 public class JobDetailsPane extends Tab implements ListSelectionListener {
 
-    private final NavigationController navigationController;
-
+    protected final NavigationController navigationController;
+    protected final JobController jobController;
     private List<String> skills;
     private List<String> location;
     private List<String> education;
@@ -39,8 +39,8 @@ public class JobDetailsPane extends Tab implements ListSelectionListener {
     private DefaultListModel<String> qualificationsListModel;
     private JLabel currentStatus;
     private JPanel jobTitlePane;
-    private JPanel actionPane;
-    private JPanel editPane;
+    protected JPanel actionPane;
+    protected JPanel editPane;
     private String lastUpdatedDate;
     private String jobTitle;
     private String company;
@@ -49,7 +49,6 @@ public class JobDetailsPane extends Tab implements ListSelectionListener {
     private String employmentType;
     private String payFloor;
     private String payCeiling;
-    private JobController jobController;
 
     JobDetailsPane(NavigationController navigationController, JobController jobController) {
         super();
@@ -244,13 +243,17 @@ public class JobDetailsPane extends Tab implements ListSelectionListener {
                         .setInsets(5));
     }
 
-    private void displayJobDetails() {
+    protected void displayJobDetails() {
         jobController.setJobDetailsPaneInformation(this);
+        jobController.setViewLastUpdatedDate(this);
+    }
+
+    public void setLastUpdatedDate(String lastUpdatedDate) {
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 
     public void addJobDetails(String jobTitle, String company, String jobDescription, String jobCategory,
-                              String employmentType, String payFloor, String payCeiling,
-                              String lastUpdatedDate, List<String> locations,
+                              String employmentType, String payFloor, String payCeiling, List<String> locations,
                               List<String> skills, List<String> educationAndQualifications) {
         this.jobTitle = jobTitle;
         this.company = company;
@@ -259,8 +262,6 @@ public class JobDetailsPane extends Tab implements ListSelectionListener {
         this.employmentType = employmentType;
         this.payFloor = payFloor;
         this.payCeiling = payCeiling;
-        this.lastUpdatedDate = lastUpdatedDate;
-
         this.location = locations;
         this.skills = skills;
         this.education = educationAndQualifications;
@@ -270,9 +271,16 @@ public class JobDetailsPane extends Tab implements ListSelectionListener {
     public void valueChanged(ListSelectionEvent e) {
 
     }
+    protected JPanel getActionPane() {
+        return actionPane;
+    }
+
+    protected JPanel getEditPane() {
+        return editPane;
+    }
 
     @Override
     public void display() {
-
+        
     }
 }

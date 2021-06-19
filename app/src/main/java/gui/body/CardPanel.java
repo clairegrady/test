@@ -8,7 +8,6 @@ import gui.card.CardDisplayable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 public class CardPanel extends JPanel implements CardController {
 

@@ -3,22 +3,17 @@ package controller;
 import application.Job;
 import application.JobListing;
 import application.User;
-import data.JobStatus;
 import data.DataStore;
 import data.EmploymentType;
+import data.JobStatus;
 import data.KeywordType;
-import gui.MainFrame;
 import gui.body.JobDetailsPane;
 
-import javax.swing.text.DateFormatter;
 import java.awt.*;
-import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -64,8 +59,16 @@ public class JobController {
     }
 
     public void setCurrentJob(Job currentJob) {
+        System.out.println(currentJob);
         this.currentJob = currentJob;
-        this.currentJobListing = getJobListingByJobId(currentJob.getUniqueId());
+        this.currentJobListing = getJobListingByJobId(this.currentJob.getUniqueId());
+        System.out.println(currentJobListing);
+
+    }
+
+    public void setCurrentJob(String id) {
+        System.out.println(id);
+        this.currentJob = DataStore.getDatastore().getJobById(id).orElseThrow();
     }
 
     public String getJobListingPublishDate() {
@@ -85,7 +88,6 @@ public class JobController {
                 currentJob.getEmploymentType().toString(),
                 formatJobPayValue(currentJob.getPayFloor()),
                 formatJobPayValue(currentJob.getPayCeiling()),
-                formatJobListingDate(currentJobListing.getLastUpdated()),
                 currentJob.getKeywordsListForType(KeywordType.LOCATION),
                 currentJob.getKeywordsListForType(KeywordType.SKILL),
                 Stream.of(currentJob.getKeywordsListForType(KeywordType.EDUCATION),
@@ -93,6 +95,10 @@ public class JobController {
                         .flatMap(Collection::stream)
                         .collect(Collectors.toList())
         );
+    }
+
+    public void setViewLastUpdatedDate(JobDetailsPane jobDetailsPane) {
+        jobDetailsPane.setLastUpdatedDate(formatJobListingDate(currentJobListing.getLastUpdated()));
     }
 
     public String formatJobListingDate(long dateLong) {
@@ -133,14 +139,16 @@ public class JobController {
 
         Optional<User> u = DataStore.getDatastore().getUserById(userController.getLoggedInUser());
         Optional<JobListing> jl = Optional.empty();
+        System.out.println(u);
         if (u.isPresent()) {
             jl = u.get().getJobInteractions()
                     .stream()
                     .filter(ji -> ji instanceof JobListing && ji.getJob().getUniqueId().equals(id))
+                    .peek(System.out::println)
                     .findFirst()
                     .map(ji -> (JobListing) ji);
         }
-
+        System.out.println(jl);
         assert jl.isPresent();
         return jl.get();
 
