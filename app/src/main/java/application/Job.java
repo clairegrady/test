@@ -24,10 +24,8 @@ public class Job implements Storable, Searchable, CardDisplayable {
     private int payCeiling;
     private int payFloor;
     private String company;
-    private int uid;
-    private int dateCreated;
-    private int advertised;
-    private Map<String, Integer> matchingScore; // Had to make both K and V a string so my linter
+    private Map<String, Integer> matchingScore;
+
     public Job() {
         this.title = "title";
         this.jobKeywords = new HashMap<>();
@@ -36,13 +34,11 @@ public class Job implements Storable, Searchable, CardDisplayable {
         this.payCeiling = -1;
         this.payFloor = -1;
         this.company = "company";
-        this.dateCreated = -1;
-        this.advertised = -1;
         this.matchingScore = new HashMap<>();
     }
+
     public Job(String title, Map<KeywordType, List<String>> jobKeywords, EmploymentType employmentType,
-               String description, int payCeiling, int payFloor, String company, int dateCreated,
-               int advertised, Map<String, Integer> matchingScore) {
+               String description, int payCeiling, int payFloor, String company) {
         this.title = title;
         this.jobKeywords = jobKeywords;
         this.employmentType = employmentType;
@@ -50,11 +46,20 @@ public class Job implements Storable, Searchable, CardDisplayable {
         this.payCeiling = payCeiling;
         this.payFloor = payFloor;
         this.company = company;
-        this.dateCreated = dateCreated;
-        this.advertised = advertised;
+        this.matchingScore = new HashMap<>();
+    }
+
+    public Job(String title, Map<KeywordType, List<String>> jobKeywords, EmploymentType employmentType,
+               String description, int payCeiling, int payFloor, String company, Map<String, Integer> matchingScore) {
+        this.title = title;
+        this.jobKeywords = jobKeywords;
+        this.employmentType = employmentType;
+        this.description = description;
+        this.payCeiling = payCeiling;
+        this.payFloor = payFloor;
+        this.company = company;
         this.matchingScore = matchingScore;
     }
-    // would stop yelling at me, not sure why?
 
     @Override
     public CardData getCardData() {
@@ -141,30 +146,6 @@ public class Job implements Storable, Searchable, CardDisplayable {
         this.company = company;
     }
 
-    public int getUid() {
-        return uid;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
-    }
-
-    public int getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(int dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public int getAdvertised() {
-        return advertised;
-    }
-
-    public void setAdvertised(int advertised) {
-        this.advertised = advertised;
-    }
-
     public Map<String, Integer> getMatchingScore() {
         return matchingScore;
     }
@@ -175,6 +156,10 @@ public class Job implements Storable, Searchable, CardDisplayable {
 
     public void updateMatchingScore(String jobSeekerId, int matchingScore) {
         this.matchingScore.put(jobSeekerId, matchingScore);
+    }
+
+    public void updateMatches() {
+        Match.updateJobMatches(this);
     }
 
     @Override
@@ -188,9 +173,6 @@ public class Job implements Storable, Searchable, CardDisplayable {
                 ", payCeiling=" + payCeiling +
                 ", payFloor=" + payFloor +
                 ", company='" + company + '\'' +
-                ", uid=" + uid +
-                ", dateCreated=" + dateCreated +
-                ", advertised=" + advertised +
                 ", matchingScore=" + matchingScore +
                 "}\n";
     }

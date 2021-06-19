@@ -27,6 +27,10 @@ public class User implements Storable {
         this.jobInteractions = jobInteractions;
     }
 
+    public <T extends JobInteraction> void addJobInteraction(T jobInteraction) {
+        this.jobInteractions.add(jobInteraction);
+    }
+
     @Override
     public String getUniqueId() {
         return getEmail();

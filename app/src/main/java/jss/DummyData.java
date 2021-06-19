@@ -23,8 +23,6 @@ public class DummyData {
                 150000,
                 120000,
                 "MacroSoft",
-                1,
-                1,
                 new HashMap<>()
         );
         job1.addKeyword(KeywordType.SKILL, "Java");
@@ -41,8 +39,6 @@ public class DummyData {
                 110000,
                 100000,
                 "Banana",
-                1,
-                1,
                 new HashMap<>()
         );
         job2.addKeyword(KeywordType.SKILL, "Go");
@@ -60,8 +56,6 @@ public class DummyData {
                 100000,
                 80000,
                 "MacroSoft",
-                1,
-                1,
                 new HashMap<>()
         );
         job3.addKeyword(KeywordType.SKILL, "Python");
@@ -79,8 +73,6 @@ public class DummyData {
                 80000,
                 70000,
                 "Hooli",
-                1,
-                1,
                 new HashMap<>()
         );
         job4.addKeyword(KeywordType.SKILL, "Python");
@@ -96,10 +88,10 @@ public class DummyData {
         DataStore.getDatastore().updateJob(job4);
 
         List<JobInteraction> jobListings = new ArrayList<>();
-        jobListings.add(new JobListing(JobStatus.ACTIVE, job1, -1, -1));
-        jobListings.add(new JobListing(JobStatus.ACTIVE, job2, -1, -1));
-        jobListings.add(new JobListing(JobStatus.DRAFT, job3, -1, -1));
-        jobListings.add(new JobListing(JobStatus.CLOSED, job4, -1, -1));
+        jobListings.add(new JobListing(JobStatus.ACTIVE, job1));
+        jobListings.add(new JobListing(JobStatus.ACTIVE, job2));
+        jobListings.add(new JobListing(JobStatus.DRAFT, job3));
+        jobListings.add(new JobListing(JobStatus.CLOSED, job4));
 
         Optional<User> recruiter = DataStore.getDatastore().getUserById("r");
         recruiter.ifPresent(user -> user.setJobInteractions(jobListings));

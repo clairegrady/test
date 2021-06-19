@@ -2,6 +2,8 @@ package utility;
 
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UniqueId {
 

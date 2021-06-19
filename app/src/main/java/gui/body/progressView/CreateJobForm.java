@@ -4,16 +4,19 @@ import application.Education;
 import com.intellij.uiDesigner.core.GridConstraints;
 import controller.JobController;
 import controller.NavigationController;
-import data.JobType;
-import data.KeywordType;
-import data.Location;
-import data.Salary;
+import data.*;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
@@ -201,8 +204,7 @@ public class CreateJobForm extends JPanel {
         });
 
         //Employment Type
-        String[] empTypeArray = new String[]{"Full time", "Contract", "Part time", "Casual"};
-        employmentTypeEntry = new JComboBox<>(empTypeArray);
+        employmentTypeEntry = new JComboBox(EmploymentType.getCreateFormEmploymentType());
         setPosition(c, 2, 7, 3, 0, 10, 0, 10);
         jobDetailsPanel.add(employmentTypeEntry, c);
 
@@ -567,30 +569,30 @@ public class CreateJobForm extends JPanel {
             if (JOptionPane.showConfirmDialog(null, "Are you sure you want to save this job to your drafts?", "Warning",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
-                List loc = new List();
+                List<String> loc = new ArrayList<>();
                 loc.add(String.valueOf(locationEntry.getSelectedItem()));
-                List cat = new List();
+                List<String> cat = new ArrayList<>();
                 cat.add(String.valueOf(categoryEntry.getSelectedItem()));
-                List pay = new List();
+                List<String> pay = new ArrayList<>();
                 pay.add(String.valueOf(payTypeEntry.getSelectedItem()));
-                List edu = new List();
+                List<String> edu = new ArrayList<>();
                 edu.add(String.valueOf(educationEntry.getSelectedItem()));
                 int i;
-                List ski = new List();
+                List<String> ski = new ArrayList<>();
                 int n = skillList.getModel().getSize();
                 for (i = 0; i < n; i++) {
                     String temp = String.valueOf(skillList.getModel().getElementAt(i));
                     ski.add(temp);
                 }
 
-                List qua = new List();
+                List<String> qua = new ArrayList<>();
                 int n2 = qualList.getModel().getSize();
                 for (i = 0; i < n2; i++) {
                     String temp = String.valueOf(qualList.getModel().getElementAt(i));
                     qua.add(temp);
                 }
 
-                Map<KeywordType, List> keywordMap = new HashMap<>() {
+                Map<KeywordType, List<String>> keywordMap = new HashMap<>() {
                     {
                         put(KeywordType.LOCATION, loc);
                         put(KeywordType.CATEGORY, cat);
@@ -613,30 +615,30 @@ public class CreateJobForm extends JPanel {
             if (JOptionPane.showConfirmDialog(null, "Are you sure you want to publish this job??", "Warning",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
-                List loc = new List();
+                List<String> loc = new ArrayList<>();
                 loc.add(String.valueOf(locationEntry.getSelectedItem()));
-                List cat = new List();
+                List<String> cat = new ArrayList<>();
                 cat.add(String.valueOf(categoryEntry.getSelectedItem()));
-                List pay = new List();
+                List<String> pay = new ArrayList<>();
                 pay.add(String.valueOf(payTypeEntry.getSelectedItem()));
-                List edu = new List();
+                List<String> edu = new ArrayList<>();
                 edu.add(String.valueOf(educationEntry.getSelectedItem()));
                 int i;
-                List ski = new List();
+                List<String> ski = new ArrayList<>();
                 int n = skillList.getModel().getSize();
                 for (i = 0; i < n; i++) {
                     String temp = String.valueOf(skillList.getModel().getElementAt(i));
                     ski.add(temp);
                 }
 
-                List qua = new List();
+                List<String> qua = new ArrayList<>();
                 int n2 = qualList.getModel().getSize();
                 for (i = 0; i < n2; i++) {
                     String temp = String.valueOf(qualList.getModel().getElementAt(i));
                     qua.add(temp);
                 }
 
-                Map<KeywordType, List> keywordMap = new HashMap<>() {
+                Map<KeywordType, List<String>> keywordMap = new HashMap<>() {
                     {
                         put(KeywordType.LOCATION, loc);
                         put(KeywordType.CATEGORY, cat);

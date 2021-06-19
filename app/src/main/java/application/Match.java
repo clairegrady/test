@@ -10,19 +10,7 @@ import java.util.stream.Collectors;
 
 public class Match extends Thread {
 
-    @Override
-    public void run() {
-        try {
-            while (true) {
-                updateAllMatches();
-                Thread.sleep(30 * 1000);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Map<String, Integer> calculateMatchScores(Map<KeywordType, List<String>> jobKw) {
+    public static Map<String, Integer> calculateMatchScores(Map<KeywordType, List<String>> jobKw) {
         return DataStore.getDatastore().getJobSeekers()
                 .stream()
                 .collect(
@@ -33,7 +21,7 @@ public class Match extends Thread {
                 );
     }
 
-    public int calculateUserScore(Map<KeywordType, List<String>> jobKw, Map<KeywordType,
+    public static int calculateUserScore(Map<KeywordType, List<String>> jobKw, Map<KeywordType,
             List<String>> userKw) {
         int score = 0;
 
@@ -52,7 +40,7 @@ public class Match extends Thread {
                 .reduce(0, Integer::sum);
     }
 
-    public int getMaxScore(Map<KeywordType, List<String>> kwMap) {
+    public static int getMaxScore(Map<KeywordType, List<String>> kwMap) {
         int score = 0;
         for (Map.Entry<KeywordType, List<String>> e : kwMap.entrySet()) {
             score += e.getKey().getMatchWeighting() * e.getValue().size();
@@ -61,11 +49,11 @@ public class Match extends Thread {
 
     }
 
-    public Map<String, Integer> matchAllJobSeekers(Map<KeywordType, List<String>> jobKw) {
+    public static Map<String, Integer> matchAllJobSeekers(Map<KeywordType, List<String>> jobKw) {
         return normaliseMatches(getMaxScore(jobKw), calculateMatchScores(jobKw));
     }
 
-    public Map<String, Integer> normaliseMatches(int maxScore, Map<String, Integer> matches) {
+    public static Map<String, Integer> normaliseMatches(int maxScore, Map<String, Integer> matches) {
         for (Map.Entry<String, Integer> entry : matches.entrySet()) {
             entry.setValue(
                     normaliseSingleMatch(maxScore, entry.getValue())
@@ -74,21 +62,21 @@ public class Match extends Thread {
         return matches;
     }
 
-    public int normaliseSingleMatch(int maxScore, int score) {
+    public static int normaliseSingleMatch(int maxScore, int score) {
         return score / maxScore;
     }
 
-    public void updateAllMatches() {
+    public static void updateAllMatches() {
         for (Job job : DataStore.getDatastore().getJobs()) {
             updateJobMatches(job);
         }
     }
 
-    public void updateJobMatches(Job job) {
+    public static void updateJobMatches(Job job) {
         job.setMatchingScore(matchAllJobSeekers(job.getJobKeywords()));
     }
 
-    public void updateUserMatches(JobSeeker js) {
+    public static void updateUserMatches(JobSeeker js) {
         System.out.println(js);
         for (Job job : DataStore.getDatastore().getJobs()) {
             job.updateMatchingScore(

@@ -1,5 +1,6 @@
 package controller;
 
+import application.JobListing;
 import application.JobSeeker;
 import application.Recruiter;
 import application.User;
@@ -36,6 +37,12 @@ public class UserController {
             System.out.println("Failed");
             return false;
         }
+    }
+
+    public void addJobListing(JobListing jobListing) {
+        User u = DataStore.getDatastore().getUserById(authenticatedUserID).get();
+
+        u.addJobInteraction(jobListing);
     }
 
     public void setUserType() {

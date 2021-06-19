@@ -2,24 +2,22 @@ package application;
 
 public class JobListing extends JobInteraction {
 
-    private int closeDate;
-    private int publishDate;
+//    private int closeDate;
+    private long publishDate;
+    private final long dateCreated = System.currentTimeMillis();
 
-    public JobListing(JobStatus status, Job job, int closeDate, int publishDate) {
+
+    public JobListing(JobStatus status, Job job) {
         super(status, job);
-        this.closeDate = closeDate;
-        this.publishDate = publishDate;
+        switch (status) {
+            case ACTIVE -> {
+                this.publishDate = System.currentTimeMillis();
+            }
+        }
+        this.publishDate = status.equals(JobStatus.ACTIVE) ? System.currentTimeMillis() : -1;
     }
 
-    public int getCloseDate() {
-        return closeDate;
-    }
-
-    public void setCloseDate(int closeDate) {
-        this.closeDate = closeDate;
-    }
-
-    public int getPublishDate() {
+    public long getPublishDate() {
         return publishDate;
     }
 
@@ -31,7 +29,6 @@ public class JobListing extends JobInteraction {
     public String toString() {
         return "JobListing{" +
                 super.toString() +
-                "closeDate=" + closeDate +
                 ", publishDate=" + publishDate +
                 '}';
     }
