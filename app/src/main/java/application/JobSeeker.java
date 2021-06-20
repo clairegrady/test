@@ -20,7 +20,7 @@ public class JobSeeker extends User implements Searchable, CardDisplayable {
         this.personalSummary = "Default";
         this.qualifications = "Default";
         this.experience = "Default";
-        this.seekerKeywords = new HashMap<>();
+        this.seekerKeywords = newKeywordMap();
     }
 
     public JobSeeker(String email, String password, String firstName, String lastName) {
@@ -28,7 +28,7 @@ public class JobSeeker extends User implements Searchable, CardDisplayable {
         this.personalSummary = "Default";
         this.qualifications = "Default";
         this.experience = "Default";
-        this.seekerKeywords = new HashMap<>();
+        this.seekerKeywords = newKeywordMap();
 
     }
 
@@ -97,6 +97,15 @@ public class JobSeeker extends User implements Searchable, CardDisplayable {
     @Override
     public String getCardDisplayUniqueId() {
         return getEmail();
+    }
+
+    public static Map<KeywordType, List<String>> newKeywordMap() {
+        Map<KeywordType, List<String>> kwMap = new HashMap<>();
+        for (KeywordType type : KeywordType.values()) {
+            kwMap.put(type, new ArrayList<>());
+        }
+
+        return kwMap;
     }
 
     @Override
