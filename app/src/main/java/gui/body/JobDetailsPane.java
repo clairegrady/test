@@ -21,7 +21,6 @@ public class JobDetailsPane extends JPanel {
     private List<String> skills;
     private List<String> location;
     private List<String> education;
-    private JPanel bodyPane;
     private JPanel detailsPane;
     private JScrollPane jobDescScrollPane;
     private JEditorPane jobDescriptionPane;

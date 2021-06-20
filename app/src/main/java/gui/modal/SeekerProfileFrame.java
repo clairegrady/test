@@ -3,7 +3,6 @@ package gui.modal;
 import application.JobSeeker;
 import controller.NavigationController;
 import controller.UserController;
-import gui.body.SeekerProfileBody;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,9 +58,7 @@ public class SeekerProfileFrame extends JFrame {
     }
 
     public void displayProfile(JobSeeker jobSeeker){
-        this.jobSeeker = jobSeeker;
-        panel.add(new SeekerProfileBody(jobSeeker).createBody(), BorderLayout.CENTER);
-        profileModal.setVisible(true);
+
     }
 
 

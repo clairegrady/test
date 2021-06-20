@@ -37,7 +37,7 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
         super();
     }
 
-    public ApplicationTab(NavigationController navigationController, UserController userController) {
+    public ApplicationTab(NavigationController navigationController, UserController userController, JobController jobController) {
         super();
         this.navigationController = navigationController;
         this.userController = userController;
