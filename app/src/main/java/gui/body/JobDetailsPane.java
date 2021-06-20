@@ -2,6 +2,7 @@ package gui.body;
 
 import controller.JobController;
 import controller.NavigationController;
+import data.EmploymentType;
 import data.JobStatus;
 import utility.GBC;
 
@@ -73,7 +74,7 @@ public class JobDetailsPane extends JPanel {
         jobDescriptionPane.setBackground(Color.WHITE);
         jobDescScrollPane = new JScrollPane(jobDescriptionPane);
         jobDescScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        jobDescScrollPane.setPreferredSize(new Dimension(500, 350));
+//        jobDescScrollPane.setPreferredSize(new Dimension(500, 350));
 
         jobDescScrollPane.setBorder(BorderFactory.createTitledBorder("Job Description"));
 
@@ -104,7 +105,7 @@ public class JobDetailsPane extends JPanel {
     protected void setActionPaneComponents() {
         actionPane.setLayout(new BoxLayout(actionPane, BoxLayout.LINE_AXIS));
 
-        JComboBox<String> publishStatusSelector = new JComboBox(JobStatus.getCreateFormEmploymentType());
+        JComboBox<EmploymentType> publishStatusSelector = new JComboBox<>();
         publishStatusSelector.setSelectedIndex(JobStatus.getIndexOfValue(jobController.getJobListingStatus()));
         JButton publishButton = new JButton("Update Status");
         publishButton.addActionListener(e -> jobController.updateJobListingStatus(this, publishStatusSelector.getSelectedItem().toString()));

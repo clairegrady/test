@@ -55,8 +55,8 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
     private final ActionListener leave;
     private final ActionListener back;
 
-    private JComboBox<String> locationEntry;
-    private JComboBox<String> categoryEntry;
+    private JComboBox<Location> locationEntry;
+    private JComboBox<JobCategory> categoryEntry;
     private JProgressBar progressBar;
     private int progressBarValue;
     private JComboBox<String> payTypeEntry;
@@ -87,14 +87,18 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
         super();
         this.navigationController = navigationController;
         this.jobController = jobController;
+        JPanel header = new JPanel();
         progressPane = new JPanel();
+        progressPane.setLayout(new BoxLayout(progressPane, BoxLayout.PAGE_AXIS));
+        progressPane.setPreferredSize(new Dimension(900, 50));
+        header.add(progressPane);
         this.setLayout(new BorderLayout());
         backgroundPane = new JPanel(new FlowLayout());
         cardLayout = new CardLayout();
         formPane = new JPanel(cardLayout);
         bodyPane = new JPanel(new BorderLayout());
         buttonsPanel = new JPanel();
-        this.add(progressPane, BorderLayout.NORTH);
+        this.add(header, BorderLayout.NORTH);
         this.add(backgroundPane, BorderLayout.CENTER);
         backgroundPane.add(bodyPane);
         bodyPane.add(formPane, BorderLayout.CENTER);
@@ -132,13 +136,27 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
         bodyPane.setPreferredSize(new Dimension(900,600));
         bodyPane.setBackground(Color.WHITE);
         //Progress Panel
+        JPanel progressLabelPane = new JPanel();
+        progressLabelPane.setPreferredSize(new Dimension(800, 20));
+        progressLabelPane.setLayout(new BoxLayout(progressLabelPane, BoxLayout.LINE_AXIS));
+        progressLabelPane.add(Box.createHorizontalGlue());
+        progressLabelPane.add(new JLabel("Job Details"));
+        progressLabelPane.add(Box.createHorizontalGlue());
+        progressLabelPane.add(new JLabel("Skills and \nQualifications"));
+        progressLabelPane.add(Box.createHorizontalGlue());
+        progressLabelPane.add(new JLabel("Job Description"));
+        progressLabelPane.add(Box.createHorizontalGlue());
+        progressLabelPane.add(new JLabel("Publish"));
+
         progressBar = new JProgressBar();
         progressBar.setStringPainted(false);
         progressBar.putClientProperty("JProgressBar.square", false);
         progressBar.putClientProperty("JProgressBar.largeHeight", false);
         progressBar.setPreferredSize(new Dimension(800, 5));
         progressBar.setValue(progressBarValue);
+        progressPane.setBorder(BorderFactory.createEmptyBorder(5,60,5,60));
         progressPane.add(progressBar);
+        progressPane.add(progressLabelPane);
 
         leave = new ActionListener() {
             @Override
@@ -149,7 +167,6 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
         back = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                progressBarValue -= 25;
                 progressBar.setValue(progressBarValue);
                 cardLayout.previous(formPane);
                 findPage();
@@ -159,7 +176,6 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
 
         proceedButton = new JButton("Continue");
         proceedButton.addActionListener(e -> {
-            progressBarValue += 25;
             progressBar.setValue(progressBarValue);
             cardLayout.next(formPane);
             findPage();
@@ -167,7 +183,7 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
         });
 
         backButton = new JButton("Back");
-        backButton.addActionListener(back);
+        backButton.addActionListener(leave);
 
         findPage();
         setNavigationButtonState();
@@ -193,12 +209,19 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
             if (JOptionPane.showConfirmDialog(null, "Are you sure you want to save this job to your drafts?", "Warning",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 createJob("DRAFT");
+                cardLayout.show(formPane,details);
+                clearJobDetails();
+                navigationController.setBody("RECRUITER");
             }
         });
         publishButton.addActionListener(e -> {
             if (JOptionPane.showConfirmDialog(null, "Are you sure you want to publish this job??", "Warning",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 createJob("ACTIVE");
+                cardLayout.show(formPane,details);
+                clearJobDetails();
+                System.out.println("Here");
+                navigationController.setBody("RECRUITER");
             }
         });
 
@@ -267,8 +290,8 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
     private void createJobDetailsComponents() {
         jobTitleEntry = new JTextField(10);
         companyEntry = new JTextField(10);
-        locationEntry = new JComboBox(Location.getCreateFormLocations());
-        categoryEntry = new JComboBox(JobCategory.getCreateFormCategories());
+        locationEntry = new JComboBox<>(Location.getValuesExcept(null));
+        categoryEntry = new JComboBox<>(JobCategory.getValuesExcept(null));
         String[] payTypeArray = new String[] {"Salary", "Per Hour"};
         payTypeEntry = new JComboBox<>(payTypeArray);
         String[] salaryArray = Salary.getCreateSalaryArray();
@@ -505,9 +528,10 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
 
         jobController.createNewJob(jobTitleEntry.getText(), keywordMap, String.valueOf(employmentTypeEntry.getSelectedItem()), descriptionEntry.getText(), maxInt, minInt, companyEntry.getText(), status);
 
+        cardLayout.show(formPane,details);
+        clearJobDetails();
         navigationController.setBody("RECRUITER");
         navigationController.setHeader("BUTTONS");
-        clearJobDetails();
     }
 
     private void createJobDescriptionComponents() {
@@ -554,16 +578,9 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
                 .setSpan(1,1)
                 .setInsets(10));
 
-        //Preview Button
-        publishPanel.add(previewButton, new GBC(2,3)
+        publishPanel.add(publishButton, new GBC(2,3)
                 .setSpan(1,1)
-                .setAnchor(GridBagConstraints.LINE_START)
-                .setFill(GridBagConstraints.NONE)
-                .setInsets(10));
-        publishPanel.add(publishButton, new GBC(1,4)
-                .setSpan(4,1)
                 .setFill(GridBagConstraints.HORIZONTAL)
-                .setAnchor(GridBagConstraints.LINE_START)
                 .setFill(GridBagConstraints.NONE)
                 .setInsets(10));
     }
@@ -628,24 +645,29 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
     private void setNavigationButtonState() {
         switch (pageShown.getName()) {
             case "DETAILS" -> {
-                backButton.addActionListener(leave);
                 backButton.removeActionListener(back);
+                backButton.addActionListener(leave);
                 proceedButton.setVisible(true);
                 proceedButton.setEnabled(validateDetails());
+                progressBar.setValue(20);
             }
             case "SKILLS" -> {
                 backButton.removeActionListener(leave);
+                backButton.removeActionListener(back);
                 backButton.addActionListener(back);
                 proceedButton.setVisible(true);
                 proceedButton.setEnabled(validateSkillsAndQuals());
+                progressBar.setValue(45);
             }
             case "DESCRIPTION" -> {
                 proceedButton.setVisible(true);
                 proceedButton.setEnabled(validateDesc());
+                progressBar.setValue(75);
             }
             case "PUBLISH" -> {
                 proceedButton.setEnabled(false);
                 proceedButton.setVisible(false);
+                progressBar.setValue(100);
             }
             default -> {
                 proceedButton.setEnabled(false);
@@ -672,14 +694,18 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
         while (m.find()) {
             maxVal = String.valueOf(m.group());
         }
-        minInt = parseInt(minVal);
-        maxInt = parseInt(maxVal);
-
-        if(minInt >= maxInt) {
-            JFrame frame = new JFrame();
-            JOptionPane.showMessageDialog(frame, "The selected Maximum Pay must be equal or higher than the Minimum Pay", "Error", JOptionPane.ERROR_MESSAGE);
-            proceedButton.setEnabled(false);
+        try {
+            minInt = parseInt(minVal);
+            maxInt = parseInt(maxVal);
+            if(minInt >= maxInt) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame, "The selected Maximum Pay must be equal or higher than the Minimum Pay", "Error", JOptionPane.ERROR_MESSAGE);
+                proceedButton.setEnabled(false);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Select a Pay Range");
         }
+
     }
 
     @Override

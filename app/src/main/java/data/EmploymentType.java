@@ -10,6 +10,7 @@ import java.util.List;
 public enum EmploymentType implements Serializable {
     FULL_TIME,
     PART_TIME,
+    CONTRACT,
     CASUAL,
     NULL;
 
