@@ -7,8 +7,10 @@ import application.JobInteraction;
 import controller.NavigationController;
 import controller.UserController;
 import data.DataStore;
+import data.MatchScore;
 import gui.body.searchBar.SeekerFilterPane;
 import gui.body.searchBar.SeekerFilterPaneController;
+import gui.card.Card;
 import gui.card.CardDisplayable;
 import gui.modal.SeekerProfileFrame;
 
@@ -16,6 +18,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -27,8 +30,8 @@ public class ApplicantsTab extends Tab implements CardPanelController, SeekerFil
     private CardPanel cpo;
     private SeekerFilterPane sfp;
     private List<CardDisplayable> cardPanelData;
-    private Predicate<JobInteraction> stringFilter;
-    private Predicate<JobInteraction> statusFilter;
+    private Predicate<Card> stringFilter;
+    private Predicate<Card> statusFilter;
 
     private Job job;
 
@@ -55,17 +58,11 @@ public class ApplicantsTab extends Tab implements CardPanelController, SeekerFil
 
     public void display() {
         loadCardPanelData();
-        cpo.displayCardsTest(cardPanelData);
+        cpo.displayCards(cardPanelData);
     }
 
     public void displayWithFilter() {
-//        cpo.displayCards(this.cardPanelData.stream()
-//                .filter(cd -> cd instanceof JobInteraction)
-//                .map(cd -> (JobInteraction) cd)
-//                .filter(this.stringFilter)
-//                .filter(this.statusFilter)
-//                .collect(Collectors.toList())
-//        );
+        cpo.applyPredicate(stringFilter.and(statusFilter));
     }
 
     public void loadCardPanelData() {
@@ -97,4 +94,25 @@ public class ApplicantsTab extends Tab implements CardPanelController, SeekerFil
     public String getCardCenterLabel(String id) {
         return String.valueOf(job.getMatchingScore().get(id));
     }
+
+    public void filterEvents(String searchText, String matchingScore) {
+
+        if (searchText.equals("")) {
+            stringFilter = card -> true;
+        } else {
+            this.stringFilter =
+                    card -> card.getMainLabel().toLowerCase().contains(searchText.toLowerCase())
+                            || card.getSecondaryLabel().toLowerCase().contains(searchText.toLowerCase());
+        }
+
+        this.statusFilter =
+                card -> Integer.parseInt(card.getCenterLabel()) >= MatchScore.getEnum(matchingScore).getValue();
+
+        displayWithFilter();
+    }
+
+    public void navigate() {
+        this.navigationController.setBody("RECRUITER");
+    }
+
 }

@@ -57,7 +57,7 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
 
     public void display() {
         loadCardPanelData();
-        cpo.displayCardsTest(this.cardPanelData);
+        cpo.displayCards(this.cardPanelData);
     }
 
     public String getCardCenterLabel(String id) {
@@ -65,7 +65,7 @@ public class ApplicationTab extends Tab implements CardPanelController, AppSearc
     }
 
     public void displayWithFilter() {
-        cpo.displayCardsTest(this.cardPanelData.stream()
+        cpo.displayCards(this.cardPanelData.stream()
                 .filter(cd -> cd instanceof JobInteraction)
                 .map(cd -> (JobInteraction) cd)
                 .filter(this.stringFilter)

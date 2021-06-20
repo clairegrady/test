@@ -47,6 +47,7 @@ public class JobController {
         );
         userController.addJobListing(listing);
         newJob.updateMatches();
+        DataStore.getDatastore().updateJob(newJob);
     }
 
     public void setBody(String body, String id) {

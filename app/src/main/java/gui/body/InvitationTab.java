@@ -56,7 +56,7 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
 
     public void display() {
         loadCardPanelData();
-        cpo.displayCardsTest(this.cardPanelData);
+        cpo.displayCards(this.cardPanelData);
     }
 
     public String getCardCenterLabel(String id) {
@@ -91,7 +91,7 @@ public class InvitationTab extends Tab implements CardPanelController, AppSearch
     }
 
     public void displayWithFilter() {
-        cpo.displayCardsTest(this.cardPanelData.stream()
+        cpo.displayCards(this.cardPanelData.stream()
                 .filter(cd -> cd instanceof JobInteraction)
                 .map(cd -> (JobInteraction) cd)
                 .filter(this.stringFilter)

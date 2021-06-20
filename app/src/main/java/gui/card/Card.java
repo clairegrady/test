@@ -41,59 +41,52 @@ public class Card extends JPanel {
             GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
             GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false);
 
-    public CardController cardController;
-
-    public Card(CardController cardController, String text, String text2, int rows, Button button) {
-        super();
-        formatView();
-
-        this.cardController = cardController;
-
-        JPanel card = makeCard(text, text2, "test", button);
-
-        this.add(card);
-        this.add(card, CARD_CONSTRAINTS);
-    }
+    private String mainLabel;
+    private String secondaryLabel;
+    private String centerLabel;
+    private Button button;
 
     public Card(String mainLabel, String secondaryLabel, String centerLabel, Button button) {
         super();
         formatView();
 
-        JPanel card = makeCard(mainLabel, secondaryLabel, centerLabel, button);
+        this.mainLabel = mainLabel;
+        this.secondaryLabel = secondaryLabel;
+        this.centerLabel = centerLabel;
+        this.button = button;
 
-        this.add(card);
-        this.add(card, CARD_CONSTRAINTS);
+        makeCard();
     }
 
-    public JPanel makeCard(String mainLabel, String secondaryLabel, String centerLabel, Button button) {
+    public void makeCard() {
         JPanel card = new JPanel();
         card.setLayout(CARD_LAYOUT);
         card.setBackground(Color.WHITE);
 
         // content 1
         JLabel content = new JLabel();
-        content.setText(mainLabel);
+        content.setText(this.mainLabel);
         content.setHorizontalAlignment(JLabel.LEFT);
         content.setFont(new Font(null, Font.BOLD, 18));
         card.add(content, MAIN_LABEL_CONSTRAINTS);
 
         // content 2
         JLabel content2 = new JLabel();
-        content2.setText(secondaryLabel);
+        content2.setText(this.secondaryLabel);
         content2.setFont(new Font(null, Font.PLAIN, 14));
         content2.setHorizontalAlignment(JLabel.LEFT);
         card.add(content2, SECOND_LABEL_CONSTRAINTS);
 
         // content 2
         JLabel content3 = new JLabel();
-        content3.setText(centerLabel);
+        content3.setText(this.centerLabel);
         content3.setFont(new Font(null, Font.ITALIC, 16));
         content3.setHorizontalAlignment(JLabel.RIGHT);
         card.add(content3, CENTER_LABEL_CONSTRAINTS);
 
-        card.add(button, BUTTON_CONSTRAINTS);
+        card.add(this.button, BUTTON_CONSTRAINTS);
 
-        return card;
+        this.add(card, CARD_CONSTRAINTS);
     }
 
     public void formatView() {
@@ -101,5 +94,21 @@ public class Card extends JPanel {
         this.setPreferredSize((new Dimension(700, 100)));
         this.setBackground(Color.WHITE);
         this.setBorder(new EmptyBorder(8, 8, 8, 8));
+    }
+
+    public String getMainLabel() {
+        return mainLabel;
+    }
+
+    public String getSecondaryLabel() {
+        return secondaryLabel;
+    }
+
+    public String getCenterLabel() {
+        return centerLabel;
+    }
+
+    public Button getButton() {
+        return button;
     }
 }

@@ -49,7 +49,7 @@ public class JobCardTab extends Tab implements CardPanelController {
     @Override
     public void display() {
         loadCardPanelData();
-        cardPanel.displayCardsTest(cardPanelData);
+        cardPanel.displayCards(cardPanelData);
     }
 
     public void loadCardPanelData() {

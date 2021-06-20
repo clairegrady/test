@@ -29,7 +29,7 @@ public enum Sal {
     ONEFIFTY(150),
     TWOHUNDRED(200);
 
-    private int displayValue;
+    private final int displayValue;
 
     Sal(int displayValue) {
         this.displayValue = displayValue;
