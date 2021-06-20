@@ -23,10 +23,10 @@ public class JobDetailsModalPane extends JobDetailsPane {
         applyButton = new JButton("Apply");
 
         applyButton.addActionListener(e -> {
-
+            JOptionPane.showMessageDialog(this,"Congratulations, you've applied for a job!");
         });
+        actionPane.add(Box.createHorizontalGlue());
         actionPane.add(applyButton);
-
     }
 
     @Override

@@ -2,7 +2,6 @@ package gui.body;
 
 import controller.JobController;
 import controller.NavigationController;
-import data.EmploymentType;
 import data.JobStatus;
 import utility.GBC;
 
@@ -105,8 +104,7 @@ public class JobDetailsPane extends JPanel {
     protected void setActionPaneComponents() {
         actionPane.setLayout(new BoxLayout(actionPane, BoxLayout.LINE_AXIS));
 
-        JComboBox<EmploymentType> publishStatusSelector = new JComboBox<>();
-        publishStatusSelector.setSelectedIndex(JobStatus.getIndexOfValue(jobController.getJobListingStatus()));
+        JComboBox<JobStatus> publishStatusSelector = new JComboBox<>(JobStatus.getValuesExcept(null));
         JButton publishButton = new JButton("Update Status");
         publishButton.addActionListener(e -> jobController.updateJobListingStatus(this, publishStatusSelector.getSelectedItem().toString()));
 

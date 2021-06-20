@@ -191,7 +191,10 @@ public class CreateAccountScreen extends JPanel {
         profileButton.addActionListener(e -> {
             userController.validateLogin(emailEntry.getText(), String.valueOf(pwEntry.getPassword()));
             clearUserDetails(recruiter);
-            navigationController.loginComplete(userController.getUserType());
+            if (recruiter)
+                navigationController.loginComplete("RECRUITER");
+            navigationController.loginComplete("JOBSEEKER");
+
         });
 
         backButton.addActionListener(e -> {

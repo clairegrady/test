@@ -52,11 +52,15 @@ public class MainBodyPane extends JPanel {
     }
 
     public void setBody(String body) {
+        this.revalidate();
+        this.repaint();
         if (body.equals("JOBMANAGER")) {
             this.add(new JobManagementView(navigationController, jobController), "JOBMANAGER");
         }
         CardLayout bp = (CardLayout) (this.getLayout());
         bp.show(this, body);
     }
+
+
 
 }
