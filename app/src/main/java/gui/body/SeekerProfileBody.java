@@ -2,11 +2,9 @@ package gui.body;
 
 import controller.NavigationController;
 import controller.UserController;
-import data.JobStatus;
 import utility.GBC;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +13,10 @@ public class SeekerProfileBody extends JPanel {
 
     protected final NavigationController navigationController;
     protected final UserController userController;
-    private java.util.List<String> skills;
-    private java.util.List<String> location;
-    private java.util.List<String> education;
+    private List<String> skills;
+    private List<String> location;
+    private List<String> education;
+    private List<String> qualifications;
     private JPanel detailsPane;
     private JScrollPane personalSummaryScrollPane;
     private JEditorPane personalSummaryPane;
@@ -25,18 +24,17 @@ public class SeekerProfileBody extends JPanel {
     private DefaultListModel<String> skillsListModel;
     private JScrollPane qualificationsListScrollPane;
     private DefaultListModel<String> qualificationsListModel;
-//    private JLabel currentStatus;
     private JPanel personalDetailsPane;
     protected JPanel actionPane;
     protected JPanel editPane;
-//    private String lastUpdatedDate;
-    private String name;
-//    private String byLine;
     private String personalSummary;
-//    private String jobCategory;
-//    private String employmentType;
-//    private String payFloor;
-//    private String payCeiling;
+    private String firstName;
+    private String lastName;
+    private String experience;
+    private String email;
+    private JEditorPane experiencePane;
+    private JScrollPane experienceScrollPane;
+
 
 
     public SeekerProfileBody(NavigationController navigationController, UserController userController) {
@@ -47,6 +45,7 @@ public class SeekerProfileBody extends JPanel {
         this.skills = new ArrayList<>();
         this.location = new ArrayList<>();
         this.education = new ArrayList<>();
+        this.qualifications = new ArrayList<>();
         displayPersonalDetails();
         this.setPersonalHeaderPaneComponents();
         this.setActionPaneComponents();
@@ -71,9 +70,16 @@ public class SeekerProfileBody extends JPanel {
         personalSummaryPane.setBackground(Color.WHITE);
         personalSummaryScrollPane = new JScrollPane(personalSummaryPane);
         personalSummaryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        personalSummaryScrollPane.setPreferredSize(new Dimension(500, 350));
+//        personalSummaryScrollPane.setPreferredSize(new Dimension(400, 250));
+        personalSummaryScrollPane.setBorder(BorderFactory.createTitledBorder("Personal Summary"));
 
-        personalSummaryScrollPane.setBorder(BorderFactory.createTitledBorder("Job Description"));
+        experiencePane = new JEditorPane();
+        experiencePane.setEditable(false);
+        experiencePane.setBackground(Color.WHITE);
+        experienceScrollPane = new JScrollPane(experiencePane);
+        experienceScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+//        experienceScrollPane.setPreferredSize(new Dimension(400, 250));
+        experienceScrollPane.setBorder(BorderFactory.createTitledBorder("Experience"));
 
         editPane = new JPanel();
         editPane.setBackground(Color.WHITE);
@@ -86,13 +92,13 @@ public class SeekerProfileBody extends JPanel {
         JList<String> skillsList = new JList<>(skillsListModel);
         skillsListScrollPane = setUpScrollPane(skillsList);
         skillsListScrollPane.setPreferredSize(new Dimension(300, 180));
-        skillsListScrollPane.setBorder(BorderFactory.createTitledBorder("Required Skills"));
+        skillsListScrollPane.setBorder(BorderFactory.createTitledBorder("Skills"));
 
         qualificationsListModel = new DefaultListModel<>();
         JList<String> qualificationsList = new JList<>(qualificationsListModel);
         qualificationsListScrollPane = setUpScrollPane(qualificationsList);
         qualificationsListScrollPane.setPreferredSize(new Dimension(300, 180));
-        qualificationsListScrollPane.setBorder(BorderFactory.createTitledBorder("Required Education"));
+        qualificationsListScrollPane.setBorder(BorderFactory.createTitledBorder("Qualifications"));
 
         actionPane = new JPanel();
         actionPane.setPreferredSize(new Dimension(400, 30));
@@ -111,22 +117,22 @@ public class SeekerProfileBody extends JPanel {
     public void setPersonalHeaderPaneComponents() {
         personalDetailsPane.setLayout(new BoxLayout(personalDetailsPane, BoxLayout.PAGE_AXIS));
 
-        JLabel nameLabel = new JLabel(name);
+        JLabel nameLabel = new JLabel(firstName + lastName);
 //        JLabel companyLabel = new JLabel(byLine);
         JLabel locationLabel = new JLabel(String.join(", ", location));
-//        JLabel categoryLabel = new JLabel(jobCategory);
+        JLabel emailLabel = new JLabel(email);
 //        JLabel paymentLabel = new JLabel(payFloor + " - " + payCeiling + "  |  " + employmentType);
 
         nameLabel.setFont(new Font(null, Font.BOLD, 35));
 //        companyLabel.setFont(new Font(null, Font.BOLD, 18));
         locationLabel.setFont(new Font(null, Font.PLAIN, 14));
-//        categoryLabel.setFont(new Font(null, Font.PLAIN, 14));
+        emailLabel.setFont(new Font(null, Font.PLAIN, 14));
 //        paymentLabel.setFont(new Font(null, Font.PLAIN, 14));
 
         personalDetailsPane.add(nameLabel);
 //        personalDetailsPane.add(companyLabel);
         personalDetailsPane.add(locationLabel);
-//        personalDetailsPane.add(categoryLabel);
+        personalDetailsPane.add(emailLabel);
 //        personalDetailsPane.add(paymentLabel);
 
     }
@@ -143,8 +149,8 @@ public class SeekerProfileBody extends JPanel {
     }
 
     protected void setQualificationsListPaneComponents() {
-        for (String eduElement : education) {
-            qualificationsListModel.addElement(eduElement);
+        for (String qualElement : qualifications) {
+            qualificationsListModel.addElement(qualElement);
         }
     }
 
@@ -164,8 +170,15 @@ public class SeekerProfileBody extends JPanel {
 
         detailsPane.add(personalSummaryScrollPane,
                 new GBC(0, 1)
-                        .setWeight(0.6, 3.0)
-                        .setSpan(1, 3)
+                        .setWeight(0.6, 1.0)
+                        .setSpan(1, 1)
+                        .setFill(GridBagConstraints.BOTH)
+                        .setInsets(5));
+
+        detailsPane.add(experienceScrollPane,
+                new GBC(0, 2)
+                        .setWeight(0.6, 1.0)
+                        .setSpan(1, 1)
                         .setFill(GridBagConstraints.BOTH)
                         .setInsets(5));
 
@@ -198,21 +211,6 @@ public class SeekerProfileBody extends JPanel {
         userController.setPersonalDetailsPaneInformation(this);
     }
 
-    public void addPersonalDetials(String jobTitle, String company, String jobDescription, String jobCategory,
-                              String employmentType, String payFloor, String payCeiling, java.util.List<String> locations,
-                              java.util.List<String> skills, List<String> educationAndQualifications) {
-        this.name = jobTitle;
-        this.byLine = company;
-        this.personalSummary = jobDescription;
-        this.jobCategory = jobCategory;
-        this.employmentType = employmentType;
-        this.payFloor = payFloor;
-        this.payCeiling = payCeiling;
-        this.location = locations;
-        this.skills = skills;
-        this.education = educationAndQualifications;
-    }
-
     protected JPanel getActionPane() {
         return actionPane;
     }
@@ -221,4 +219,15 @@ public class SeekerProfileBody extends JPanel {
         return editPane;
     }
 
+    public void addPersonalDetials(String firstName, String lastName, String email, String personalSummary, String experience, List<String> skills, List<String> qualifications, List<String> location, List<String> education) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.personalSummary = personalSummary;
+        this.experience = experience;
+        this.skills = skills;
+        this.qualifications = qualifications;
+        this.education = education;
+        this.location = location;
+    }
 }

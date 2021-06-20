@@ -9,6 +9,7 @@ import data.DataStore;
 import gui.body.searchBar.SeekerFilterPane;
 import gui.body.searchBar.SeekerFilterPaneController;
 import gui.card.CardDisplayable;
+import gui.modal.SeekerProfileFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -81,8 +82,13 @@ public class InviteesTab extends Tab implements CardPanelController, SeekerFilte
 
     }
 
-    public gui.body.Button getCardButton(String id) {
-        return new Button();
+    public Button getCardButton(String id) {
+        Button button = new Button("profile", navigationController.getUserController());
+        button.addActionListener(ae -> {
+            button.userController.setProfileUser(id);
+            new SeekerProfileFrame(navigationController, navigationController.getUserController());
+        });
+        return button;
     }
 
     public void filterEvents(String searchText, int matchingScore) {

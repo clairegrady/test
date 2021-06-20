@@ -1,9 +1,8 @@
 package gui.body;
 
-import controller.JobController;
 import controller.NavigationController;
 import controller.UserController;
-import gui.body.searchBar.JobViewPane;
+import gui.body.searchBar.DetailsEditPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +20,7 @@ public class PersonalProfileTab extends Tab {
 
         this.navigationController = navigationController;
         this.userController = userController;
-        this.add(new JobViewPane(navigationController, userController), BorderLayout.NORTH);
+        this.add(new DetailsEditPane(navigationController, userController), BorderLayout.NORTH);
         this.add(new SeekerProfileBody(navigationController, userController), BorderLayout.CENTER);
     }
 

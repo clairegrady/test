@@ -8,6 +8,7 @@ import data.DataStore;
 import gui.body.searchBar.SeekerFilterPane;
 import gui.body.searchBar.SeekerFilterPaneController;
 import gui.card.CardDisplayable;
+import gui.modal.SeekerProfileFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,9 +80,12 @@ public class UserTab extends Tab implements CardPanelController, SeekerFilterPan
 
     }
 
-    public gui.body.Button getCardButton(String id) {
-        gui.body.Button button = new Button("Profile", navigationController);
-        button.addActionListener(ae -> button.navigationController.displayProfileModal(id));
+    public Button getCardButton(String id) {
+        Button button = new Button("profile", navigationController.getUserController());
+        button.addActionListener(ae -> {
+            button.userController.setProfileUser(id);
+            new SeekerProfileFrame(navigationController, navigationController.getUserController());
+        });
         return button;
     }
 

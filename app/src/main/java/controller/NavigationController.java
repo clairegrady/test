@@ -1,8 +1,6 @@
 package controller;
 
 import gui.MainFrame;
-import gui.body.SeekerProfileBody;
-import gui.modal.SeekerProfileFrame;
 
 import java.io.Serializable;
 
@@ -42,10 +40,4 @@ public class NavigationController implements Serializable {
     public JobController getJobController() {return mainFrame.getJobController();}
 
     public UserController getUserController() {return mainFrame.getUserController();}
-
-    public void displayProfileModal(String id) {
-        SeekerProfileFrame spf = new SeekerProfileFrame(this, userController);
-        spf.displayProfile(this.getUserController().getJobSeekerById(id));
-    }
-
 }

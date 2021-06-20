@@ -2,7 +2,6 @@ package data;
 
 import application.Job;
 import application.JobSeeker;
-import application.Recruiter;
 import application.User;
 
 import java.util.List;

@@ -2,6 +2,8 @@ package controller;
 
 import application.*;
 import data.DataStore;
+import data.KeywordType;
+import gui.body.SeekerProfileBody;
 import jss.DummyData;
 
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ public class UserController {
 
     private NavigationController navigationController;
     private String authenticatedUserID;
+    private String profileUserID;
     private String userType;
 
     public UserController(NavigationController navigationController) {
@@ -111,6 +114,40 @@ public class UserController {
         DataStore.getDatastore().updateUser(recruiter);
     }
 
+    public void setPersonalDetailsPaneInformation(SeekerProfileBody seekerProfileBody) {
+        Optional<User> user = DataStore.getDatastore().getUserById(authenticatedUserID);
+        JobSeeker jobSeeker = (JobSeeker) user.orElseThrow();
+        seekerProfileBody.addPersonalDetials(
+                jobSeeker.getFirstName(),
+                jobSeeker.getLastName(),
+                jobSeeker.getEmail(),
+                jobSeeker.getPersonalSummary(),
+                jobSeeker.getExperience(),
+                jobSeeker.getKeywordsListForType(KeywordType.SKILL),
+                jobSeeker.getKeywordsListForType(KeywordType.QUALIFICATION),
+                jobSeeker.getKeywordsListForType(KeywordType.LOCATION),
+                jobSeeker.getKeywordsListForType(KeywordType.EDUCATION)
+        );
+
+    }
+
+    public void setSeekerProfileInformation(SeekerProfileBody seekerProfileBody) {
+        Optional<User> user = DataStore.getDatastore().getUserById(profileUserID);
+        JobSeeker jobSeeker = (JobSeeker) user.orElseThrow();
+        seekerProfileBody.addPersonalDetials(
+                jobSeeker.getFirstName(),
+                jobSeeker.getLastName(),
+                jobSeeker.getEmail(),
+                jobSeeker.getPersonalSummary(),
+                jobSeeker.getExperience(),
+                jobSeeker.getKeywordsListForType(KeywordType.SKILL),
+                jobSeeker.getKeywordsListForType(KeywordType.QUALIFICATION),
+                jobSeeker.getKeywordsListForType(KeywordType.LOCATION),
+                jobSeeker.getKeywordsListForType(KeywordType.EDUCATION)
+        );
+
+    }
+
     public void createSeeker(String email, String password, String firstName, String lastName) {
         JobSeeker seeker = new JobSeeker(email, password, firstName, lastName);
         DataStore.getDatastore().updateUser(seeker);
@@ -121,5 +158,9 @@ public class UserController {
 //TODO: error handling for null val
         return jobSeeker.get();
 
+    }
+
+    public void setProfileUser(String id) {
+        profileUserID = id;
     }
 }

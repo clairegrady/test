@@ -2,11 +2,13 @@ package gui.body;
 
 import controller.JobController;
 import controller.NavigationController;
+import controller.UserController;
 
 import javax.swing.*;
 
 public class Button extends JButton {
 
+    public UserController userController;
     public NavigationController navigationController;
     public JobController jobController;
     private String property;
@@ -26,6 +28,12 @@ public class Button extends JButton {
     public Button(String text, JobController jobController) {
         this.property = "Default";
         this.jobController = jobController;
+        this.setText(text);
+    }
+
+    public Button(String text, UserController userController) {
+        this.property = "Default";
+        this.userController = userController;
         this.setText(text);
     }
 

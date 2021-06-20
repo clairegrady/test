@@ -1,8 +1,8 @@
 package data;
 
 public enum DataType {
-    USER("src/main/java/data/users.dat"),
-    JOB("src/main/java/data/jobs.dat");
+    USER("src/main/resources/users.dat"),
+    JOB("src/main/resources/jobs.dat");
 
     private String filePath;
 

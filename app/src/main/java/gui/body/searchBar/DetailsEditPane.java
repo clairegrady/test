@@ -19,15 +19,15 @@ public class DetailsEditPane extends JPanel {
         this.navigationController = navigationController;
         this.userController = userController;
         this.setPreferredSize(searchBarSize);
-        this.homeButton = new JButton("Back");
+//        this.homeButton = new JButton("Back");
         this.centrePanel = new JPanel();
         this.add(centrePanel);
-        this.homeButton.addActionListener(e -> navigationController.loginComplete("RECRUITER"));
+//        this.homeButton.addActionListener(e -> navigationController.loginComplete("RECRUITER"));
         this.centrePanel.setLayout(new BoxLayout(centrePanel,BoxLayout.LINE_AXIS));
         this.centrePanel.setPreferredSize(searchBarSize);
         this.centrePanel.setBorder(BorderFactory.createEmptyBorder(7,0,15,0));
-        this.centrePanel.add(homeButton);
+//        this.centrePanel.add(homeButton);
         this.centrePanel.add(Box.createHorizontalGlue());
-        this.homeButton.addActionListener(e -> navigationController.setBody("CREATEJOB"));
+//        this.homeButton.addActionListener(e -> navigationController.setBody("CREATEJOB"));
     }
 }

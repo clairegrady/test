@@ -5,10 +5,12 @@ import application.Job;
 import application.JobApplication;
 import application.JobInteraction;
 import controller.NavigationController;
+import controller.UserController;
 import data.DataStore;
 import gui.body.searchBar.SeekerFilterPane;
 import gui.body.searchBar.SeekerFilterPaneController;
 import gui.card.CardDisplayable;
+import gui.modal.SeekerProfileFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class ApplicantsTab extends Tab implements CardPanelController, SeekerFilterPaneController {
 
     private NavigationController navigationController;
+    private UserController userController;
     private CardPanel cpo;
     private SeekerFilterPane sfp;
     private List<CardDisplayable> cardPanelData;
@@ -37,6 +40,7 @@ public class ApplicantsTab extends Tab implements CardPanelController, SeekerFil
         super();
         this.job = job;
         this.navigationController = navigationController;
+        this.userController = navigationController.getUserController();
         this.stringFilter = ji -> true;
         this.statusFilter = ji -> true;
 
@@ -81,22 +85,13 @@ public class ApplicantsTab extends Tab implements CardPanelController, SeekerFil
 
     }
 
-    public gui.body.Button getCardButton(String id) {
-        gui.body.Button button = new Button("Profile", navigationController);
-        button.addActionListener(ae -> button.navigationController.displayProfileModal(id));
+    public Button getCardButton(String id) {
+        Button button = new Button("profile", navigationController.getUserController());
+        button.addActionListener(ae -> {
+            button.userController.setProfileUser(id);
+            new SeekerProfileFrame(navigationController, navigationController.getUserController());
+        });
         return button;
-    }
-
-    public void filterEvents(String searchText, int matchingScore) {
-//        this.stringFilter = ji -> ji.getJob().getTitle().toLowerCase().contains(searchText.toLowerCase());
-//
-//        if (status == JobStatus.NULL) {
-//            this.statusFilter = ji -> true;
-//        } else {
-//            this.statusFilter =  ji -> ji.getStatus().equals(status);
-//        }
-//
-//        displayWithFilter();
     }
 
     public String getCardCenterLabel(String id) {
