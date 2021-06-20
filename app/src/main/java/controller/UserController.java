@@ -23,10 +23,15 @@ public class UserController {
         new DummyData();
     }
 
-    public void sendInvitation(JobSeeker jobSeeker, String message) {
-        JobInteraction ji = new JobInvitation(navigationController.getJobController().getCurrentJob(), message);
+    public String getProfileUserName() {
+        Optional<User> user = DataStore.getDatastore().getUserById(this.profileUserID);
+        return user.orElseThrow().getFirstName() + user.get().getLastName();
+    }
 
-        jobSeeker.addJobInteraction(ji);
+    public void sendInvitation(String message) {
+        JobInteraction ji = new JobInvitation(navigationController.getJobController().getCurrentJob(), message);
+        Optional<User> user = DataStore.getDatastore().getUserById(this.profileUserID);
+        user.orElseThrow().addJobInteraction(ji);
     }
 
     public boolean validateLogin(String email, String password) {

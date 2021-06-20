@@ -1,7 +1,5 @@
 package gui.modal;
 
-import application.Job;
-import application.JobSeeker;
 import controller.UserController;
 
 import javax.swing.*;
@@ -11,20 +9,18 @@ public class SendInvitationModal {
 
     private JDialog profileModal;
     private JTextArea messageText;
-    private JobSeeker jobSeeker;
     private UserController userController;
 
-    public SendInvitationModal(JDialog profileModal, JobSeeker jobSeeker, UserController userController) {
+    public SendInvitationModal(JDialog profileModal, UserController userController) {
         this.profileModal = profileModal;
         this.userController = userController;
-        System.out.println("fn: " + userController);
-        System.out.println("var: " + userController);
-        this.jobSeeker = jobSeeker;
+        createInviteModal();
     }
 
-    public void createInviteModal(){
+    public void createInviteModal() {
         JDialog inviteModal = new JDialog(profileModal, "Invitation",true);
         inviteModal.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        inviteModal.setLocationRelativeTo(this.profileModal.getParent());
         inviteModal.setSize(600, 300);
         inviteModal.setLayout(new GridBagLayout());
         GridBagConstraints c2 = new GridBagConstraints();
@@ -34,7 +30,7 @@ public class SendInvitationModal {
         setPosition(c2,0,0, 3,0,0,0,0);
         inviteModal.add(bodyTitle, c2);
 
-        JLabel sendTo = new JLabel("Send invitation to: " + jobSeeker.getFullName());
+        JLabel sendTo = new JLabel("Send invitation to: " + userController.getProfileUserName());
         setPosition(c2,0,1, 2,10,0,0,0);
         inviteModal.add(sendTo, c2);
 
@@ -84,7 +80,7 @@ public class SendInvitationModal {
         sendButton.addActionListener(e -> {
             if (JOptionPane.showConfirmDialog(null, "Are you sure you want to send this invitation?", "Warning",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-                this.userController.sendInvitation(jobSeeker, message.getText());
+                this.userController.sendInvitation(message.getText());
                 inviteModal.dispose();
                 profileModal.dispose();
                 JOptionPane.showInternalMessageDialog(null, "Your invitation has been sent!",
