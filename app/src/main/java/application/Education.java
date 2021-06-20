@@ -1,8 +1,17 @@
 package application;
 
+/**
+ * Enum that defines the types of education
+ */
 public enum Education {
 
-    NAP("Not Applicable"), SEC("Secondary"), UCD("Undergraduate Cert/Diploma"), BAC("Bachelor"), PCD("Post-Graduate Cert/Diploma"), MAS("Masters"), DOC("Doctorate");
+    NAP("Not Applicable"),
+    SEC("Secondary"),
+    UCD("Undergraduate Cert/Diploma"),
+    BAC("Bachelor"),
+    PCD("Post-Graduate Cert/Diploma"),
+    MAS("Masters"),
+    DOC("Doctorate");
 
     private String edType;
 
@@ -10,7 +19,10 @@ public enum Education {
         this.edType = edType;
     }
 
-    //Static method to return an array of values
+    /**
+     *
+     * @return a string array containing the string values of the enum.
+     */
     public static String[] getCreateArray() {
         Education[] constants = Education.values();
         String[] list = new String[constants.length + 1];

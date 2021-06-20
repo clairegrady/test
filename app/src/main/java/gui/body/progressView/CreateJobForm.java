@@ -227,10 +227,10 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
 
         payRangeMaxEntry.addActionListener(e -> payRangeValidation());
         payRangeMinEntry.addActionListener(e -> payRangeValidation());
-        payRangeMaxEntry.addActionListener(ep -> proceedButton.setEnabled(validateDetails()));
-        payRangeMinEntry.addActionListener(ep -> proceedButton.setEnabled(validateDetails()));
-        categoryEntry.addActionListener(ep -> proceedButton.setEnabled(validateDetails()));
-        locationEntry.addActionListener(ep -> proceedButton.setEnabled(validateDetails()));
+        payRangeMaxEntry.addActionListener(minpay -> proceedButton.setEnabled(validateDetails()));
+        payRangeMinEntry.addActionListener(maxpay -> proceedButton.setEnabled(validateDetails()));
+        categoryEntry.addActionListener(category -> proceedButton.setEnabled(validateDetails()));
+        locationEntry.addActionListener(location -> proceedButton.setEnabled(validateDetails()));
 
         jobTitleEntry.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e1) {
@@ -290,8 +290,8 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
     private void createJobDetailsComponents() {
         jobTitleEntry = new JTextField(10);
         companyEntry = new JTextField(10);
-        locationEntry = new JComboBox<>(Location.getValuesExcept(null));
-        categoryEntry = new JComboBox<>(JobCategory.getValuesExcept(null));
+        locationEntry = new JComboBox<>(Location.getCreateFormLocations());
+        categoryEntry = new JComboBox<>(JobCategory.getCreateFormCategories());
         String[] payTypeArray = new String[] {"Salary", "Per Hour"};
         payTypeEntry = new JComboBox<>(payTypeArray);
         String[] salaryArray = Salary.getCreateSalaryArray();
@@ -607,8 +607,8 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
                 && (jobTitleEntry.getText().length() > 0)
                 && (!"-Select".equals(payRangeMinEntry.getSelectedItem()))
                 && (!"-Select".equals(payRangeMaxEntry.getSelectedItem()))
-                && (!"-Select job type".equals(categoryEntry.getSelectedItem()))
-                && (!"-Select location".equals(locationEntry.getSelectedItem()))){
+                && (!"Select Categories".equals(String.valueOf(categoryEntry.getSelectedItem())))
+                && (!"Select Locations".equals(String.valueOf(locationEntry.getSelectedItem())))){
             return true;
         }
         return false;
@@ -660,16 +660,24 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
                 progressBar.setValue(45);
             }
             case "DESCRIPTION" -> {
+                backButton.removeActionListener(leave);
+                backButton.removeActionListener(back);
+                backButton.addActionListener(back);
                 proceedButton.setVisible(true);
                 proceedButton.setEnabled(validateDesc());
                 progressBar.setValue(75);
             }
             case "PUBLISH" -> {
+                backButton.removeActionListener(leave);
+                backButton.removeActionListener(back);
+                backButton.addActionListener(back);
                 proceedButton.setEnabled(false);
                 proceedButton.setVisible(false);
                 progressBar.setValue(100);
             }
             default -> {
+                backButton.removeActionListener(leave);
+                backButton.removeActionListener(back);
                 proceedButton.setEnabled(false);
             }
         }
@@ -703,7 +711,7 @@ public class CreateJobForm extends JPanel implements ListSelectionListener {
                 proceedButton.setEnabled(false);
             }
         } catch (NumberFormatException e) {
-            System.out.println("Select a Pay Range");
+            //this is intended behaviour
         }
 
     }
