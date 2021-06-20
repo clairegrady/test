@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class JobCardTab extends Tab implements CardPanelController {
+public class JobStatusTab extends Tab implements CardPanelController {
 
     protected NavigationController navigationController;
     protected UserController userController;
@@ -25,11 +25,11 @@ public class JobCardTab extends Tab implements CardPanelController {
     protected JobStatus jobStatus;
     protected List<CardDisplayable> cardPanelData;
 
-    public JobCardTab() {
+    public JobStatusTab() {
         super();
     }
 
-    public JobCardTab(NavigationController navigationController, UserController userController, JobController jobController, JobStatus jobStatus) {
+    public JobStatusTab(NavigationController navigationController, UserController userController, JobController jobController, JobStatus jobStatus) {
         super();
 
         this.navigationController = navigationController;

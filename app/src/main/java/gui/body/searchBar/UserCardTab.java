@@ -1,49 +1,51 @@
-package gui.body;
-
+package gui.body.searchBar;
 
 import application.Job;
-import application.JobInteraction;
+import application.JobApplication;
 import controller.NavigationController;
+import controller.UserController;
 import data.DataStore;
 import data.MatchScore;
-import gui.body.searchBar.SeekerFilterPane;
-import gui.body.searchBar.SeekerFilterPaneController;
+import gui.body.Button;
+import gui.body.CardPanel;
+import gui.body.CardPanelController;
+import gui.body.Tab;
 import gui.card.Card;
 import gui.card.CardDisplayable;
 import gui.modal.SeekerProfileFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
-public class UserTab extends Tab implements CardPanelController, SeekerFilterPaneController {
+public abstract class UserCardTab extends Tab implements CardPanelController, SeekerFilterPaneController {
 
-    private NavigationController navigationController;
-    private CardPanel cpo;
-    private SeekerFilterPane sfp;
-    private List<CardDisplayable> cardPanelData;
-    private Predicate<Card> stringFilter;
-    private Predicate<Card> statusFilter;
+    protected NavigationController navigationController;
+    protected UserController userController;
+    protected CardPanel cardPanel;
+    protected SeekerFilterPane sfp;
+    protected List<CardDisplayable> cardPanelData;
+    protected Predicate<Card> stringFilter;
+    protected Predicate<Card> statusFilter;
 
-    private Job job;
+    protected Job job;
 
-    public UserTab() {
+    public UserCardTab() {
         super();
     }
 
-    public UserTab(NavigationController navigationController, Job job) {
+    public UserCardTab(NavigationController navigationController, Job job) {
         super();
         this.job = job;
         this.navigationController = navigationController;
+        this.userController = navigationController.getUserController();
         this.stringFilter = ji -> true;
         this.statusFilter = ji -> true;
 
         this.sfp = new SeekerFilterPane(this);
-        this.cpo = new CardPanel(this);
-        JScrollPane scrollPane = new JScrollPane(cpo);
+        this.cardPanel = new CardPanel(this);
+        JScrollPane scrollPane = new JScrollPane(cardPanel);
         this.add(this.sfp, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
 
@@ -52,37 +54,26 @@ public class UserTab extends Tab implements CardPanelController, SeekerFilterPan
 
     public void display() {
         loadCardPanelData();
-        cpo.displayCards(cardPanelData);
+        cardPanel.displayCards(cardPanelData);
     }
 
     public void displayWithFilter() {
-        cpo.applyPredicate(stringFilter.and(statusFilter));
+        cardPanel.applyPredicate(stringFilter.and(statusFilter));
     }
 
-    public void loadCardPanelData() {
+    public abstract void loadCardPanelData();
 
-        List<CardDisplayable> jiList = new ArrayList<>();
-
-        if (!Objects.isNull(this.job)) {
-            jiList = this.job.getMatchingScore()
-                    .entrySet()
-                    .stream()
-                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                    .map(e -> DataStore.getDatastore().getJobSeekerById(e.getKey()).get())
-                    .collect(Collectors.toList());
-        }
-
-        this.cardPanelData = jiList;
-
-    }
-
-    public Button getCardButton(String id) {
-        Button button = new Button("profile", navigationController.getUserController());
+    public gui.body.Button getCardButton(String id) {
+        gui.body.Button button = new Button("Profile", navigationController.getUserController());
         button.addActionListener(ae -> {
             button.userController.setProfileUser(id);
             new SeekerProfileFrame(navigationController, navigationController.getUserController());
         });
         return button;
+    }
+
+    public String getCardCenterLabel(String id) {
+        return String.valueOf(job.getMatchingScore().get(id));
     }
 
     public void filterEvents(String searchText, String matchingScore) {
@@ -101,11 +92,8 @@ public class UserTab extends Tab implements CardPanelController, SeekerFilterPan
         displayWithFilter();
     }
 
-    public String getCardCenterLabel(String id) {
-        return String.valueOf(job.getMatchingScore().get(id));
-    }
-
     public void navigate() {
         this.navigationController.setBody("RECRUITER");
     }
+
 }

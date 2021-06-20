@@ -22,93 +22,39 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ApplicationTab extends Tab implements CardPanelController, AppSearchPaneController {
-
-    private NavigationController navigationController;
-    private UserController userController;
-    private JobController jobController;
-    private CardPanel cpo;
-    private AppSearchPane asp;
-    private List<CardDisplayable> cardPanelData;
-    private Predicate<JobInteraction> stringFilter;
-    private Predicate<JobInteraction> statusFilter;
+public class ApplicationTab extends JobInteractionTab {
 
     public ApplicationTab() {
         super();
     }
 
     public ApplicationTab(NavigationController navigationController, UserController userController, JobController jobController) {
-        super();
-        this.navigationController = navigationController;
-        this.userController = userController;
-        this.jobController = navigationController.getJobController();
-        this.stringFilter = ji -> true;
-        this.statusFilter = ji -> true;
-
-        this.asp = new AppSearchPane(this);
-        this.cpo = new CardPanel(this);
-        JScrollPane scrollPane = new JScrollPane(cpo);
-        this.add(this.asp, BorderLayout.NORTH);
-        this.add(scrollPane, BorderLayout.CENTER);
-
-        display();
-
+        super(navigationController, userController, jobController);
     }
 
-    public void display() {
-        loadCardPanelData();
-        cpo.displayCards(this.cardPanelData);
-    }
-
-    public String getCardCenterLabel(String id) {
-        return String.valueOf(jobController.getJobListingMatchScores(id).get(userController.getLoggedInUser()));
-    }
-
+    @Override
     public void displayWithFilter() {
-        cpo.displayCards(this.cardPanelData.stream()
+        cpo.displayCards(super.cardPanelData.stream()
                 .filter(cd -> cd instanceof JobInteraction)
                 .map(cd -> (JobInteraction) cd)
-                .filter(this.stringFilter)
-                .filter(this.statusFilter)
+                .filter(super.stringFilter)
+                .filter(super.statusFilter)
                 .collect(Collectors.toList())
         );
     }
 
+    @Override
     public void loadCardPanelData() {
-        String userId = userController.getLoggedInUser();
-
+        String userId = super.userController.getLoggedInUser();
         Optional<User> loggedInUser = DataStore.getDatastore().getUserById(userId);
         List<CardDisplayable> jiList = new ArrayList<>();
-
         if (loggedInUser.isPresent()) {
             jiList = loggedInUser.get().getJobInteractions()
                     .stream()
                     .filter(ji -> ji instanceof JobApplication && ji.getStatus() != JobStatus.DRAFT)
                     .collect(Collectors.toList());
         }
-
-        this.cardPanelData = jiList;
-
+        super.cardPanelData = jiList;
     }
 
-    public Button getCardButton(String id) {
-        Button button = new Button("View", jobController);
-        button.addActionListener(ae -> {
-            button.jobController.setCurrentJob(id);
-            new JobDetailsFrame(navigationController, jobController);
-        });
-        return button;
-    }
-
-    public void filterEvents(String searchText, JobStatus status) {
-        this.stringFilter = ji -> ji.getJob().getTitle().toLowerCase().contains(searchText.toLowerCase());
-
-        if (status == JobStatus.NULL) {
-            this.statusFilter = ji -> true;
-        } else {
-            this.statusFilter = ji -> ji.getStatus().equals(status);
-        }
-
-        displayWithFilter();
-    }
 }

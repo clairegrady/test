@@ -10,16 +10,13 @@ import data.Location;
 import data.Sal;
 import gui.body.searchBar.JobSearchPane;
 import gui.body.searchBar.JobSearchPaneController;
-import gui.card.CardDisplayable;
 import gui.modal.JobDetailsFrame;
 import search.Search;
-import gui.modal.JobDetailsFrame;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class SearchListingTab extends JobCardTab implements JobSearchPaneController {
+public class SearchListingTab extends JobStatusTab implements JobSearchPaneController {
 
     private JobSearchPane jobSearchPane;
 

@@ -33,7 +33,7 @@ public class JobManagementView extends JPanel implements TabController {
         jobDetailsTab.setPreferredSize(tabSize);
         tabbedPane.addTab("Job Details", null, jobDetailsTab, "Details");
 
-        Tab seekerSearch = new UserTab(this.navigationController, this.job);
+        Tab seekerSearch = new SeekerSearchTab(this.navigationController, this.job);
         seekerSearch.setPreferredSize(tabSize);
         tabbedPane.addTab("Seeker Search", null, seekerSearch, "View Potential Candidates");
 

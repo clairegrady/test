@@ -10,7 +10,7 @@ import gui.body.searchBar.RecruiterListingFilterPane;
 
 import java.awt.*;
 
-public class RecruiterListingTab extends JobCardTab implements RecruiterFilterPaneController {
+public class RecruiterListingTab extends JobStatusTab implements RecruiterFilterPaneController {
 
     private RecruiterListingFilterPane recruiterViewFilterPane;
 

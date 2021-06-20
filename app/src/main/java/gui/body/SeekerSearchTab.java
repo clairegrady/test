@@ -2,24 +2,22 @@ package gui.body;
 
 
 import application.Job;
-import application.JobInvitation;
 import controller.NavigationController;
 import data.DataStore;
 import gui.body.searchBar.UserCardTab;
 import gui.card.CardDisplayable;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class InviteesTab extends UserCardTab {
+public class SeekerSearchTab extends UserCardTab {
 
-    public InviteesTab() {
+    public SeekerSearchTab() {
         super();
     }
 
-    public InviteesTab(NavigationController navigationController, Job job) {
+    public SeekerSearchTab(NavigationController navigationController, Job job) {
         super(navigationController, job);
     }
 
@@ -29,11 +27,11 @@ public class InviteesTab extends UserCardTab {
         List<CardDisplayable> jiList = new ArrayList<>();
 
         if (!Objects.isNull(this.job)) {
-            jiList = DataStore.getDatastore().getJobSeekers()
+            jiList = this.job.getMatchingScore()
+                    .entrySet()
                     .stream()
-                    .filter(js -> js.getJobInteractions()
-                            .stream()
-                            .anyMatch(ji -> ji.getJob().equals(this.job) && ji instanceof JobInvitation))
+                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .map(e -> DataStore.getDatastore().getJobSeekerById(e.getKey()).get())
                     .collect(Collectors.toList());
         }
 
