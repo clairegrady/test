@@ -1,6 +1,6 @@
 # ITO5136 - Software Engineering
 
-Add names once you've been able to pull and commit!
+This project was developed and worked on with these fine folks :) 
 * Matt Burgess
 * Mitch Hayes
 * Brendan Artufel
